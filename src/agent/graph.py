@@ -15,6 +15,7 @@ from src.mcp_custom.server import (
     triage_cache_get,
     triage_cache_put,
 )
+from .llm import triage_with_ollama
 
 from .state import EvidenceItem, ToolEvent, TriageState
 
@@ -233,6 +234,79 @@ def summarize_old_issue(state: TriageState) -> TriageState:
     return state
 
 
+def llm_triage(state: TriageState) -> TriageState:
+    state.step_count += 1
+    payload = {
+        "repo": state.repo,
+        "issue_number": state.issue_number,
+        "issue": {
+            "title": state.issue_snapshot.get("title"),
+            "body": state.issue_snapshot.get("body"),
+            "state": state.issue_snapshot.get("state"),
+            "labels": [x.get("name") for x in state.issue_snapshot.get("labels", [])],
+        },
+        "related_issues": [
+            {
+                "number": x.get("number"),
+                "title": x.get("title"),
+                "state": x.get("state"),
+                "url": x.get("html_url"),
+            }
+            for x in state.related_issues
+        ],
+        "current_fields": {
+            "classification": state.classification,
+            "justification": state.justification,
+            "probable_code_areas": state.probable_code_areas,
+            "open_questions": state.open_questions,
+            "decision_needed": state.decision_needed,
+            "current_state_summary": state.current_state_summary,
+        },
+    }
+
+    t0 = time.time()
+    out = triage_with_ollama(payload)
+    _record_tool(state, "ollama_qwen_triage", out, int((time.time() - t0) * 1000))
+    if not out.get("ok"):
+        _add_evidence(
+            state, "ollama_qwen_triage", "LLM unavailable; fallback heuristics kept."
+        )
+        return state
+
+    result = out.get("result", {})
+    cls = result.get("classification")
+    if cls in {
+        "bug",
+        "feature request",
+        "question",
+        "documentation",
+        "duplicate",
+        "unknown",
+    }:
+        state.classification = cls
+    if isinstance(result.get("justification"), str) and result["justification"].strip():
+        state.justification = result["justification"].strip()
+    if isinstance(result.get("probable_code_areas"), list):
+        state.probable_code_areas = [str(x) for x in result["probable_code_areas"]][
+            :5
+        ] or state.probable_code_areas
+    if isinstance(result.get("open_questions"), list):
+        state.open_questions = [str(x) for x in result["open_questions"]][:5]
+    if (
+        isinstance(result.get("decision_needed"), str)
+        and result["decision_needed"].strip()
+    ):
+        state.decision_needed = result["decision_needed"].strip()
+    if (
+        isinstance(result.get("current_state_summary"), str)
+        and result["current_state_summary"].strip()
+    ):
+        state.current_state_summary = result["current_state_summary"].strip()
+
+    _add_evidence(state, "ollama_qwen_triage", "LLM triage refinement applied.")
+    return state
+
+
 def human_gate(state: TriageState) -> TriageState:
     decision = interrupt(
         {
@@ -288,6 +362,7 @@ def build_graph():
     g.add_node("human_gate", human_gate)
     g.add_node("infer_code_areas", infer_code_areas)
     g.add_node("summarize_old_issue", summarize_old_issue)
+    g.add_node("llm_triage", llm_triage)
     g.add_node("finalize", finalize)
 
     g.set_entry_point("bootstrap")
@@ -309,7 +384,8 @@ def build_graph():
     )
     g.add_edge("human_gate", "infer_code_areas")
     g.add_edge("infer_code_areas", "summarize_old_issue")
-    g.add_edge("summarize_old_issue", "finalize")
+    g.add_edge("summarize_old_issue", "llm_triage")
+    g.add_edge("llm_triage", "finalize")
     g.add_edge("finalize", END)
 
     return g.compile(checkpointer=MemorySaver())

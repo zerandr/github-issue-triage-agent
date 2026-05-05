@@ -1,4 +1,4 @@
-# Track C - GitHub Issue Triage Agent (LangGraph + MCP)
+# Track C – GitHub Issue Triage Agent (LangGraph + MCP)
 
 Implementation scaffold aligned with the assignment requirements:
 - explicit LangGraph `StateGraph`
@@ -7,9 +7,10 @@ Implementation scaffold aligned with the assignment requirements:
 - human-in-the-loop interrupt
 - custom MCP server in separate process
 - eval + trajectory logging + ablation scaffolding
+- LLM refinement node via local Ollama (Qwen 2.5)
 
 ## Project layout
-- `src/agent/` - state schema, graph, CLI runner
+- `src/agent/` - state schema, graph, CLI runner, LLM adapter
 - `src/mcp_custom/` - custom MCP server (GitHub + cache tools)
 - `src/eval/` - evaluation runner and machine-readable trajectory outputs
 - `data/eval_tasks.jsonl` - 30+ task definitions with rubric and constraints
@@ -24,20 +25,36 @@ pip install -r requirements.txt
 
 Optional env vars:
 - `GITHUB_TOKEN` to increase GitHub API rate limits
+- `OLLAMA_URL` (default: `http://127.0.0.1:11434`)
+- `OLLAMA_MODEL` (default: `qwen2.5:14b-instruct`)
 
-Start custom MCP server (separate process):
+## Run Ollama + Qwen
+Install Ollama, then pull model:
+```bash
+ollama pull qwen2.5:7b-instruct
+```
+
+## Auto-build eval tasks from real repositories
+```bash
+python -m src.eval.build_tasks_from_repos \
+  --repos "owner1/repo1,owner2/repo2,owner3/repo3,owner4/repo4,owner5/repo5" \
+  --n 32 \
+  --out data/eval_tasks.jsonl
+```
+
+## Start custom MCP server (separate process)
 ```bash
 python -m src.mcp_custom.server
 ```
 
-Run one triage:
+## Run one triage
 ```bash
 python -m src.agent.run --repo owner/repo --issue 123
 ```
 
-Run evaluation:
+## Run evaluation
 ```bash
-python -m src.eval.run_eval --tasks data/eval_tasks.jsonl --model gpt-5-mini
+python -m src.eval.run_eval --tasks data/eval_tasks.jsonl --model qwen2.5-7b-instruct
 ```
 
 Outputs:
@@ -47,4 +64,4 @@ Outputs:
 
 ## Notes
 - Replace placeholder repos/issues in `data/eval_tasks.jsonl` with the official fixed 5-repo list once published.
-- The graph currently uses deterministic heuristics for classification and area inference; you can drop in your chosen LLM call node while keeping the same state/tool contracts.
+- No model training is required: this is inference-time agentic triage with tool calls.
