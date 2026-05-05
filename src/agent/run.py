@@ -1,8 +1,23 @@
 from __future__ import annotations
 
 import argparse
+import json
+from typing import Any
+
+from pydantic import BaseModel
+
 from .graph import build_graph
 from .state import TriageState
+
+
+def _jsonable(value: Any) -> Any:
+    if isinstance(value, BaseModel):
+        return value.model_dump()
+    if isinstance(value, list):
+        return [_jsonable(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _jsonable(v) for k, v in value.items()}
+    return value
 
 
 def main() -> None:
@@ -16,13 +31,31 @@ def main() -> None:
     out = app.invoke(
         init, config={"configurable": {"thread_id": f"{args.repo}#{args.issue}"}}
     )
+    out = _jsonable(out)
 
-    print("=== TRIAGE REPORT ===")
-    print(f"repo: {out['repo']}")
-    print(f"issue: {out['issue_number']}")
-    print(f"classification: {out['classification']}")
-    print(f"justification: {out['justification']}")
-    print(f"stop_reason: {out['stop_reason']}")
+    report = {
+        "repo": out["repo"],
+        "issue_number": out["issue_number"],
+        "classification": out["classification"],
+        "justification": out["justification"],
+        "related_issues": [
+            {
+                "number": x.get("number"),
+                "title": x.get("title"),
+                "url": x.get("html_url"),
+            }
+            for x in out["related_issues"]
+        ],
+        "probable_code_areas": out["probable_code_areas"],
+        "current_state_summary": out["current_state_summary"],
+        "open_questions": out["open_questions"],
+        "decision_needed": out["decision_needed"],
+        "evidence_ids": out["evidence_ids"],
+        "stop_reason": out["stop_reason"],
+        "tool_events": out["tool_events"],
+    }
+
+    print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,8 +1,12 @@
 ```mermaid
 graph TD
-  A[ingest_issue] --> B[classify_or_route]
-  B -->|unknown or low confidence| C[human_gate interrupt]
-  B -->|sufficient confidence| D[analyze]
-  C --> D
-  D --> E[finalize]
+  A[bootstrap] --> B[fetch_issue]
+  B -->|tool_error| H[finalize]
+  B -->|ok| C[gather_related]
+  C --> D[classify_issue]
+  D -->|unknown/ambiguous| E[human_gate interrupt]
+  D -->|confident| F[infer_code_areas]
+  E --> F
+  F --> G[summarize_old_issue]
+  G --> H[finalize]
 ```
