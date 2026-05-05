@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import time
 from typing import Literal
 
 from langgraph.graph import StateGraph, END
@@ -84,11 +83,15 @@ def build_graph():
 
     g.set_entry_point("ingest_issue")
     g.add_edge("ingest_issue", "classify_or_route")
-    g.add_conditional_edges("classify_or_route", decide_next, {
-        "human_gate": "human_gate",
-        "analyze": "analyze",
-        "finalize": "finalize",
-    })
+    g.add_conditional_edges(
+        "classify_or_route",
+        decide_next,
+        {
+            "human_gate": "human_gate",
+            "analyze": "analyze",
+            "finalize": "finalize",
+        },
+    )
     g.add_edge("human_gate", "analyze")
     g.add_edge("analyze", "finalize")
     g.add_edge("finalize", END)

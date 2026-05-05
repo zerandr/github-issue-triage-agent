@@ -72,10 +72,14 @@ def github_get_issue(repo: str, issue_number: int) -> dict[str, Any]:
 
 
 @mcp.tool()
-def github_search_related_issues(repo: str, query: str, limit: int = 10) -> dict[str, Any]:
+def github_search_related_issues(
+    repo: str, query: str, limit: int = 10
+) -> dict[str, Any]:
     q = f"repo:{repo} is:issue {query}"
     url = f"{GITHUB_API}/search/issues"
-    r = httpx.get(url, headers=_headers(), params={"q": q, "per_page": limit}, timeout=25)
+    r = httpx.get(
+        url, headers=_headers(), params={"q": q, "per_page": limit}, timeout=25
+    )
     if r.status_code >= 400:
         return {"ok": False, "status": r.status_code, "error": r.text}
     payload = r.json()
@@ -84,7 +88,9 @@ def github_search_related_issues(repo: str, query: str, limit: int = 10) -> dict
 
 
 @mcp.tool()
-def github_get_issue_timeline(repo: str, issue_number: int, per_page: int = 50) -> dict[str, Any]:
+def github_get_issue_timeline(
+    repo: str, issue_number: int, per_page: int = 50
+) -> dict[str, Any]:
     url = f"{GITHUB_API}/repos/{repo}/issues/{issue_number}/timeline"
     headers = _headers()
     headers["Accept"] = "application/vnd.github+json"

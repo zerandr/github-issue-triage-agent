@@ -13,7 +13,9 @@ def main() -> None:
 
     app = build_graph()
     init = TriageState(repo=args.repo, issue_number=args.issue)
-    out = app.invoke(init, config={"configurable": {"thread_id": f"{args.repo}#{args.issue}"}})
+    out = app.invoke(
+        init, config={"configurable": {"thread_id": f"{args.repo}#{args.issue}"}}
+    )
 
     print("=== TRIAGE REPORT ===")
     print(f"repo: {out['repo']}")

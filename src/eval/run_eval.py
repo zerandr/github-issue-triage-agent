@@ -12,7 +12,9 @@ def main() -> None:
     p.add_argument("--model", required=True)
     args = p.parse_args()
 
-    tasks = [json.loads(x) for x in Path(args.tasks).read_text().splitlines() if x.strip()]
+    tasks = [
+        json.loads(x) for x in Path(args.tasks).read_text().splitlines() if x.strip()
+    ]
 
     out_dir = Path("reports/trajectories")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -32,7 +34,9 @@ def main() -> None:
         }
         summary["runs"].append(run)
 
-    Path("reports/eval_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2))
+    Path("reports/eval_summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2)
+    )
     print("Wrote reports/eval_summary.json")
 
 

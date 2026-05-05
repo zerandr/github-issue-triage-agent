@@ -4,7 +4,9 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
 
-IssueType = Literal["bug", "feature request", "question", "documentation", "duplicate", "unknown"]
+IssueType = Literal[
+    "bug", "feature request", "question", "documentation", "duplicate", "unknown"
+]
 
 
 class ToolEvent(BaseModel):
