@@ -1,0 +1,2 @@
+{"task_id":"t1","repo":"owner/repo","issue":"https://github.com/owner/repo/issues/1","task_type":"classify","rubric":{"3":"Correct class + evidence","2":"Partially correct","1":"Incorrect/unsupported"}}
+{"task_id":"t2","repo":"owner/repo","issue":"https://github.com/owner/repo/issues/2","task_type":"duplicates","rubric":{"3":"Up to 3 strong related with rationale","2":"Weak relation","1":"Missed"}}
