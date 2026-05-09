@@ -1,13 +1,11 @@
-from __future__ import annotations
-
-import json
 import os
 import re
-import sqlite3
+import json
 import time
-from typing import Any
-
 import httpx
+import sqlite3
+
+from typing import Any
 from fastmcp import FastMCP
 
 CACHE_PATH = "data/cache/triage_cache.sqlite"

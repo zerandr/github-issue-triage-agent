@@ -1,14 +1,12 @@
-from __future__ import annotations
-
-import argparse
 import json
 import time
-from pathlib import Path
-from typing import Any
+import argparse
 
+from typing import Any
+from pathlib import Path
 from pydantic import BaseModel
 
-from src.agent.graph import build_graph
+from src.agent.graph import Graph
 from src.agent.state import TriageState
 
 
@@ -54,7 +52,8 @@ def main() -> None:
     out_dir = Path("reports/trajectories")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    app = build_graph()
+    graph = Graph()
+    app = graph.build_graph()
     summary = {"model": args.model, "n_tasks": len(tasks), "runs": []}
 
     for t in tasks:

@@ -1,13 +1,11 @@
-from __future__ import annotations
-
-import argparse
 import json
-from typing import Any
+import argparse
 
+from typing import Any
 from pydantic import BaseModel
 
-from .graph import build_graph
-from .state import TriageState
+from src.agent.graph import Graph
+from src.agent.state import TriageState
 
 
 def _jsonable(value: Any) -> Any:
@@ -26,7 +24,8 @@ def main() -> None:
     parser.add_argument("--issue", required=True, type=int)
     args = parser.parse_args()
 
-    app = build_graph()
+    graph = Graph()
+    app = graph.build_graph()
     init = TriageState(repo=args.repo, issue_number=args.issue)
     out = app.invoke(
         init, config={"configurable": {"thread_id": f"{args.repo}#{args.issue}"}}
