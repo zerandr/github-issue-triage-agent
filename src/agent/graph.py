@@ -41,7 +41,9 @@ class Graph:
         retriable = not ok and status in RETRIABLE_HTTP
         state.tool_events.append(
             ToolEvent(
+                step=state.step_count,
                 tool=tool,
+                status=status,
                 ok=ok,
                 retriable=retriable,
                 latency_ms=latency_ms,
@@ -99,7 +101,21 @@ class Graph:
             state.stop_reason = "tool_error_non_retriable"
             return state
 
-        issue = result["issue"]
+        raw_issue = result["issue"]
+        issue = {
+            "number": raw_issue.get("number"),
+            "title": raw_issue.get("title"),
+            "body": raw_issue.get("body"),
+            "state": raw_issue.get("state"),
+            "labels": [
+                {"name": x.get("name")}
+                for x in raw_issue.get("labels", [])
+                if isinstance(x, dict)
+            ],
+            "created_at": raw_issue.get("created_at"),
+            "updated_at": raw_issue.get("updated_at"),
+            "html_url": raw_issue.get("html_url"),
+        }
         state.issue_snapshot = issue
         Graph._add_evidence(
             state,
@@ -138,7 +154,12 @@ class Graph:
         for item in related:
             num = item.get("number")
             if isinstance(num, int) and num != state.issue_number:
-                uniq[num] = item
+                uniq[num] = {
+                    "number": item.get("number"),
+                    "title": item.get("title"),
+                    "state": item.get("state"),
+                    "html_url": item.get("html_url"),
+                }
 
         state.related_issues = list(uniq.values())[:3]
         if state.related_issues:
@@ -293,6 +314,7 @@ class Graph:
             return state
 
         result = out.get("result", {})
+        state.token_count += int(out.get("usage", {}).get("eval_count", 0) or 0)
         cls = result.get("classification")
         if cls in {
             "bug",
@@ -367,6 +389,9 @@ class Graph:
             return "finalize"
         if time.time() - state.started_at_unix > state.max_wall_clock_sec:
             state.stop_reason = "wall_clock_timeout"
+            return "finalize"
+        if state.token_count >= state.max_token_budget:
+            state.stop_reason = "token_budget_cap_hit"
             return "finalize"
         if state.step_count >= state.max_steps:
             state.stop_reason = "step_cap_hit"
