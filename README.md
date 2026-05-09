@@ -5,7 +5,7 @@ Implementation scaffold aligned with the assignment requirements:
 - conditional routing edges
 - checkpointed state
 - human-in-the-loop interrupt
-- custom MCP server in separate process
+- custom MCP server in a separate process
 - eval + trajectory logging + ablation scaffolding
 - LLM refinement node via local Ollama (Qwen 2.5)
 
@@ -29,7 +29,12 @@ Optional env vars:
 - `OLLAMA_MODEL` (default: `qwen2.5:14b-instruct`)
 
 ## Run Ollama + Qwen
-Install Ollama, then pull model:
+Install Ollama, then pull the model:
+
+```bash
+ollama serve
+```
+
 ```bash
 ollama pull qwen2.5:7b-instruct
 ```
@@ -37,12 +42,12 @@ ollama pull qwen2.5:7b-instruct
 ## Auto-build eval tasks from real repositories
 ```bash
 python -m src.eval.build_tasks_from_repos \
-  --repos "owner1/repo1,owner2/repo2,owner3/repo3,owner4/repo4,owner5/repo5" \
+  --repos "pandas-dev/pandas,numpy/numpy,jax-ml/jax,pytorch/pytorch,scikit-learn/scikit-learn" \
   --n 32 \
   --out data/eval_tasks.jsonl
 ```
 
-## Start custom MCP server (separate process)
+## Start a custom MCP server (separate process)
 ```bash
 python -m src.mcp_custom.server
 ```

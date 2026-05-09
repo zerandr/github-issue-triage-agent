@@ -6,8 +6,16 @@ from typing import Any
 
 import httpx
 
-OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:14b-instruct")
+
+def _env_or_default(name: str, default: str) -> str:
+    value = os.getenv(name)
+    if value is None or not value.strip():
+        return default
+    return value.strip()
+
+
+OLLAMA_URL = _env_or_default("OLLAMA_URL", "http://127.0.0.1:11434")
+OLLAMA_MODEL = _env_or_default("OLLAMA_MODEL", "qwen2.5:7b-instruct")
 
 
 SCHEMA_HINT = {

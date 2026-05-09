@@ -19,6 +19,11 @@ def _jsonable(value: Any) -> Any:
         return [_jsonable(v) for v in value]
     if isinstance(value, dict):
         return {k: _jsonable(v) for k, v in value.items()}
+    if value.__class__.__name__ == "Interrupt":
+        return {
+            "type": "interrupt",
+            "repr": str(value),
+        }
     return value
 
 
