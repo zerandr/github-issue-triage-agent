@@ -1,0 +1,183 @@
+{
+  "task_id": "t30",
+  "task": {
+    "task_id": "t30",
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33870,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33870,
+    "issue_snapshot": {
+      "number": 33870,
+      "title": "Incorrect array API namespace and device for DPNP GPU arrays",
+      "body": "> [!WARNING]\n> This issue is not yet ready for a PR. If you are interested in contributing to scikit-learn, please have a look at our [contributing guidelines](https://scikit-learn.org/dev/developers/contributing.html), and in particular the sections for [new contributors](https://scikit-learn.org/dev/developers/contributing.html#new-contributors) and the [\"Needs triage\"](https://scikit-learn.org/dev/developers/contributing.html#issues-tagged-needs-triage) label.\n\n### Describe the bug and give evidence about its user-facing impact\n\nWhen calling array API utilities such as `get_namespace,` `device`, etc. on DPNP GPU arrays, it returns incorrect namespaces and devices.\n\nNote that these objects have all the necessary info specified by the array API standard:\n<img width=\"637\" height=\"474\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/799f72e3-142d-4c89-98b7-08ed480cd429\" />\n\n### Steps/Code to Reproduce\n\n```python\nimport dpnp\nfrom sklearn.utils._array_api import get_namespace_and_device\nx = dpnp.array([1,2,3], device=\"gpu\")\nget_namespace_and_device(x)\n```\n\n### Expected Results\n\n`(dpnp, False, \"gpu:0\")`\n\n### Actual Results\n\n`(sklearn.externals.array_api_compat.numpy, False, None)`\n\n### Versions\n\n```shell\nBuilt with OpenMP: True\n\nthreadpoolctl info:\n       user_api: blas\n   internal_api: openblas\n    num_threads: 64\n         prefix: libscipy_openblas\n       filepath: /localdisk2/mkl/dcortes/miniforge3/envs/dpnp18/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-ff84a88b.so\n        version: 0.3.31.dev\nthreading_layer: pthreads\n   architecture: SkylakeX\n\n       user_api: blas\n   internal_api: openblas\n    num_threads: 64\n         prefix: libscipy_openblas\n       filepath: /localdisk2/mkl/dcortes/miniforge3/envs/dpnp18/lib/python3.13/site-packages/scipy.libs/libscipy_openblas-b75cc656.so\n        version: 0.3.29.dev\nthreading_layer: pthreads\n   architecture: SkylakeX\n\n       user_api: openmp\n   internal_api: openmp\n    num_threads: 224\n         prefix: libomp\n       filepath: /localdisk2/mkl/dcortes/miniforge3/envs/dpnp18/lib/libomp.so\n        version: None\n```\n\n### Interest in fixing the bug\n\nNo.",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "Bug"
+        },
+        {
+          "name": "Needs Triage"
+        }
+      ],
+      "created_at": "2026-04-27T13:08:29Z",
+      "updated_at": "2026-04-27T13:12:13Z",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33870"
+    },
+    "related_issues": [
+      {
+        "number": 32661,
+        "title": "DOC Create triage guide in maintainer documentation",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/32661"
+      },
+      {
+        "number": 34032,
+        "title": "BUG: Silent float32 upcasting to float64 in Pipeline/StandardScaler causes 2x memory bloat",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/34032"
+      },
+      {
+        "number": 33737,
+        "title": "Add `MoveTo` transformer to move `X` to a different array namespace/device",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33737"
+      }
+    ],
+    "probable_code_areas": [
+      "api/*",
+      "frontend/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a problem where array API utilities return incorrect namespaces and devices for DPNP GPU arrays, which directly impacts user experience.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue is classified as a bug based on the provided description. It has been closed but was previously tagged for triage, indicating it may require further attention from maintainers.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #33870: Incorrect array API namespace and device for DPNP GPU arrays"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['api/*', 'frontend/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 5 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 885,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 903,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 989,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 927,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 21549,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 112,
+    "started_at_unix": 1779050965.668942,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 29.42,
+    "token_count": 112,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

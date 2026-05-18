@@ -1,3 +1,29 @@
+data/cache
+.env.example
+
+runs/
+reports/eval_summary.json
+# OS / editor junk
+.DS_Store
+__MACOSX/
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# SQLite cache/database files
+*.sqlite
+*.sqlite3
+*.db
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Build/package artifacts
+build/
+dist/
+*.egg-info/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

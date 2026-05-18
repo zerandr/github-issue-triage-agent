@@ -1,0 +1,182 @@
+{
+  "task_id": "t22",
+  "task": {
+    "task_id": "t22",
+    "repo": "jax-ml/jax",
+    "issue_number": 37188,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "jax-ml/jax",
+    "issue_number": 37188,
+    "issue_snapshot": {
+      "number": 37188,
+      "title": "Input variables and their types should be carried through JitWrapped functions",
+      "body": "_This is my first time opening an Issue on jax-ml but, since I did not see any other request like this one, here I go_\n\nI find it quite inconvenient that jitted or vmapped functions become opaque and the only way to recall which are the input variables is to check the source code of the undecorated function. \n\nWhen I am coding with, say, Visual Studio, I find myself going back and forth between parts of the code because the Python extension is unable to recognise which are the input variables of a jitted or vmapped function. \n\nThis of course is not that important of a matter, but it does make developing slow and inconvenient. The quick way around is to write by hand the input variables in the docstring of the undecorated function, but that still does not enable autocompletion or type checkers, making the process more prone to mistakes and bugs (especially since JAX sometimes can process something and give you the wrong result, instead of halting).  \n\nIf this was known or is a problem of configuration on my side, I apologise for the inconveniences. ",
+      "state": "open",
+      "labels": [
+        {
+          "name": "enhancement"
+        }
+      ],
+      "created_at": "2026-04-27T04:23:25Z",
+      "updated_at": "2026-04-28T15:08:34Z",
+      "html_url": "https://github.com/jax-ml/jax/issues/37188"
+    },
+    "related_issues": [
+      {
+        "number": 3723,
+        "title": "document custom_vjps returning jax-generated vjp callables",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/3723"
+      },
+      {
+        "number": 34124,
+        "title": "Improve __repr__ for jax.nn functions and initializers",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/34124"
+      },
+      {
+        "number": 31158,
+        "title": "Add a JAX native version of jaxtyping",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/31158"
+      }
+    ],
+    "probable_code_areas": [
+      "frontend/*",
+      "docs/*"
+    ],
+    "classification": "feature request",
+    "justification": "The user requests a feature to improve the visibility and usability of input variables in jitted or vmapped functions, which aligns more closely with a feature request than documentation.",
+    "open_questions": [
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue is open and labeled as an enhancement, indicating it is a feature request. Related issues exist but do not directly address the current concern.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #37188: Input variables and their types should be carried through JitWrapped functions"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*', 'docs/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 8 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1023,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 982,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1184,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 941,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 24126,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 134,
+    "started_at_unix": 1779050694.7251,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 34.287,
+    "token_count": 134,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

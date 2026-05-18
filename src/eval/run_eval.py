@@ -1,8 +1,8 @@
+from __future__ import annotations
+
+import argparse
 import json
 import time
-import argparse
-
-from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any
 
@@ -10,145 +10,369 @@ from src.agent.graph import Graph
 from src.agent.state import TriageState
 
 
-def _jsonable(value: Any) -> Any:
-    if is_dataclass(value):
-        return asdict(value)
-    if isinstance(value, list):
-        return [_jsonable(v) for v in value]
+def read_jsonl(path: Path) -> list[dict[str, Any]]:
+    tasks: list[dict[str, Any]] = []
+
+    if not path.exists():
+        raise FileNotFoundError(f"Tasks file not found: {path}")
+
+    with path.open("r", encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            line = line.strip()
+
+            if not line:
+                continue
+
+            try:
+                tasks.append(json.loads(line))
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid JSONL at {path}:{line_number}") from exc
+
+    return tasks
+
+
+def write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with path.open("w", encoding="utf-8") as file:
+        json.dump(payload, file, ensure_ascii=False, indent=2)
+
+
+def make_json_safe(value: Any) -> Any:
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+
+    if isinstance(value, (list, tuple)):
+        return [make_json_safe(item) for item in value]
+
     if isinstance(value, dict):
-        return {k: _jsonable(v) for k, v in value.items()}
-    return (
-        {"type": "interrupt", "repr": str(value)}
-        if value.__class__.__name__ == "Interrupt"
-        else value
+        return {
+            str(key): make_json_safe(item)
+            for key, item in value.items()
+        }
+
+    if hasattr(value, "model_dump"):
+        return make_json_safe(value.model_dump())
+
+    if hasattr(value, "dict"):
+        return make_json_safe(value.dict())
+
+    if hasattr(value, "__dict__"):
+        return make_json_safe(vars(value))
+
+    return str(value)
+
+
+def state_to_dict(state: Any) -> dict[str, Any]:
+    converted = make_json_safe(state)
+
+    if isinstance(converted, dict):
+        return converted
+
+    return {"value": converted}
+
+
+def build_initial_state(task: dict[str, Any]) -> TriageState:
+    return TriageState(
+        repo=str(task.get("repo", "")),
+        issue_number=int(task.get("issue_number", 0)),
     )
 
 
-def _score_run(out: dict[str, Any]) -> int:
-    if (
-        out.get("classification") != "unknown"
-        and out.get("evidence_ids")
-        and out.get("justification")
-    ):
-        return 3
-    return 2 if out.get("classification") != "unknown" else 1
+def extract_tool_names(final_state: dict[str, Any]) -> list[str]:
+    names: list[str] = []
+
+    for event in final_state.get("tool_events", []) or []:
+        if isinstance(event, dict) and event.get("tool"):
+            names.append(str(event["tool"]))
+
+    calls = final_state.get("tool_calls", [])
+
+    if isinstance(calls, list):
+        for call in calls:
+            if isinstance(call, dict) and (call.get("tool") or call.get("name")):
+                names.append(str(call.get("tool") or call.get("name")))
+            elif isinstance(call, str):
+                names.append(call)
+
+    return names
 
 
-class EvalRunner:
-    def __init__(self, model_name: str) -> None:
-        self.model_name = model_name
-        self.app = Graph().build_graph()
+def score_task(task: dict[str, Any], final_state: dict[str, Any]) -> int:
+    task_type = str(task.get("task_type", ""))
+    fatal_error = str(final_state.get("fatal_error", ""))
+    stop_reason = str(final_state.get("stop_reason", ""))
 
-    def run_single(
-        self, repo: str, issue_number: int, thread_id: str
-    ) -> dict[str, Any]:
-        return _jsonable(
-            self.app.invoke(
-                TriageState(repo=repo, issue_number=issue_number),
-                config={"configurable": {"thread_id": thread_id}},
-            )
+    evidence = final_state.get("evidence", [])
+    evidence_count = len(evidence) if isinstance(evidence, list) else 0
+
+    if fatal_error:
+        if task_type.startswith("adversarial") or "nonexistent" in task_type:
+            return 3
+
+        return 1
+
+    if stop_reason not in {"completed", "", "None", "null"}:
+        return 2
+
+    if evidence_count <= 0:
+        return 1
+
+    expected = [
+        str(item)
+        for item in task.get(
+            "expected_tool_classes",
+            task.get("expected_tools", []),
         )
-
-    def evaluate(self, tasks: list[dict[str, Any]]) -> dict[str, Any]:
-        out_dir = Path("reports/trajectories")
-        out_dir.mkdir(parents=True, exist_ok=True)
-        summary: dict[str, Any] = {
-            "model": self.model_name,
-            "n_tasks": len(tasks),
-            "runs": [],
-        }
-
-        for task in tasks:
-            t0, out, error = time.time(), {}, ""
-            try:
-                out = self.run_single(
-                    task.get("repo", ""),
-                    int(task.get("issue_number", 0)),
-                    f"eval:{task['task_id']}",
-                )
-            except Exception as exc:
-                error = str(exc)
-                print(exc)
-
-            expected = set(str(x) for x in task.get("expected_tool_classes", []))
-            events = out.get("tool_events", [])
-            called = [str(x.get("tool", "")) for x in events]
-            run = {
-                "task_id": task["task_id"],
-                "task_type": task.get("task_type", "unknown"),
-                "latency_sec": round(time.time() - t0, 3),
-                "score_3pt": _score_run(out) if out else 1,
-                "tool_selection_ok": expected.issubset(set(called))
-                if expected
-                else True,
-                "n_steps": out.get("step_count", 0),
-                "n_tool_calls": out.get("tool_calls", 0),
-                "unnecessary_tool_calls": sum(
-                    1 for t in called if expected and t not in expected
-                ),
-                "hallucinated_tool_args": sum(
-                    1 for x in events if int(x.get("status", 0) or 0) == 400
-                ),
-                "ungrounded_claims": 0 if out.get("evidence_ids") else 1,
-                "stop_reason": out.get("stop_reason", "exception"),
-                "error": error,
-            }
-            summary["runs"].append(run)
-
-            trajectory = {
-                "task": {
-                    "task_id": task.get("task_id"),
-                    "repo": task.get("repo"),
-                    "issue_number": task.get("issue_number"),
-                    "task_type": task.get("task_type", "unknown"),
-                },
-                "run": run,
-                "terminal_state": {
-                    "classification": out.get("classification", "unknown"),
-                    "justification": out.get("justification", ""),
-                    "probable_code_areas": out.get("probable_code_areas", []),
-                    "related_issues": [
-                        {
-                            "number": i.get("number"),
-                            "title": i.get("title"),
-                            "url": i.get("html_url"),
-                        }
-                        for i in out.get("related_issues", [])
-                    ],
-                    "evidence_ids": out.get("evidence_ids", []),
-                    "tool_events": events,
-                    "step_count": out.get("step_count", 0),
-                    "tool_calls": out.get("tool_calls", 0),
-                    "token_count": out.get("token_count", 0),
-                    "stop_reason": out.get("stop_reason"),
-                    "fatal_error": out.get("fatal_error", ""),
-                },
-                "timestamp_unix": int(time.time()),
-            }
-            (out_dir / f"{task['task_id']}.json").write_text(
-                json.dumps(trajectory, ensure_ascii=False, indent=2), encoding="utf-8"
-            )
-
-        Path("reports/eval_summary.json").write_text(
-            json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        return summary
-
-
-def load_tasks(path: str) -> list[dict[str, Any]]:
-    return [
-        json.loads(x)
-        for x in Path(path).read_text(encoding="utf-8").splitlines()
-        if x.strip()
     ]
+
+    used = extract_tool_names(final_state)
+
+    if expected and not any(exp in got for exp in expected for got in used):
+        return 2
+
+    return 3
+
+
+def tool_selection_accuracy(
+    task: dict[str, Any],
+    final_state: dict[str, Any],
+) -> float:
+    expected = [
+        str(item)
+        for item in task.get(
+            "expected_tool_classes",
+            task.get("expected_tools", []),
+        )
+    ]
+
+    if not expected:
+        return 1.0
+
+    used = extract_tool_names(final_state)
+
+    if not used:
+        return 0.0
+
+    matched = sum(
+        1
+        for exp in expected
+        if any(exp in got for got in used)
+    )
+
+    return matched / len(expected)
+
+
+def count_ungrounded_claims(final_state: dict[str, Any]) -> int:
+    evidence = final_state.get("evidence", [])
+
+    if isinstance(evidence, list) and len(evidence) > 0:
+        return 0
+
+    claim_keys = [
+        "classification",
+        "justification",
+        "probable_code_areas",
+        "related_issues",
+        "current_state_summary",
+    ]
+
+    return 1 if any(final_state.get(key) for key in claim_keys) else 0
+
+
+def count_hallucinated_tool_args(final_state: dict[str, Any]) -> int:
+    count = 0
+
+    for event in final_state.get("tool_events", []) or []:
+        if not isinstance(event, dict):
+            continue
+
+        status = int(event.get("status", 0) or 0)
+        error = str(event.get("error", "")).lower()
+
+        if status == 400 or "validation" in error or "bad argument" in error:
+            count += 1
+
+    return count
+
+
+def run_one_task(
+    compiled_graph: Any,
+    task: dict[str, Any],
+    trajectory_dir: Path,
+) -> dict[str, Any]:
+    task_id = str(task.get("task_id", f"task_{int(time.time())}"))
+
+    initial_state = build_initial_state(task)
+    started = time.time()
+
+    config = {
+        "configurable": {
+            "thread_id": task_id,
+        }
+    }
+
+    try:
+        final_state_raw = compiled_graph.invoke(initial_state, config=config)
+        error = None
+    except Exception as exc:
+        final_state_raw = initial_state
+        error = str(exc)
+
+    final_state = state_to_dict(final_state_raw)
+
+    if error:
+        final_state["fatal_error"] = error
+        final_state["stop_reason"] = "eval_exception"
+
+    latency = round(time.time() - started, 3)
+
+    tool_calls_raw = final_state.get("tool_calls", 0)
+
+    if isinstance(tool_calls_raw, int):
+        tool_calls_count = tool_calls_raw
+    elif isinstance(tool_calls_raw, list):
+        tool_calls_count = len(tool_calls_raw)
+    else:
+        tool_calls_count = 0
+
+    metrics = {
+        "score_3pt": score_task(task, final_state),
+        "tool_selection_accuracy": tool_selection_accuracy(task, final_state),
+        "steps": int(final_state.get("step_count", 0) or 0),
+        "tool_calls": tool_calls_count,
+        "latency_seconds": latency,
+        "token_count": int(final_state.get("token_count", 0) or 0),
+        "ungrounded_claims": count_ungrounded_claims(final_state),
+        "hallucinated_tool_args": count_hallucinated_tool_args(final_state),
+        "stop_reason": final_state.get("stop_reason"),
+    }
+
+    trajectory = {
+        "task_id": task_id,
+        "task": task,
+        "final_state": final_state,
+        "metrics": metrics,
+    }
+
+    write_json(trajectory_dir / f"{task_id}.json", trajectory)
+
+    return trajectory
+
+
+def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
+    n = len(trajectories)
+
+    if n == 0:
+        return {"n_tasks": 0}
+
+    metrics = [trajectory["metrics"] for trajectory in trajectories]
+
+    def mean(key: str) -> float:
+        return round(
+            sum(float(item.get(key, 0) or 0) for item in metrics) / n,
+            3,
+        )
+
+    score_counts: dict[str, int] = {}
+    stop_reasons: dict[str, int] = {}
+
+    for item in metrics:
+        score = str(item.get("score_3pt", 0))
+        score_counts[score] = score_counts.get(score, 0) + 1
+
+        reason = str(item.get("stop_reason", "unknown"))
+        stop_reasons[reason] = stop_reasons.get(reason, 0) + 1
+
+    return {
+        "n_tasks": n,
+        "mean_score_3pt": mean("score_3pt"),
+        "score_counts": score_counts,
+        "tool_selection_accuracy": mean("tool_selection_accuracy"),
+        "mean_steps": mean("steps"),
+        "mean_tool_calls": mean("tool_calls"),
+        "mean_latency_seconds": mean("latency_seconds"),
+        "total_tokens": int(
+            sum(int(item.get("token_count", 0) or 0) for item in metrics)
+        ),
+        "total_ungrounded_claims": int(
+            sum(int(item.get("ungrounded_claims", 0) or 0) for item in metrics)
+        ),
+        "total_hallucinated_tool_args": int(
+            sum(int(item.get("hallucinated_tool_args", 0) or 0) for item in metrics)
+        ),
+        "stop_reasons": stop_reasons,
+    }
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run GitHub issue triage evaluation.")
+
+    parser.add_argument(
+        "--tasks",
+        default="data/eval_tasks.jsonl",
+        help="Path to JSONL evaluation tasks.",
+    )
+
+    parser.add_argument(
+        "--out",
+        default="runs/main",
+        help="Output directory.",
+    )
+
+    parser.add_argument(
+        "--summary",
+        default="reports/eval_summary.json",
+        help="Path to aggregate summary JSON.",
+    )
+
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Optional task limit for quick checks.",
+    )
+
+    return parser.parse_args()
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--tasks", required=True)
-    parser.add_argument("--model", required=True)
-    args = parser.parse_args()
-    EvalRunner(model_name=args.model).evaluate(load_tasks(args.tasks))
+    args = parse_args()
+
+    tasks = read_jsonl(Path(args.tasks))
+
+    if args.limit is not None:
+        tasks = tasks[: args.limit]
+
+    compiled_graph = Graph().build_graph()
+
+    trajectory_dir = Path(args.out) / "trajectories"
+    trajectories: list[dict[str, Any]] = []
+
+    for index, task in enumerate(tasks, start=1):
+        task_id = task.get("task_id", f"task_{index}")
+
+        print(f"[{index}/{len(tasks)}] Running {task_id}...")
+
+        trajectory = run_one_task(
+            compiled_graph=compiled_graph,
+            task=task,
+            trajectory_dir=trajectory_dir,
+        )
+
+        trajectories.append(trajectory)
+
+        print(
+            f"  score={trajectory['metrics']['score_3pt']} "
+            f"latency={trajectory['metrics']['latency_seconds']}s"
+        )
+
+    summary = aggregate_results(trajectories)
+
+    write_json(Path(args.summary), summary)
+    write_json(Path(args.out) / "summary.json", summary)
+
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

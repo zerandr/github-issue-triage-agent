@@ -1,0 +1,183 @@
+{
+  "task_id": "t04",
+  "task": {
+    "task_id": "t04",
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65518,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65518,
+    "issue_snapshot": {
+      "number": 65518,
+      "title": "BUG: Conversion from np.ma.masked_array to pd.array does not preserve missing values",
+      "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n\n- [x] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n\n- [x] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n\n### Reproducible Example\n\n```python\nimport numpy as np\nimport pandas as pd\n\na = np.ma.array([1, 2, 3, 4], mask=[False, True, False, True])\n\n# BUG: mask is ignored completely\npd.array(a)\n# Output:\n# <IntegerArray>\n# [1, 2, 3, 4]\n# Length: 4, dtype: Int64\n\n# For comparison, pd.Series handles the mask but changes dtype to float\npd.Series(a)\n# Output:\n# 0 1.0\n# 1 NaN\n# 2 3.0\n# 3 NaN\n# dtype: float64\n```\n\n### Issue Description\n\nNumPy [masked arrays](https://numpy.org/doc/stable/reference/maskedarray.generic.html#what-is-a-masked-array) are used to define arrays with missing values, similar to pandas extension arrays. However, converting to `pd.array` currently ignores the mask completely and masked values appear as regular values.\n\nConverting to `pd.Series` does respect the missing values, but the dtype is converted to `float` and the original dtype is not preserved in all cases.\n\nThis behavior is inconsistent with user expectations and with how `pd.Series` handles masked arrays.\n\nThe same issue occurs with string masked arrays where the mask is also ignored by `pd.array`.\n\n### Expected Behavior\n\nMasked values should be converted to pd.NA and the appropriate nullable dtype should be preserved, such as Int64 or string, instead of ignoring the mask or coercing to float.\n\n>>> pd.array(a)\n<IntegerArray>\n[1, <NA>, 3, <NA>]\nLength: 4, dtype: Int64\n\n### Installed Versions\n\npandas: 3.0.0\nnumpy: 2.3.5\npython: 3.12.9\n",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "Bug"
+        },
+        {
+          "name": "Duplicate Report"
+        }
+      ],
+      "created_at": "2026-05-08T01:11:36Z",
+      "updated_at": "2026-05-08T07:25:49Z",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65518"
+    },
+    "related_issues": [
+      {
+        "number": 65588,
+        "title": "BUG: `DataFrame.eval` inconsistently handles duplicated columns",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/65588"
+      },
+      {
+        "number": 65654,
+        "title": "BUG: DataFrame.melt silently corrupts data on var_name output-name collisions",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/65654"
+      },
+      {
+        "number": 64198,
+        "title": "BUG:  `read_excel` with `usecols` still mangles column names when duplicates exist elsewhere in spreadsheet",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/64198"
+      }
+    ],
+    "probable_code_areas": [
+      "pandas/core/arraylike.py",
+      "pandas/core/internals/construction.py"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a problem with the conversion of NumPy masked arrays to pandas arrays, which is inconsistent with user expectations and how `pd.Series` handles similar conversions.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed but marked as a duplicate. Related issues are open and may provide additional context.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #65518: BUG: Conversion from np.ma.masked_array to pd.array does not preserve missing values"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['docs/*', 'tests/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 8 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 999,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 799,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1037,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 835,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 13372,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 114,
+    "started_at_unix": 1779050225.344668,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 21.056,
+    "token_count": 114,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

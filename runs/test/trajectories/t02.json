@@ -1,0 +1,208 @@
+{
+  "task_id": "t02",
+  "task": {
+    "task_id": "t02",
+    "repo": "pytorch/pytorch",
+    "issue_number": 182766,
+    "task_type": "duplicates",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pytorch/pytorch",
+    "issue_number": 182766,
+    "issue_snapshot": {
+      "number": 182766,
+      "title": "`torch.compile` crashes on SDPA backward when head_dim is not a multiple of 16",
+      "body": "### 🐛 Describe the bug\n\n\n## 🐛 Describe the bug\n\n`torch.compile(backend='inductor')` crashes with `LoweringException: IndexError: list index out of range` in the backward pass of `scaled_dot_product_attention` when `head_dim % 16 != 0`.\n\nThe crash occurs specifically in the lowering of `aten._scaled_dot_product_efficient_attention_backward`, triggered only when the **mem-efficient** attention backend is selected. Flash attention (fp16/bf16) and the math backend handle non-aligned head dimensions correctly.\n\nThe forward pass compiles and runs correctly for all head_dim values; only backward crashes.\n\n## Minimal reproducer\n\n```python\nimport torch\nimport torch.nn.functional as F\n\n# Crashes for any head_dim that is not a multiple of 16\nq = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\nk = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\nv = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\n\n@torch.compile\ndef fn(q, k, v):\n    return F.scaled_dot_product_attention(q, k, v).sum()\n\nfn(q, k, v).backward()  # LoweringException: IndexError: list index out of range\n```\n\n## Error message\n\n```\ntorch._inductor.exc.LoweringException: IndexError: list index out of range\n  target: aten._scaled_dot_product_efficient_attention_backward.default\n```\n\n## Crash boundary\n\n| head_dim | Status | Multiple of 16 |\n|----------|--------|----------------|\n| 1 | OK | No (special case) |\n| 16, 32, 48, 64, 96, 128, 256 | OK | Yes |\n| 17, 19, 23, 31, 33 | **CRASH** | No |\n| 63, 65, 127, 129, 255 | **CRASH** | No |\n\n## Root cause\n\nInductor's lowering for `aten._scaled_dot_product_efficient_attention_backward` indexes into an internal list/array using an offset derived from `head_dim`. This offset assumes `head_dim` is a multiple of 16; when it is not, the computed index exceeds the list bounds.\n\n## Backend-specific behavior\n\n| Backend | head_dim=33 | head_dim=64 |\n|---------|-------------|-------------|\n| Mem-efficient (float32) | **CRASH** | OK |\n| Flash (float16/bf16) | OK | OK |\n| Math | OK | OK |\n| `aot_eager` | OK | OK |\n\n```python\n# Flash attention (fp16) works with non-aligned head_dim\nq = torch.randn(2, 4, 8, 33, device='cuda', dtype=torch.float16, requires_grad=True)\nk = torch.randn(2, 4, 8, 33, device='cuda', dtype=torch.float16, requires_grad=True)\nv = torch.randn(2, 4, 8, 33, device='cuda', dtype=torch.float16, requires_grad=True)\ntorch.compile(lambda q, k, v: F.scaled_dot_product_attention(q, k, v).sum())(q, k, v).backward()  # OK\n\n# Math backend works\nwith torch.nn.attention.sdpa_kernel(torch.nn.attention.SDPBackend.MATH):\n    q = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\n    k = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\n    v = torch.randn(2, 4, 8, 33, device='cuda', requires_grad=True)\n    torch.compile(lambda q, k, v: F.scaled_dot_product_attention(q, k, v).sum())(q, k, v).backward()  # OK\n```\n\n## Additional observations\n\n- Forward-only (no backward) works fine for all head_dim values\n- Both regular and causal attention crash\n- CPU uses a different backend and does not crash\n- `is_causal=True` also crashes with non-aligned head_dim\n- `flex_attention` correctly handles non-aligned head_dim\n\n## Impact\n\nModels with non-standard head dimensions (e.g., head_dim=33 from splitting 264-dim into 8 heads, or ALiBi variants with odd dimensions) cannot use `torch.compile` for training when the mem-efficient attention path is selected. This blocks compilation of custom architectures that don't use standard 64/128 head dimensions.\n\n\n\n### Versions\n\n\n## Versions\n\n- **PyTorch**: 2.13.0.dev20260501+cu126\n- **Triton**: 3.2.0+git4b3bb1e8\n- **CUDA**: 12.6\n- **GPU**: Tesla T4 (sm_75)\n- **Python**: 3.11\n\n\ncc @chauhang @penguinwu @voznesenskym @EikanWang @jgong5 @Guobing-Chen @XiaobingSuper @zhuhaozhe @blzheng @wenzhe-nrv @jiayisunx @ipiszy @kadeng @muchulee8 @amjames @aakhundov @coconutruben @jataylo @drisspg @liangel-02 @howardzhang-cv",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "triage review"
+        },
+        {
+          "name": "triaged"
+        },
+        {
+          "name": "oncall: pt2"
+        },
+        {
+          "name": "module: inductor"
+        },
+        {
+          "name": "module: sdpa"
+        },
+        {
+          "name": "bot-triaged"
+        },
+        {
+          "name": "repro:agent:h100:repro_fail:not_reproduced"
+        }
+      ],
+      "created_at": "2026-05-07T03:26:56Z",
+      "updated_at": "2026-05-17T05:15:53Z",
+      "html_url": "https://github.com/pytorch/pytorch/issues/182766"
+    },
+    "related_issues": [
+      {
+        "number": 16,
+        "title": "Error on legacy.nn serialization",
+        "state": "closed",
+        "html_url": "https://github.com/pytorch/pytorch/issues/16"
+      },
+      {
+        "number": 181853,
+        "title": "[Bug] DataLoader worker segmentation fault in multi-task training with long sequences and numerical instability",
+        "state": "open",
+        "html_url": "https://github.com/pytorch/pytorch/issues/181853"
+      },
+      {
+        "number": 34130,
+        "title": "ExceptionWrapper cannot handle exceptions with more than one argument",
+        "state": "open",
+        "html_url": "https://github.com/pytorch/pytorch/issues/34130"
+      }
+    ],
+    "probable_code_areas": [
+      "inductor/*",
+      "aten/src/ATen/native/cpu/scaled_dot_product.cpp"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a specific crash scenario during the backward pass of `scaled_dot_product_attention` when `head_dim % 16 != 0`, which is clearly a bug in the Inductor backend.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed with no further action specified. The classification is based on the provided evidence.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #182766: `torch.compile` crashes on SDPA backward when head_dim is not a multiple of 16"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 50 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 790,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 927,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1134,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 982,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 841,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 17763,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 6,
+    "token_count": 122,
+    "started_at_unix": 1779050077.894261,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 6,
+    "latency_seconds": 27.38,
+    "token_count": 122,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

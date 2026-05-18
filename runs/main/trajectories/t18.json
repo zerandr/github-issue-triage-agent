@@ -1,0 +1,145 @@
+{
+  "task_id": "t18",
+  "task": {
+    "task_id": "t18",
+    "repo": "numpy/numpy",
+    "issue_number": 30962,
+    "task_type": "duplicates",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 30962,
+    "issue_snapshot": {
+      "number": 30962,
+      "title": "CI: AI slop detection",
+      "body": "Now that we have an [AI policy](https://github.com/numpy/numpy/pull/30933) (thanks to @mattip) that prohibits undisclosed and otherwise irresponsible AI use, we'll need a reliable method for detecting PRs that go against this. In many cases it can be pretty obvious that something is written by AI, e.g. excessive use of emdashes (&mdash;) and words like \"streamline\", \"facilitate\", \"comprehensive\"; phrases like \"A key takeaway is ...\" and \"This underscores the importance of ...\"; predictable markdown formatting; repetitive phrasing; etc.\n\nBut in some cases it's not always clear. Some authors consider it to be an insult when asked whether they've used AI when they didn't. This, at least for me, makes me worry that that's the case when I *do* ask that question (in cases where I'm unsure if it's AI-generated; not because I like insulting contributors or something).\n\nI think it would help if we started using a tool that'll help us with this. For example, by adding a specific label in case it suspects slop. We could e.g. consider https://github.com/peakoss/anti-slop, which at first glance seems pretty solid, highly configurable, and is actively maintained. ",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "component: CI"
+        }
+      ],
+      "created_at": "2026-03-08T13:59:23Z",
+      "updated_at": "2026-03-11T08:55:34Z",
+      "html_url": "https://github.com/numpy/numpy/issues/30962"
+    },
+    "related_issues": [
+      {
+        "number": 25288,
+        "title": "Discuss the issue of Numpy CI testing for LSX instructions",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/25288"
+      },
+      {
+        "number": 27698,
+        "title": "Add Android Support",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/27698"
+      },
+      {
+        "number": 25859,
+        "title": "ENH: WASI Build",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/25859"
+      }
+    ],
+    "probable_code_areas": [],
+    "classification": "unknown",
+    "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [25288, 27698, 25859].",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #30962: CI: AI slop detection"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: unknown"
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 898,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1013,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1133,
+        "error": ""
+      }
+    ],
+    "step_count": 4,
+    "tool_calls": 3,
+    "token_count": 0,
+    "started_at_unix": 1779050599.410954,
+    "stop_reason": null,
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": true,
+    "fatal_error": "",
+    "__interrupt__": [
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='30d5efc9d88c8515dff2e92a96fc8b93')"
+    ]
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 4,
+    "tool_calls": 3,
+    "latency_seconds": 6.368,
+    "token_count": 0,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": null
+  }
+}

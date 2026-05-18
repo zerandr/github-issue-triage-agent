@@ -1,0 +1,193 @@
+{
+  "task_id": "t12",
+  "task": {
+    "task_id": "t12",
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65345,
+    "task_type": "code_area",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65345,
+    "issue_snapshot": {
+      "number": 65345,
+      "title": "BUG: interpolate(method=\"linear\", limit_direction=\"forward\") leaves NAs unchanged for pyarrow dtype",
+      "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n\n- [x] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n\n- [x] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n\n### Reproducible Example\n\n```python\nimport pandas as pd\n\ndata = [1, 2, 3, None, None, 6, 7]\ns_arrow = pd.Series(pd.array(data, dtype=\"int64[pyarrow]\"))\nr_nullable = s_arrow.interpolate(method=\"linear\", limit_direction=\"forward\")\nprint(r_nullable.tolist())\n```\n\n### Issue Description\n\nWhen interpolating a Series backed by a pyarrow dtype such as int64[pyarrow], `method=\"linear\"` with `limit_direction=\"forward\"` leaves missing values unchanged, while the equivalent series with a numpy backend interpolates as expected. The same pyarrow-backed series also appears to work with `limit_direction=\"backward\"`.\n\n### Expected Behavior\n\nThe pyarrow-backed series should interpolate consistently with the numpy backend, expected result is a of the form `[1, 2, 3, 4, 5, 6, 7]`.\n\nThe expected behavior can be achieved in three ways:\n1. Running the same code with pandas 2.3.3\n2. Using `limit_direction=backward`:\n```python\nimport pandas as pd\n\ndata = [1, 2, 3, None, None, 6, 7]\ns_arrow = pd.Series(pd.array(data, dtype=\"int64[pyarrow]\"))\nr_backwards = s_arrow.interpolate(method=\"linear\", limit_direction=\"backward\")\nprint(r_backwards.to_list())\n```\n3. Using a numpy data type instead of the pyarrow type:\n```python\nimport pandas as pd\n\ndata = [1, 2, 3, None, None, 6, 7]\ns= pd.Series(pd.array(data, dtype=\"Int64\"))\np= s.interpolate(method=\"linear\", limit_direction=\"forward\")\nprint(p.tolist())\n```\n\n\n\n### Installed Versions\n\n<details>\n\nINSTALLED VERSIONS\n------------------\ncommit                : ab90747e3dae0e69b1bdbf083820b8075689b34b\npython                : 3.11.10\npython-bits           : 64\nOS                    : Linux\nOS-release            : 6.6.87.2-microsoft-standard-WSL2\nVersion               : #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025\nmachine               : x86_64\nprocessor             : x86_64\nbyteorder             : little\nLC_ALL                : None\nLANG                  : C.UTF-8\nLOCALE                : en_US.UTF-8\n\npandas                : 3.0.2\nnumpy                 : 2.4.4\ndateutil              : 2.9.0.post0\npip                   : None\nCython                : None\nsphinx                : None\nIPython               : None\nadbc-driver-postgresql: None\nadbc-driver-sqlite    : None\nbs4                   : None\nbottleneck            : None\nfastparquet           : None\nfsspec                : None\nhtml5lib              : None\nhypothesis            : None\ngcsfs                 : None\njinja2                : None\nlxml.etree            : None\nmatplotlib            : None\nnumba                 : None\nnumexpr               : None\nodfpy                 : None\nopenpyxl              : None\npsycopg2              : None\npymysql               : None\npyarrow               : 24.0.0\npyiceberg             : None\npyreadstat            : None\npytest                : None\npython-calamine       : None\npytz                  : 2026.1.post1\npyxlsb                : None\ns3fs                  : None\nscipy                 : None\nsqlalchemy            : None\ntables                : None\ntabulate              : None\nxarray                : None\nxlrd                  : None\nxlsxwriter            : None\nzstandard             : None\nqtpy                  : None\npyqt5                 : None\n\n</details>\n",
+      "state": "open",
+      "labels": [
+        {
+          "name": "Bug"
+        },
+        {
+          "name": "Missing-data"
+        },
+        {
+          "name": "Regression"
+        },
+        {
+          "name": "Arrow"
+        }
+      ],
+      "created_at": "2026-04-23T12:34:36Z",
+      "updated_at": "2026-05-11T20:14:15Z",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65345"
+    },
+    "related_issues": [
+      {
+        "number": 28220,
+        "title": "pd.merge regression when doing a left-join with missing data on the right. Result has a Float64Index",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/28220"
+      },
+      {
+        "number": 47554,
+        "title": "BUG: Series with same index values, but in different orders, cannot be compared, but can be added",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/47554"
+      },
+      {
+        "number": 16367,
+        "title": "pd.crosstab, categorical data and missing instances",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/16367"
+      }
+    ],
+    "probable_code_areas": [
+      "pandas/core/interpolate.py",
+      "pandas/core/internals/managers.py"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a specific behavior inconsistency related to interpolation with missing values in a Series backed by pyarrow dtype, which is expected to be handled differently compared to numpy backend.",
+    "open_questions": [
+      "Is the issue specific to certain versions of pyarrow or pandas?",
+      "Are there any known workarounds or patches for this behavior?"
+    ],
+    "decision_needed": "Further investigation and testing needed",
+    "current_state_summary": "The issue is open with no assigned owner, and it has not been validated against the latest main branch version.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #65345: BUG: interpolate(method=\"linear\", limit_direction=\"forward\") leaves NAs unchanged for pyarrow dtype"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*', 'docs/*', 'tests/*', 'db/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 14 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 791,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 795,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 974,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1035,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 25963,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 151,
+    "started_at_unix": 1779050417.1858408,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 33.566,
+    "token_count": 151,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

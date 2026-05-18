@@ -1,0 +1,148 @@
+{
+  "task_id": "t25",
+  "task": {
+    "task_id": "t25",
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33558,
+    "task_type": "code_area",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33558,
+    "issue_snapshot": {
+      "number": 33558,
+      "title": "Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor",
+      "body": "> [!WARNING]\n> This issue is not yet ready for a PR. If you are interested in contributing to scikit-learn, please have a look at our [contributing guidelines](https://scikit-learn.org/dev/developers/contributing.html), and in particular the sections for [new contributors](https://scikit-learn.org/dev/developers/contributing.html#new-contributors) and the [\"Needs triage\"](https://scikit-learn.org/dev/developers/contributing.html#issues-tagged-needs-triage) label.\n\n### Describe the workflow you want to enable\n\nI'd like to do\n```python\nfrom sklearn.tree import DecisionTreeRegressor\n\ntree = DecisionTreeRegressor()\nfor X_batch, y_batch in generate_data_batches(X, y):\n    tree.partial_fit(X_batch, y_batch)\n```\n\n### Describe your proposed solution\n\nempty\n\n### Describe alternatives you've considered, if relevant\n\n_No response_\n\n### Additional context\n\nThis has also been suggested in #5212 among other topics. This issue is to only track `patrial_fit`.\n\nOnce the trees have `partial_fit`, it can be extended to `RandomForest*` and so on.",
+      "state": "open",
+      "labels": [
+        {
+          "name": "New Feature"
+        },
+        {
+          "name": "Needs Decision - Include Feature"
+        }
+      ],
+      "created_at": "2026-03-16T14:21:17Z",
+      "updated_at": "2026-04-21T18:33:38Z",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33558"
+    },
+    "related_issues": [
+      {
+        "number": 23462,
+        "title": "Make all estimators use `_validate_params`",
+        "state": "closed",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/23462"
+      },
+      {
+        "number": 1363,
+        "title": "Single sample test time performance",
+        "state": "closed",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/1363"
+      },
+      {
+        "number": 7574,
+        "title": "[Feature Request] Progress Bars",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/7574"
+      }
+    ],
+    "probable_code_areas": [],
+    "classification": "unknown",
+    "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [23462, 1363, 7574].",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #33558: Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: unknown"
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 879,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 941,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1100,
+        "error": ""
+      }
+    ],
+    "step_count": 4,
+    "tool_calls": 3,
+    "token_count": 0,
+    "started_at_unix": 1779050820.802272,
+    "stop_reason": null,
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": true,
+    "fatal_error": "",
+    "__interrupt__": [
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33558, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='89158f10c3b8642dd903ec4542099008')"
+    ]
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 4,
+    "tool_calls": 3,
+    "latency_seconds": 6.171,
+    "token_count": 0,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": null
+  }
+}

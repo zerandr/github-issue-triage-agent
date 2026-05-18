@@ -1,0 +1,179 @@
+{
+  "task_id": "t11",
+  "task": {
+    "task_id": "t11",
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33858,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33858,
+    "issue_snapshot": {
+      "number": 33858,
+      "title": "⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Apr 27, 2026) ⚠️",
+      "body": "**CI failed on [Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204](https://github.com/scikit-learn/scikit-learn/actions/runs/24975561959/job/73126799595)** (Apr 27, 2026)\nUnable to find junit file. Please see link for details.",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "Bug"
+        }
+      ],
+      "created_at": "2026-04-27T03:48:06Z",
+      "updated_at": "2026-04-27T16:43:05Z",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33858"
+    },
+    "related_issues": [
+      {
+        "number": 33402,
+        "title": "⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Feb 25, 2026) ⚠️",
+        "state": "closed",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33402"
+      },
+      {
+        "number": 33365,
+        "title": "⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Feb 23, 2026) ⚠️",
+        "state": "closed",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33365"
+      },
+      {
+        "number": 33887,
+        "title": "BUG: HTML representation fails with nested meta-estimator",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33887"
+      }
+    ],
+    "probable_code_areas": [
+      "tests/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue title and body indicate a failure in unit tests for a specific CI environment, which aligns with a bug classification.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show recurring failures in the same CI environment. The latest state should be validated by maintainer.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #33858: ⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Apr 27, 2026) ⚠️"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['tests/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 8 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 873,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 894,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 991,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 815,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 15177,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 102,
+    "started_at_unix": 1779050394.276118,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 22.882,
+    "token_count": 102,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

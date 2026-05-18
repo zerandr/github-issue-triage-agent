@@ -1,0 +1,181 @@
+{
+  "task_id": "t15",
+  "task": {
+    "task_id": "t15",
+    "repo": "numpy/numpy",
+    "issue_number": 31398,
+    "task_type": "ambiguous_escalate",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 31398,
+    "issue_snapshot": {
+      "number": 31398,
+      "title": "ENH: Add randomized tie-breaking feature to `numpy.argmax` and `numpy.argmin` functions",
+      "body": "### Proposed new feature or change:\n\nI would like a randomized tie-breaking feature in the `numpy.argmax` and `numpy.argmin` functions for when the user wants random tie-breaking instead of the default smallest index tie-breaking. This is how I would like to use it:\n\n``` python3\ngames_won = numpy.array([1, 3, 5, 4, 5])\nlucky_winner = numpy.argmax(games_won, random_tie_break=True)\n# lucky_winner is equally likely to be 2 or 4.\n```\nThis requires a new parameter: `random_tie_break` (boolean) where `False` (default) triggers the current behavior: ties are broken by returning the smallest index of the candidates. `True` triggers randomized tie breaking.\n\nAlternatively, the new parameter could be called `tie_break` (string) which could take one of two values: 'smallex_idx' or 'rand'.\n\nI would be happy to implement this and send a pull request if the NumPy development team approves of this idea!",
+      "state": "open",
+      "labels": [
+        {
+          "name": "01 - Enhancement"
+        }
+      ],
+      "created_at": "2026-05-07T19:02:09Z",
+      "updated_at": "2026-05-10T17:57:38Z",
+      "html_url": "https://github.com/numpy/numpy/issues/31398"
+    },
+    "related_issues": [
+      {
+        "number": 7265,
+        "title": "Enhancement: groupby function",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/7265"
+      },
+      {
+        "number": 1812,
+        "title": "np.hist: needs to be enabled for masked arrays (Trac #1214)",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/1812"
+      },
+      {
+        "number": 30777,
+        "title": "ENH: add out parameter to numpy.fromfile for memory-stable I/O",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/30777"
+      }
+    ],
+    "probable_code_areas": [
+      "numpy/core/fromnumeric.py"
+    ],
+    "classification": "feature request",
+    "justification": "The proposed feature involves adding a new parameter to existing functions (`numpy.argmax` and `numpy.argmin`) for randomized tie-breaking. This aligns with the 'Enhancement' label and the title of the issue.",
+    "open_questions": [
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue is open, labeled as 'Enhancement', and proposes adding functionality to existing functions. Related issues are also enhancements but in different areas.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #31398: ENH: Add randomized tie-breaking feature to `numpy.argmax` and `numpy.argmin` functions"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: feature request"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 9 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 829,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 801,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 922,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1005,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 19047,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 142,
+    "started_at_unix": 1779050512.521966,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 26.728,
+    "token_count": 142,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

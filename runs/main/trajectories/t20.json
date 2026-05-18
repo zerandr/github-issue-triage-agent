@@ -1,0 +1,186 @@
+{
+  "task_id": "t20",
+  "task": {
+    "task_id": "t20",
+    "repo": "numpy/numpy",
+    "issue_number": 31233,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 31233,
+    "issue_snapshot": {
+      "number": 31233,
+      "title": "TYP: np.lib.stride_tricks.sliding_window_view parameter axis typing is inconsistent with documentation and implementation.",
+      "body": "### Describe the issue:\n\nIn the stub file `numpy/lib/_stride_tricks_impl.pyi`, the definition of `sliding_window_view` states that the `axis` parameter is an optional `SupportsIndex` (so a single axis).\nIn the documentation, and in the implementation, it accepts a `numpy._typing._ShapeLike`.\n\nType stubs:\nhttps://github.com/numpy/numpy/blob/bf18717b688fa71203ae73646d877d9fac5ff50a/numpy/lib/_stride_tricks_impl.pyi#L39-L56\n\nDocumentation:\nhttps://github.com/numpy/numpy/blob/bf18717b688fa71203ae73646d877d9fac5ff50a/numpy/lib/_stride_tricks_impl.py#L191-L214\n\nImplementation:\nhttps://github.com/numpy/numpy/blob/bf18717b688fa71203ae73646d877d9fac5ff50a/numpy/lib/_stride_tricks_impl.py#L419-L431\n\nReproducibility:\nI created a fresh environment:\n```console\nmkdir numpy_typing\ncd numpy_typing\nuv init\nuv add numpy\nuv add mypy\n```\n\nNote: I'm very willing to send a PR to fix this but since it´d be my first contribution to numpy, I wouldn't mind being a bit guided on the process.\n\n### Reproduce the code example:\n\n```python\nimport numpy as np\n\nx = np.zeros((10, 20, 20))\nwindow_shape = (5,5)\naxis = (1,2)\nnp.lib.stride_tricks.sliding_window_view(x=x, window_shape=window_shape, axis=axis)\n```\n\n### Error message:\n\n```shell\nmain.py:6: error: No overload variant of \"sliding_window_view\" matches argument types \"ndarray[tuple[int,\n int, int], dtype[float64]]\", \"tuple[int, int]\", \"tuple[int, int]\"  [call-overload]\nmain.py:6: note: Possible overload variants:\nmain.py:6: note:     def [_ScalarT: generic[Any]] sliding_window_view(x: _SupportsArray[dtype[_ScalarT]] \n| _NestedSequence[_SupportsArray[dtype[_ScalarT]]], window_shape: int | Iterable[int], axis: SupportsInde\nx | None = ..., *, subok: bool = ..., writeable: bool = ...) -> ndarray[tuple[Any, ...], dtype[_ScalarT]]\nmain.py:6: note:     def sliding_window_view(x: Buffer | _SupportsArray[dtype[Any]] | _NestedSequence[_Su\npportsArray[dtype[Any]]] | complex | bytes | str | _NestedSequence[complex | bytes | str], window_shape: \nint | Iterable[int], axis: SupportsIndex | None = ..., *, subok: bool = ..., writeable: bool = ...) -> nd\narray[tuple[Any, ...], dtype[Any]]\nFound 1 error in 1 file (checked 1 source file)\n```\n\n### Python and NumPy Versions:\n\nNumpy version: 2.4.4\nPython version: 3.14.3 (main, Feb 13 2026, 15:31:44) [GCC 15.2.1 20260209]\n\n### Type-checker version and settings:\n\nType checker used: mypy 1.20.1 (compiled: yes)\nMypy used with default configurarion on new installation.\n\n### Additional typing packages.\n\n_No response_",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "41 - Static typing"
+        }
+      ],
+      "created_at": "2026-04-13T12:20:43Z",
+      "updated_at": "2026-04-14T06:35:33Z",
+      "html_url": "https://github.com/numpy/numpy/issues/31233"
+    },
+    "related_issues": [
+      {
+        "number": 29442,
+        "title": "BUG: `linalg.inv` crashing on windows arm64",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/29442"
+      },
+      {
+        "number": 27870,
+        "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/27870"
+      },
+      {
+        "number": 28844,
+        "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/28844"
+      }
+    ],
+    "probable_code_areas": [
+      "numpy/lib/_stride_tricks_impl.py",
+      "numpy/lib/_stride_tricks_impl.pyi"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a discrepancy between the type stubs and the actual implementation of the `sliding_window_view` function in NumPy. This inconsistency can lead to errors during static type checking, which is a bug.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed but the discrepancy between the type stubs and implementation remains unaddressed. The reporter is willing to contribute a fix.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #31233: TYP: np.lib.stride_tricks.sliding_window_view parameter axis typing is inconsistent with documentation and implementatio"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*', 'docs/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 12 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 798,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 978,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1040,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 983,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 22482,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 135,
+    "started_at_unix": 1779050632.0398889,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 30.883,
+    "token_count": 135,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

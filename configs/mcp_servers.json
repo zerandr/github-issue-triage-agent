@@ -1,0 +1,37 @@
+{
+    "servers": {
+      "custom_github_triage": {
+        "description": "Custom MCP server for GitHub issue triage tools and local cache.",
+        "transport": "stdio",
+        "command": "python",
+        "args": ["-m", "src.mcp_custom.server"],
+        "env": {
+          "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+          "TRIAGE_CACHE_PATH": ".cache/triage_cache.sqlite"
+        },
+        "tools": [
+          "github_get_issue",
+          "github_get_issue_timeline",
+          "github_search_related_issues",
+          "triage_cache_get",
+          "triage_cache_put"
+        ]
+      },
+      "filesystem": {
+        "description": "Third-party filesystem MCP server used for reading evaluation files and writing trajectory/report artifacts.",
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "."
+        ],
+        "env": {},
+        "tools": [
+          "read_file",
+          "write_file",
+          "list_directory"
+        ]
+      }
+    }
+  }

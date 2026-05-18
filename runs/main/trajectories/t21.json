@@ -1,0 +1,180 @@
+{
+  "task_id": "t21",
+  "task": {
+    "task_id": "t21",
+    "repo": "jax-ml/jax",
+    "issue_number": 37391,
+    "task_type": "duplicates",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "jax-ml/jax",
+    "issue_number": 37391,
+    "issue_snapshot": {
+      "number": 37391,
+      "title": "`jax.config.update(\"jax_compiler_enable_remat_pass\", False)` does not respect existing XLA_FLAGS",
+      "body": "### Description\n\nI think this line is wrong\nhttps://github.com/jax-ml/jax/blob/691270466319767d4c31f8bc98d6a0038d14b88d/jax/_src/compiler.py#L231 it does not respect existing passes.\n\n\n```python\nimport os\nos.environ[\"XLA_FLAGS\"] = \"--xla_disable_hlo_passes=scalar-constant-sinker\"\n\nimport jax\nfrom jax._src import compiler\n\n# jax.config.update(\"jax_compiler_enable_remat_pass\", False)\n\nopts = compiler.get_compile_options(1, 1)\nbuild = opts.executable_build_options\ndbg = build.debug_options\n\nprint(dbg.xla_disable_hlo_passes) # should include scalar-constant-sinker\n```\n\n### System info (python version, jaxlib version, accelerator, etc.)\n\n```\njax 0.10.0\n```",
+      "state": "open",
+      "labels": [
+        {
+          "name": "bug"
+        }
+      ],
+      "created_at": "2026-05-05T16:40:12Z",
+      "updated_at": "2026-05-05T16:40:25Z",
+      "html_url": "https://github.com/jax-ml/jax/issues/37391"
+    },
+    "related_issues": [
+      {
+        "number": 34001,
+        "title": "[mosaic] broadcast bug",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/34001"
+      },
+      {
+        "number": 29924,
+        "title": "Foreign function interface (FFI) tutorial bugs",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/29924"
+      },
+      {
+        "number": 23052,
+        "title": "Scatter on Sharded Matrices has bugs",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/23052"
+      }
+    ],
+    "probable_code_areas": [
+      "_src/compiler.py"
+    ],
+    "classification": "bug",
+    "justification": "The user reports a potential issue with `jax.config.update` not respecting existing XLA_FLAGS, which is a clear indication of a bug.",
+    "open_questions": [
+      "Is the reproducer still valid on the latest main branch?",
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue is open and labeled as a bug. The user provided a reproducible example, but the current state requires validation by maintainer to ensure the reproducer remains valid.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #37391: `jax.config.update(\"jax_compiler_enable_remat_pass\", False)` does not respect existing XLA_FLAGS"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:bug"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 1 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 869,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 803,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 775,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 25665,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 154,
+    "started_at_unix": 1779050662.92714,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 31.797,
+    "token_count": 154,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

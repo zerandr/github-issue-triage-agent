@@ -1,0 +1,179 @@
+{
+  "task_id": "t14",
+  "task": {
+    "task_id": "t14",
+    "repo": "jax-ml/jax",
+    "issue_number": 37511,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "jax-ml/jax",
+    "issue_number": 37511,
+    "issue_snapshot": {
+      "number": 37511,
+      "title": "# [Perf] XLA fails to fuse segmented reductions in softmax (segment_max → exp → segment_sum), 8-19x slower than hand-fused Triton",
+      "body": "### Description\n\n### Problem\nJAX's segmented softmax (via `jax.ops.segment_max` + `jax.ops.segment_sum`) compiles to **3 separate GPU kernels** because XLA cannot fuse `stablehlo.scatter` operations with intervening elementwise ops. A hand-written Triton kernel achieves **8-19x speedup** by fusing everything into a single SRAM pass.\n\n### Benchmark (A100 / A10 / T4)\n| Segments | Length | JAX (ms) | PyTorch Geometric (ms) | Triton Fused (ms) | Triton vs JAX |\n|----------|--------|----------|------------------------|-------------------|---------------|\n| 10,000   | 64     | 0.288    | 0.488                  | 0.033             | **8.78x**     |\n| 10,000   | 128    | 0.431    | 0.629                  | 0.032             | **13.58x**    |\n| 10,000   | 256    | 0.869    | 0.478                  | 0.035             | **24.97x**    |\n| 50,000   | 128    | 1.455    | 0.880                  | 0.132             | **11.01x**    |\n\n### Root Cause (HLO Evidence)\nDumped HLO shows `stablehlo.scatter` creates hard fusion boundaries:\n\n```mlir\n// 1. segment_max → separate kernel + HBM write\n%2 = \"stablehlo.scatter\"(%0, %1, %arg0) <{...}> ({\n  ^bb0(%arg2: tensor<f32>, %arg3: tensor<f32>):\n    %23 = stablehlo.maximum %arg2, %arg3 : tensor<f32>\n    stablehlo.return %23 : tensor<f32>\n})\n\n// 2. exp → HBM read, compute, HBM write (NOT fused with step 1)\n%11 = stablehlo.exponential %10 : tensor<1280000xf32>\n\n// 3. segment_sum → separate kernel + HBM write (NOT fused with step 2)\n%14 = \"stablehlo.scatter\"(%12, %13, %11) <{...}> ({\n  ^bb0(%arg2: tensor<f32>, %arg3: tensor<f32>):\n    %23 = stablehlo.add %arg2, %arg3 : tensor<f32>\n    stablehlo.return %23 : tensor<f32>\n})\n\n// 4. divide → HBM read + compute (NOT fused)\n%22 = stablehlo.divide %11, %21 : tensor<1280000xf32>\n```\n\n### Reproduction\n```python\nimport jax\nimport jax.numpy as jnp\n\n@jax.jit(static_argnames=['num_segments'])\ndef jax_segmented_softmax(scores, segment_ids, num_segments):\n    max_val = jax.ops.segment_max(scores, segment_ids, num_segments=num_segments)\n    scores_shifted = scores - max_val[segment_ids]\n    exp_scores = jnp.exp(scores_shifted)\n    sum_exp = jax.ops.segment_sum(exp_scores, segment_ids, num_segments=num_segments)\n    return exp_scores / sum_exp[segment_ids]\n```\n\n### Environment\n- JAX: `jax[cuda12]` \n- GPU: A100 / A10G / T4\n- XLA: StableHLO via `lower().as_text()`\n\n### Questions / Proposal\n1. Is there ongoing work to enable **fusion across matching scatter indices** for reductions?\n2. Alternatively, could `segment_max` + `segment_sum` be lowered to a single fused op when indices match?\n\n### Proposed Solution / Request\nSegmented Softmax is a massive bottleneck for Graph Neural Networks (e.g., GATs). Since scatter fusion seems to be a known limitation in XLA, would the JAX team be open to a PR implementing a custom `jax.experimental.pallas` kernel for this?\n\nI have the SRAM-fused logic ready and verified in Triton, and I would love to port this to Pallas to bridge this massive performance gap natively within JAX.\n\n\n### System info (python version, jaxlib version, accelerator, etc.)\n\njax:    0.4.28\njaxlib: 0.4.28\npython: 3.12.3\nplatform: Linux-x86_64\nAccelerator: NVIDIA A100",
+      "state": "open",
+      "labels": [
+        {
+          "name": "bug"
+        }
+      ],
+      "created_at": "2026-05-08T16:54:33Z",
+      "updated_at": "2026-05-08T20:11:55Z",
+      "html_url": "https://github.com/jax-ml/jax/issues/37511"
+    },
+    "related_issues": [
+      {
+        "number": 34001,
+        "title": "[mosaic] broadcast bug",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/34001"
+      },
+      {
+        "number": 29924,
+        "title": "Foreign function interface (FFI) tutorial bugs",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/29924"
+      },
+      {
+        "number": 23052,
+        "title": "Scatter on Sharded Matrices has bugs",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/23052"
+      }
+    ],
+    "probable_code_areas": [
+      "jax.ops.segment_max",
+      "jax.ops.segment_sum"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a performance bottleneck in JAX's segmented softmax implementation due to XLA limitations, which affects the overall speed of operations. The title and body clearly indicate this is a problem with existing functionality.",
+    "open_questions": [
+      "Are there any ongoing efforts or plans to address this specific issue in JAX?"
+    ],
+    "decision_needed": "Assign an owner for the bug and set a concrete next milestone for review or implementation.",
+    "current_state_summary": "The issue is open with no assigned labels or milestones. The current state summary should be validated by maintainer input.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #37511: # [Perf] XLA fails to fuse segmented reductions in softmax (segment_max → exp → segment_sum), 8-19x slower than hand-fus"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:bug"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: feature request"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['unknown (insufficient evidence)']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 7 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 786,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1060,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 815,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 27762,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 152,
+    "started_at_unix": 1779050478.6926,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 33.82,
+    "token_count": 152,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

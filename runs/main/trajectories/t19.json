@@ -1,0 +1,189 @@
+{
+  "task_id": "t19",
+  "task": {
+    "task_id": "t19",
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65357,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65357,
+    "issue_snapshot": {
+      "number": 65357,
+      "title": "BUG: df.query() returning an empty dataframe on this condition - col1 in (col2, col3)",
+      "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n\n- [x] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n\n- [ ] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n\n### Reproducible Example\n\n```python\nimport pandas as pd\n\ndf = pd.DataFrame({'a': [1, 2, 3], 'b': [1, 4, 9], 'c': [1, 8, 27]})\n\n# Scenario 1\nprint(df.query('b <= a <= c'))\n# Returns the first row (Expected)\n\n# Scenario 2\nprint(df.query('b + 1 <= a <= c'))\n# Returns an empty dataframe (Expected)\n\n# Scenario 3\nprint(df.query('b in (a, c)'))\n# Returns an empty dataframe (Shouldn't this also return the first row)\n\ndf = pd.DataFrame({'a': ['a', 'a', 'b'], 'b': ['a', 'b', 'c'], 'c': ['b', 'b', 'c']})\n\n# Scenario 4\nprint(df.query('b in (a, c)'))\n# ArrowInvalid error\n```\n\n### Issue Description\n\nMy gripe is obviously with scenarios 3 and 4. I think the outcome should be consistent and independent of the datatypes of the columns. \n\n### Expected Behavior\n\nBoth the scenarios should either:\n- return a filtered dataframe by using a dynamic expression which evaluates column tokens on both the left and the right hand sides (the closest example would be scenarios 1 and 2, although they have 3 operands)\n- or throw the same error\n\n### Installed Versions\n\nCan't paste as I've tested the sample code in a different machine, but I've upgraded pandas to 3.0.2 before doing so.\n",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "Bug"
+        },
+        {
+          "name": "expressions"
+        }
+      ],
+      "created_at": "2026-04-24T08:53:11Z",
+      "updated_at": "2026-05-03T13:50:53Z",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65357"
+    },
+    "related_issues": [
+      {
+        "number": 17998,
+        "title": "Working with arrays inside cells - mean() works, median() crashes",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/17998"
+      },
+      {
+        "number": 38534,
+        "title": "BUG: Series mode crashes when there is more than one mode",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/38534"
+      },
+      {
+        "number": 2728,
+        "title": "DataFrame.copy(), at least, should be threadsafe",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/2728"
+      }
+    ],
+    "probable_code_areas": [
+      "pandas/core/frame.py",
+      "pandas/query_compiler/expressions.py"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed without resolution. The maintainer should validate the current state.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #65357: BUG: df.query() returning an empty dataframe on this condition - col1 in (col2, col3)"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pandas-dev/pandas:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['auth/*', 'docs/*', 'tests/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 6 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 788,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1002,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1125,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1018,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 17278,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 104,
+    "started_at_unix": 1779050605.776984,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 26.262,
+    "token_count": 104,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

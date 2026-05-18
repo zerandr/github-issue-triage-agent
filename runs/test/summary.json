@@ -1,0 +1,17 @@
+{
+  "n_tasks": 2,
+  "mean_score_3pt": 3.0,
+  "score_counts": {
+    "3": 2
+  },
+  "tool_selection_accuracy": 1.0,
+  "mean_steps": 7.0,
+  "mean_tool_calls": 6.0,
+  "mean_latency_seconds": 26.226,
+  "total_tokens": 238,
+  "total_ungrounded_claims": 0,
+  "total_hallucinated_tool_args": 0,
+  "stop_reasons": {
+    "completed": 2
+  }
+}

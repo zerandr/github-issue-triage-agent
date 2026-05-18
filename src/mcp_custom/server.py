@@ -1,22 +1,27 @@
-import os
 import json
-import time
-import httpx
+import os
 import sqlite3
-
+import time
 from typing import Any
+
+import httpx
 from fastmcp import FastMCP
 
 
 class Server:
-    CACHE_PATH = "data/cache/triage_cache.sqlite"
+    CACHE_PATH = os.getenv("TRIAGE_CACHE_PATH", "data/cache/triage_cache.sqlite")
     GITHUB_API = "https://api.github.com"
     RETRIABLE_HTTP = {408, 429, 500, 502, 503, 504}
 
     @staticmethod
     def db() -> sqlite3.Connection:
-        os.makedirs(os.path.dirname(Server.CACHE_PATH), exist_ok=True)
+        cache_dir = os.path.dirname(Server.CACHE_PATH)
+
+        if cache_dir:
+            os.makedirs(cache_dir, exist_ok=True)
+
         conn = sqlite3.connect(Server.CACHE_PATH)
+
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS kv_cache (
@@ -26,6 +31,7 @@ class Server:
             )
             """
         )
+
         return conn
 
     @staticmethod
@@ -35,14 +41,20 @@ class Server:
             "X-GitHub-Api-Version": "2022-11-28",
             "User-Agent": "github-issue-triage-agent",
         }
+
         token = os.getenv("GITHUB_TOKEN")
+
         if token:
             headers["Authorization"] = f"Bearer {token}"
+
         return headers
 
     @staticmethod
     def http_get(
-        url: str, *, params: dict[str, Any] | None = None, timeout_sec: int = 25
+        url: str,
+        *,
+        params: dict[str, Any] | None = None,
+        timeout_sec: int = 25,
     ) -> dict[str, Any]:
         try:
             response = httpx.get(
@@ -94,40 +106,79 @@ class Server:
             }
 
         conn = Server.db()
+
         conn.execute(
-            "INSERT INTO kv_cache(k, v, ts) VALUES(?, ?, ?) ON CONFLICT(k) DO UPDATE SET v=excluded.v, ts=excluded.ts",
+            """
+            INSERT INTO kv_cache(k, v, ts)
+            VALUES(?, ?, ?)
+            ON CONFLICT(k)
+            DO UPDATE SET v=excluded.v, ts=excluded.ts
+            """,
             (key, value_json, int(time.time())),
         )
+
         conn.commit()
         conn.close()
-        return {"ok": True, "key": key}
+
+        return {
+            "ok": True,
+            "key": key,
+        }
 
     @staticmethod
     def triage_cache_get(key: str, max_age_sec: int = 86400) -> dict[str, Any]:
         conn = Server.db()
-        row = conn.execute("SELECT v, ts FROM kv_cache WHERE k = ?", (key,)).fetchone()
+
+        row = conn.execute(
+            "SELECT v, ts FROM kv_cache WHERE k = ?",
+            (key,),
+        ).fetchone()
+
         conn.close()
+
         if not row:
-            return {"ok": True, "hit": False}
+            return {
+                "ok": True,
+                "hit": False,
+            }
 
         value_json, ts = row
         stale = int(time.time()) - int(ts) > max_age_sec
-        if stale:
-            return {"ok": True, "hit": False, "stale": True, "ts": ts}
 
-        return {"ok": True, "hit": True, "value_json": value_json, "ts": ts}
+        if stale:
+            return {
+                "ok": True,
+                "hit": False,
+                "stale": True,
+                "ts": ts,
+            }
+
+        return {
+            "ok": True,
+            "hit": True,
+            "value_json": value_json,
+            "ts": ts,
+        }
 
     @staticmethod
     def github_get_issue(repo: str, issue_number: int) -> dict[str, Any]:
         url = f"{Server.GITHUB_API}/repos/{repo}/issues/{issue_number}"
-        res = Server.http_get(url, timeout_sec=20)
-        if not res.get("ok"):
-            return res
-        return {"ok": True, "issue": res["data"]}
+
+        result = Server.http_get(url, timeout_sec=20)
+
+        if not result.get("ok"):
+            return result
+
+        return {
+            "ok": True,
+            "issue": result["data"],
+        }
 
     @staticmethod
     def github_search_related_issues(
-        repo: str, query: str, limit: int = 10
+        repo: str,
+        query: str,
+        limit: int = 10,
     ) -> dict[str, Any]:
         if limit < 1 or limit > 30:
             return {
@@ -139,11 +190,21 @@ class Server:
 
         q = f"repo:{repo} is:issue {query}"
         url = f"{Server.GITHUB_API}/search/issues"
-        res = Server.http_get(url, params={"q": q, "per_page": limit}, timeout_sec=25)
-        if not res.get("ok"):
-            return res
 
-        payload = res["data"]
+        result = Server.http_get(
+            url,
+            params={
+                "q": q,
+                "per_page": limit,
+            },
+            timeout_sec=25,
+        )
+
+        if not result.get("ok"):
+            return result
+
+        payload = result["data"]
+
         return {
             "ok": True,
             "total_count": payload.get("total_count", 0),
@@ -152,7 +213,9 @@ class Server:
 
     @staticmethod
     def github_get_issue_timeline(
-        repo: str, issue_number: int, per_page: int = 50
+        repo: str,
+        issue_number: int,
+        per_page: int = 50,
     ) -> dict[str, Any]:
         if per_page < 1 or per_page > 100:
             return {
@@ -163,11 +226,20 @@ class Server:
             }
 
         url = f"{Server.GITHUB_API}/repos/{repo}/issues/{issue_number}/timeline"
-        res = Server.http_get(url, params={"per_page": per_page}, timeout_sec=25)
-        if not res.get("ok"):
-            return res
 
-        return {"ok": True, "events": res["data"]}
+        result = Server.http_get(
+            url,
+            params={"per_page": per_page},
+            timeout_sec=25,
+        )
+
+        if not result.get("ok"):
+            return result
+
+        return {
+            "ok": True,
+            "events": result["data"],
+        }
 
 
 mcp = FastMCP("github-triage-mcp")
@@ -187,21 +259,25 @@ def triage_cache_get(key: str, max_age_sec: int = 86400) -> dict[str, Any]:
 
 @mcp.tool()
 def github_get_issue(repo: str, issue_number: int) -> dict[str, Any]:
-    """Get issue or PR-thread metadata by repo and issue number from GitHub REST API."""
+    """Get issue metadata by repo and issue number from GitHub REST API."""
     return Server.github_get_issue(repo, issue_number)
 
 
 @mcp.tool()
 def github_search_related_issues(
-    repo: str, query: str, limit: int = 10
+    repo: str,
+    query: str,
+    limit: int = 10,
 ) -> dict[str, Any]:
-    """Search issues in the same repo to find likely duplicates/related items."""
+    """Search issues in the same repo to find likely duplicates or related issues."""
     return Server.github_search_related_issues(repo, query, limit)
 
 
 @mcp.tool()
 def github_get_issue_timeline(
-    repo: str, issue_number: int, per_page: int = 50
+    repo: str,
+    issue_number: int,
+    per_page: int = 50,
 ) -> dict[str, Any]:
     """Get timeline events for issue triage state summarization."""
     return Server.github_get_issue_timeline(repo, issue_number, per_page)

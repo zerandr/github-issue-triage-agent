@@ -1,0 +1,150 @@
+{
+  "task_id": "t17",
+  "task": {
+    "task_id": "t17",
+    "repo": "numpy/numpy",
+    "issue_number": 31340,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 31340,
+    "issue_snapshot": {
+      "number": 31340,
+      "title": "chebyshev derivative",
+      "body": "### Proposed new feature or change:\n\nSuggest to replace the interior loop in ``np.polynomial.chebder`` with the following code so that the double for loop which is slow in python is removed.\n\n```python\nimport jax.numpy as jnp # use numpy in numpy code obviously\n\ndef chebder(c, m=1, scl=1.0, axis=0, keepdims=False):\n    \"\"\"Same as chebder but fast enough to use in optimization loop.\"\"\"\n    assert m == 1\n    c = jnp.flip(c.swapaxes(axis, 0), 0)\n\n    N = c.shape[0]\n    n = jnp.arange(N - 1, -1, -1).reshape((N,) + (1,) * (c.ndim - 1))\n    w = (2 * scl) * n * c\n\n    dc = jnp.flip(\n        jnp.zeros(c.shape)\n        .at[1::2]\n        .set(jnp.cumsum(w[::2], 0)[: N // 2])\n        .at[2::2]\n        .set(jnp.cumsum(w[1::2], 0)[: (N - 1) // 2])\n        .at[-1]\n        .multiply(0.5),\n        0,\n    )\n    if not keepdims:\n        dc = dc[:-1]\n    dc = dc.swapaxes(axis, 0)\n    return dc\n```",
+      "state": "open",
+      "labels": [],
+      "created_at": "2026-04-27T00:26:47Z",
+      "updated_at": "2026-04-27T07:46:40Z",
+      "html_url": "https://github.com/numpy/numpy/issues/31340"
+    },
+    "related_issues": [],
+    "probable_code_areas": [
+      "numpy/polynomial/chebyshev.py"
+    ],
+    "classification": "feature request",
+    "justification": "The proposed change is to optimize an existing function in numpy, which aligns with feature enhancement.",
+    "open_questions": [
+      "Is the reproducer still valid on the latest main branch?",
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue proposes a code change to optimize `np.polynomial.chebder` using JAX. The current state summary suggests that the latest state should be validated by a maintainer.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #31340: chebyshev derivative"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "No strong related issue candidates found"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: feature request"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['unknown (insufficient evidence)']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 1 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1013,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1017,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 821,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 23350,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 158,
+    "started_at_unix": 1779050568.702751,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 30.707,
+    "token_count": 158,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "task_id": "t10",
+  "task": {
+    "task_id": "t10",
+    "repo": "jax-ml/jax",
+    "issue_number": 37410,
+    "task_type": "old_issue_summary",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_get_issue_timeline"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "jax-ml/jax",
+    "issue_number": 37410,
+    "issue_snapshot": {
+      "number": 37410,
+      "title": "jaxlib: malformed PyTreeDefProto can crash process in PyTreeDef.deserialize_using_proto",
+      "body": "### Description\n\n`jaxlib._jax.pytree.PyTreeDef.deserialize_using_proto(registry, bytes)` can crash the Python process with `SIGSEGV` when given a malformed `PyTreeDefProto`.\n\nThe issue is in `PyTreeDef::SetNumLeavesAndNumNodes`: if the first node has non-zero `arity`, the function can reach `starts.back()` while `starts` is still empty.\n\nA fix is already proposed here: https://github.com/jax-ml/jax/pull/37269\n\n### Minimal reproducer\n\n```python\nfrom jax._src.lib import _jax\n\nreg = _jax.pytree.default_registry()\n\n_jax.pytree.PyTreeDef.deserialize_using_proto(\n    reg,\n    bytes.fromhex(\"0a0408011002\"),\n)\n```\n\nObserved result:\n\n```console\n$ python3 poc.py ; echo $?\n139\n```\n\nThe 6-byte payload is:\n\n```text\n0a 04    field 1: PyTreeDefProto.nodes, length 4\n08 01     field 1: arity = 1\n10 02     field 2: type = PY_TREE_KIND_LIST\n```\n\n### Expected behavior\n\nMalformed serialized pytree data should raise a Python exception, for example `ValueError`, rather than terminating the process.\n\n### Actual behavior\n\nThe process crashes with `SIGSEGV`.\n\n### Root cause\n\n`PyTreeDef::DeserializeFrom` copies the proto-supplied `arity` into the node, then calls `SetNumLeavesAndNumNodes`.\n\nIn `SetNumLeavesAndNumNodes`, the only `starts.push_back(...)` site is skipped when `arity != 0`. For a first node with `arity == 1`, the resize is effectively a no-op, leaving `starts` empty. The following `starts.back()` is then undefined behavior and crashes.\n\n### Fix\n\nPR #37269 validates node arity against the current stack of partially completed subtrees before resizing.\n\nWith that change, malformed inputs raise an exception instead of crashing, while valid trees produced by JAX's own serialization round-trip continue to work.\n\n### System info (python version, jaxlib version, accelerator, etc.)\n\n\nVerified on:\n\n- `jaxlib==0.10.0` from PyPI\n- also present on `main` at `d7a042124`\n\nTested on Python 3.14 / macOS arm64.\n\n`jax.print_environment_info()` output from a fresh venv with `jax==0.10.0` and `jaxlib==0.10.0` installed from PyPI:\n\n```text\njax:    0.10.0\njaxlib: 0.10.0\nnumpy:  2.4.4\npython: 3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.4.4.1)]\ndevice info: cpu-1, 1 local devices\"\nprocess_count: 1\nplatform: uname_result(system='Darwin', node='xxx.local', release='25.5.0', version='Darwin Kernel Version 25.5.0: Fri Mar 20 18:54:27 PDT 2026; root:xnu-12377.120.72.0.4~13/RELEASE_ARM64_T6041', machine='arm64')\n```",
+      "state": "open",
+      "labels": [
+        {
+          "name": "bug"
+        }
+      ],
+      "created_at": "2026-05-06T06:43:21Z",
+      "updated_at": "2026-05-06T06:43:48Z",
+      "html_url": "https://github.com/jax-ml/jax/issues/37410"
+    },
+    "related_issues": [
+      {
+        "number": 37668,
+        "title": "jax crashes when a CUDA enabled version is installed, but CUDA_VISIBLE_DEVICES=''",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/37668"
+      },
+      {
+        "number": 23506,
+        "title": "[ROCM] x64 mode crashes with \"redzone_checker with block dimensions: 1024x1x1: hipError_t\"",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/23506"
+      },
+      {
+        "number": 32882,
+        "title": "JIT compilation fails with CUDA_ERROR_INVALID_VALUE",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/32882"
+      }
+    ],
+    "probable_code_areas": [
+      "jax/_src/lib/_jax.pytree"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a crash due to malformed input in `jaxlib._jax.pytree.PyTreeDef.deserialize_using_proto`, which is expected to raise an exception rather than terminating the process.",
+    "open_questions": [
+      "Is the reproducer still valid on the latest main branch?",
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue is open and labeled as a bug. A fix has been proposed in PR #37269, but the state needs validation by maintainer to ensure the reproducer still holds true.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #37410: jaxlib: malformed PyTreeDefProto can crash process in PyTreeDef.deserialize_using_proto"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['tests/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 2 timeline events"
+      },
+      {
+        "evidence_id": "E8",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7",
+      "E8"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 866,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 848,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 954,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 33492,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 174,
+    "started_at_unix": 1779050353.943936,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 40.33,
+    "token_count": 174,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "task_id": "t23",
+  "task": {
+    "task_id": "t23",
+    "repo": "pytorch/pytorch",
+    "issue_number": 182826,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pytorch/pytorch",
+    "issue_number": 182826,
+    "issue_snapshot": {
+      "number": 182826,
+      "title": "[Docathon] Document undocumented functions in `distributed.checkpoint.md` (7 functions)",
+      "body": "## Document functions in [`docs/source/distributed.checkpoint.md`](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md)\n\n**Difficulty:** 🟡 Medium\n**Functions to document:** 7\n**Doc file:** [`docs/source/distributed.checkpoint.md`](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md)\n**Config file:** [`docs/source/conf.py`](https://github.com/pytorch/pytorch/blob/main/docs/source/conf.py)\n\n### Background\n\nPyTorch's documentation coverage skip lists in [`docs/source/conf.py`](https://github.com/pytorch/pytorch/blob/main/docs/source/conf.py) contain public APIs that are not yet surfaced in the official docs. This issue tracks adding Sphinx autodoc directives for APIs in `docs/source/distributed.checkpoint.md` so they appear in the rendered documentation.\n\n### APIs to Document\n\n**`torch.distributed.checkpoint.state_dict_loader`:** `load_state_dict`\n\n**`torch.distributed.checkpoint.state_dict_saver`:** `save_state_dict`\n\n**`torch.distributed.checkpoint.optimizer`:** `load_sharded_optimizer_state_dict`\n\n**`torch.distributed.checkpoint.planner_helpers`:** `create_read_items_for_chunk_list`\n\n**`torch.distributed.checkpoint.default_planner`:** `create_default_global_load_plan`, `create_default_global_save_plan`, `create_default_local_save_plan`\n\n### Where to Make Changes\n\n#### 1. Remove entries from [`docs/source/conf.py`](https://github.com/pytorch/pytorch/blob/main/docs/source/conf.py)\n\n**`# torch.distributed.checkpoint.state_dict_loader`** section:\n\nFrom `coverage_ignore_functions`:\n```python\n    \"load_state_dict\",\n```\n\n**`# torch.distributed.checkpoint.state_dict_saver`** section:\n\nFrom `coverage_ignore_functions`:\n```python\n    \"save_state_dict\",\n```\n\n**`# torch.distributed.checkpoint.optimizer`** section:\n\nFrom `coverage_ignore_functions`:\n```python\n    \"load_sharded_optimizer_state_dict\",\n```\n\n**`# torch.distributed.checkpoint.planner_helpers`** section:\n\nFrom `coverage_ignore_functions`:\n```python\n    \"create_read_items_for_chunk_list\",\n```\n\n**`# torch.distributed.checkpoint.default_planner`** section:\n\nFrom `coverage_ignore_functions`:\n```python\n    \"create_default_global_load_plan\",\n    \"create_default_global_save_plan\",\n    \"create_default_local_save_plan\",\n```\n\n#### 2. Add Sphinx directives to [`docs/source/distributed.checkpoint.md`](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md)\n\n**Module `torch.distributed.checkpoint.state_dict_loader`:**\n\n**Placement:** Find `.. autofunction::  load_state_dict` ([line 64](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md#L64)) and add directives **immediately after** it.\n\n```\n```{eval-rst}\n.. autofunction:: load_state_dict\n```\n```\n\n**Module `torch.distributed.checkpoint.state_dict_saver`:**\n\n**Placement:** Find `.. autofunction::  save_state_dict` ([line 52](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md#L52)) and add directives **immediately after** it.\n\n```\n```{eval-rst}\n.. autofunction:: save_state_dict\n```\n```\n\n**Module `torch.distributed.checkpoint.optimizer`:**\n\n**Placement:** Find `.. automodule:: torch.distributed.checkpoint` ([line 26](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md#L26)) and add directives **after** this section. Add a `currentmodule` directive for `torch.distributed.checkpoint.optimizer` first.\n\n```\n```{eval-rst}\n.. currentmodule:: torch.distributed.checkpoint.optimizer\n```\n\n```{eval-rst}\n.. autofunction:: load_sharded_optimizer_state_dict\n```\n```\n\n**Module `torch.distributed.checkpoint.planner_helpers`:**\n\n**Placement:** Find `.. automodule:: torch.distributed.checkpoint` ([line 26](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md#L26)) and add directives **after** this section. Add a `currentmodule` directive for `torch.distributed.checkpoint.planner_helpers` first.\n\n```\n```{eval-rst}\n.. currentmodule:: torch.distributed.checkpoint.planner_helpers\n```\n\n```{eval-rst}\n.. autofunction:: create_read_items_for_chunk_list\n```\n```\n\n**Module `torch.distributed.checkpoint.default_planner`:**\n\n**Placement:** Find `.. automodule:: torch.distributed.checkpoint` ([line 26](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md#L26)) and add directives **after** this section. Add a `currentmodule` directive for `torch.distributed.checkpoint.default_planner` first.\n\n```\n```{eval-rst}\n.. currentmodule:: torch.distributed.checkpoint.default_planner\n```\n\n```{eval-rst}\n.. autofunction:: create_default_global_load_plan\n```\n\n```{eval-rst}\n.. autofunction:: create_default_global_save_plan\n```\n\n```{eval-rst}\n.. autofunction:: create_default_local_save_plan\n```\n```\n\n### How to Verify\n\n```bash\ncd docs\npip install -r requirements.txt  # first time only\nmake coverage   # Confirm your APIs no longer show as undocumented\nmake html       # Build the docs and check rendering\n```\n\nOpen `docs/build/html/` in a browser and navigate to your newly documented APIs.\n\n### PR Requirements\n\n- [ ] Entries removed from skip list(s) in [`docs/source/conf.py`](https://github.com/pytorch/pytorch/blob/main/docs/source/conf.py)\n- [ ] Sphinx directives added to [`docs/source/distributed.checkpoint.md`](https://github.com/pytorch/pytorch/blob/main/docs/source/distributed.checkpoint.md)\n- [ ] `make coverage` passes with no new undocumented warnings for these APIs\n- [ ] **Screenshot(s) of the rendered documentation included in the PR description**\n\n### Tips & Pitfalls\n\n- **`.rst` vs `.md` files:** RST files use directives directly. Markdown (`.md`) files need each directive wrapped in a `` ```{eval-rst} `` fence.\n- **`currentmodule` scope:** Every `.. autofunction:: name` resolves against the most recent `.. currentmodule::` above it. Make sure your directive is under the correct one.\n- **PR preview:** After pushing, your docs render at `https://docs-preview.pytorch.org/pytorch/pytorch/<pr_number>/index.html`\n\n### 🤖 Optional: Claude Code Skill\n\nThis repo includes a Claude skill at `.claude/skills/document-public-apis/SKILL.md` that can assist with this workflow.\n\n### References\n\n- [Building Documentation](https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md#building-documentation)\n- [Tracking meta-issue](https://github.com/pytorch/pytorch/issues/64185)\n\n\ncc @svekars @AlannaBurke",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "module: docs"
+        },
+        {
+          "name": "triaged"
+        },
+        {
+          "name": "medium"
+        },
+        {
+          "name": "docathon-2026"
+        }
+      ],
+      "created_at": "2026-05-07T15:21:48Z",
+      "updated_at": "2026-05-12T20:57:21Z",
+      "html_url": "https://github.com/pytorch/pytorch/issues/182826"
+    },
+    "related_issues": [],
+    "probable_code_areas": [
+      "docs/*"
+    ],
+    "classification": "documentation",
+    "justification": "Issue title and body explicitly request documentation updates for specific functions.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed, indicating that the tasks have likely been completed. However, validation by a maintainer is recommended to ensure accuracy.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #182826: [Docathon] Document undocumented functions in `distributed.checkpoint.md` (7 functions)"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "No strong related issue candidates found"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['api/*', 'frontend/*', 'docs/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 30 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1156,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1061,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1085,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1202,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 31187,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 86,
+    "started_at_unix": 1779050729.255123,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 43.466,
+    "token_count": 86,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

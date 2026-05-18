@@ -1,0 +1,192 @@
+{
+  "task_id": "t24",
+  "task": {
+    "task_id": "t24",
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33470,
+    "task_type": "code_area",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "scikit-learn/scikit-learn",
+    "issue_number": 33470,
+    "issue_snapshot": {
+      "number": 33470,
+      "title": "⚠️ CI failed on Unit tests Linux x86-64 pylatest_free_threaded (last failure: May 17, 2026) ⚠️",
+      "body": "**CI is still failing on [Unit tests Linux x86-64 pylatest_free_threaded](https://github.com/scikit-learn/scikit-learn/actions/runs/25980586105/job/76368556817)** (May 17, 2026)\n- test_estimators[QuantileRegressor()-check_regressors_train]\n- test_estimators[QuantileRegressor()-check_regressors_train(readonly_memmap=True)]\n- test_estimators[QuantileRegressor()-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[RANSACRegressor(estimator=LinearRegression(),max_trials=10)-check_regressors_train]\n- test_estimators[RANSACRegressor(estimator=LinearRegression(),max_trials=10)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[RANSACRegressor(estimator=LinearRegression(),max_trials=10)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Ridge(),param_distributions={'alpha':[0.1,1.0]},random_state=0)-check_regressors_train]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Ridge(),param_distributions={'alpha':[0.1,1.0]},random_state=0)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Ridge(),param_distributions={'alpha':[0.1,1.0]},random_state=0)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Pipeline(steps=[('pca',PCA()),('ridge',Ridge())]),param_distributions={'ridge__alpha':[0.1,1.0]},random_state=0)-check_regressors_train]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Pipeline(steps=[('pca',PCA()),('ridge',Ridge())]),param_distributions={'ridge__alpha':[0.1,1.0]},random_state=0)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[RandomizedSearchCV(cv=2,error_score='raise',estimator=Pipeline(steps=[('pca',PCA()),('ridge',Ridge())]),param_distributions={'ridge__alpha':[0.1,1.0]},random_state=0)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[RegressorChain(cv=3,estimator=Ridge())-check_regressors_train]\n- test_estimators[RegressorChain(cv=3,estimator=Ridge())-check_regressors_train(readonly_memmap=True)]\n- test_estimators[RegressorChain(cv=3,estimator=Ridge())-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[Ridge()-check_regressors_train]\n- test_estimators[Ridge()-check_regressors_train(readonly_memmap=True)]\n- test_estimators[Ridge()-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[RidgeCV()-check_regressors_train]\n- test_estimators[RidgeCV()-check_regressors_train(readonly_memmap=True)]\n- test_estimators[RidgeCV()-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[SGDRegressor(max_iter=5)-check_regressors_train]\n- test_estimators[SGDRegressor(max_iter=5)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[SGDRegressor(max_iter=5)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[SVR()-check_regressors_train]\n- test_estimators[SVR()-check_regressors_train(readonly_memmap=True)]\n- test_estimators[SVR()-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[SVR(kernel='precomputed')-check_regressors_train]\n- test_estimators[SVR(kernel='precomputed')-check_regressors_train(readonly_memmap=True)]\n- test_estimators[SVR(kernel='precomputed')-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[StackingRegressor(cv=3,estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train]\n- test_estimators[StackingRegressor(cv=3,estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train(readonly_memmap=True)]\n- test_estimators[StackingRegressor(cv=3,estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[TheilSenRegressor(max_iter=5,max_subpopulation=100)-check_regressors_train]\n- test_estimators[TheilSenRegressor(max_iter=5,max_subpopulation=100)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[TheilSenRegressor(max_iter=5,max_subpopulation=100)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[TweedieRegressor(max_iter=5)-check_regressors_train]\n- test_estimators[TweedieRegressor(max_iter=5)-check_regressors_train(readonly_memmap=True)]\n- test_estimators[TweedieRegressor(max_iter=5)-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_estimators[VotingRegressor(estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train]\n- test_estimators[VotingRegressor(estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train(readonly_memmap=True)]\n- test_estimators[VotingRegressor(estimators=[('est1',DecisionTreeRegressor(max_depth=3,random_state=0)),('est2',DecisionTreeRegressor(max_depth=3,random_state=1))])-check_regressors_train(readonly_memmap=True,X_dtype=float32)]\n- test_check_estimator_pairwise",
+      "state": "open",
+      "labels": [
+        {
+          "name": "free-threading"
+        }
+      ],
+      "created_at": "2026-03-06T03:52:08Z",
+      "updated_at": "2026-05-17T04:17:04Z",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33470"
+    },
+    "related_issues": [
+      {
+        "number": 9698,
+        "title": "Use a safe and short repr in error messages and warning",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/9698"
+      },
+      {
+        "number": 33040,
+        "title": "confusion_matrix crashes when sample_weight is an empty array",
+        "state": "closed",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33040"
+      },
+      {
+        "number": 32393,
+        "title": "⚠️ CI failed on Wheel builder (last failure: May 11, 2026) ⚠️",
+        "state": "open",
+        "html_url": "https://github.com/scikit-learn/scikit-learn/issues/32393"
+      }
+    ],
+    "probable_code_areas": [
+      "tests/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue title and body indicate that unit tests are failing on a specific CI environment (Linux x86-64 pylatest_free_threaded). The related issues suggest ongoing CI failures, which align with this classification.",
+    "open_questions": [
+      "Is the reproducer still valid on the latest main branch?",
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
+    "current_state_summary": "Timeline events reviewed: 27. Latest state should be validated by maintainer.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #33470: ⚠️ CI failed on Unit tests Linux x86-64 pylatest_free_threaded (last failure: May 17, 2026) ⚠️"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['tests/*']"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 27 timeline events"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 974,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 800,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1296,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1065,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 994,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 37878,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 6,
+    "token_count": 150,
+    "started_at_unix": 1779050772.4904819,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 6,
+    "latency_seconds": 48.309,
+    "token_count": 150,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

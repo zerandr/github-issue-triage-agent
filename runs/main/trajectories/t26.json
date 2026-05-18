@@ -1,0 +1,192 @@
+{
+  "task_id": "t26",
+  "task": {
+    "task_id": "t26",
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65333,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "pandas-dev/pandas",
+    "issue_number": 65333,
+    "issue_snapshot": {
+      "number": 65333,
+      "title": "BUG: Series.combine_first fails when names are of type Timestamp",
+      "body": "### Pandas version checks\n\n- [x] I have checked that this issue has not already been reported.\n\n- [x] I have confirmed this bug exists on the [latest version](https://pandas.pydata.org/docs/whatsnew/index.html) of pandas.\n\n- [x] I have confirmed this bug exists on the [main branch](https://pandas.pydata.org/docs/dev/getting_started/install.html#installing-the-development-version-of-pandas) of pandas.\n\n\n### Reproducible Example\n\n```python\nimport pandas as pd\n\ns1 = pd.Series([0], name=pd.to_datetime('2026'))\ns2 = pd.Series([1,2], name=pd.to_datetime('2027'))\ns3 = pd.Series([1,3], name=pd.to_datetime('2025'))\n\nprint(s1.combine_first(s2))\nprint(s1.combine_first(s3))\n```\n\n### Issue Description\n\n`s1.combine_first(s3)` fails because `s3.name` is a datetime anterior to `s1.name`.\n\nERROR :\n\n> Traceback (most recent call last):\n>     print(s1.combine_first(s3))\n>           ~~~~~~~~~~~~~~~~^^^^\n>   File \".venv\\Lib\\site-packages\\pandas\\core\\series.py\", line 3441, in combine_first\n>     combined = concat([this, other])\n>   File \".venv\\Lib\\site-packages\\pandas\\core\\reshape\\concat.py\", line 489, in concat\n>     orig = result.index if orig_axis == 1 else result.columns\n>                                                ^^^^^^^^^^^^^^\n>   File \".venv\\Lib\\site-packages\\pandas\\core\\generic.py\", line 6206, in __getattr__\n>     return object.__getattribute__(self, name)\n>            ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n> AttributeError: 'Series' object has no attribute 'columns'\n\n\nIt may come from this behavior in `pd.concat`, line 420:\n\n> if (\n>             intersect\n>             or any(not isinstance(index, DatetimeIndex) for index in non_concat_axis)\n>             or all(prev is curr for prev, curr in pairwise(non_concat_axis))\n>             or (\n>                 all(\n>                     prev[-1] <= curr[0] and prev.is_monotonic_increasing\n>                     for prev, curr in pairwise(non_concat_axis)\n>                     if not prev.empty and not curr.empty\n>                 )\n>                 and non_concat_axis[-1].is_monotonic_increasing\n>             )\n>         ):\n>             # Sorting or not will not impact the result.\n>             sort = False\n\n\n\nAnd also line 492\n> \"Sorting by default when concatenating all DatetimeIndex is \"\n>                 \"deprecated.  In the future, pandas will respect the default \"\n>                 \"of `sort=False`. Specify `sort=True` or `sort=False` to \"\n>                 \"silence this message. If you see this warnings when not \"\n>                 \"directly calling concat, report a bug to pandas.\"\n\nIt does not throw any error in pandas version < 3.\n\n### Expected Behavior\n\nWhen concatenating 2 Series, pd.concat should not try to sort the names if they are pd.Timestamp, but choose the name of s1\n\nEXPECTED OUTPUT :\n\n0    0\n1    2\nName: 2026-01-01 00:00:00, dtype: int64\n\n0    0\n1    3\nName: 2026-01-01 00:00:00, dtype: int64\n\n### Installed Versions\n\nINSTALLED VERSIONS\n------------------\ncommit                : ab90747e3dae0e69b1bdbf083820b8075689b34b\npython                : 3.14.3\npython-bits           : 64\nOS                    : Windows\nOS-release            : 11\nVersion               : 10.0.26200\nmachine               : AMD64\nprocessor             : AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD\nbyteorder             : little\nLC_ALL                : None\nLANG                  : en_US.UTF-8\nLOCALE                : fr_FR.cp1252\n\npandas                : 3.0.2\nnumpy                 : 2.4.4\ndateutil              : 2.9.0.post0\npip                   : None\nCython                : None\nsphinx                : None\nIPython               : 9.12.0\nadbc-driver-postgresql: None\nadbc-driver-sqlite    : None\nbs4                   : 4.14.3\nbottleneck            : None\nfastparquet           : None\nfsspec                : None\nhtml5lib              : None\nhypothesis            : None\ngcsfs                 : None\njinja2                : 3.1.6\nlxml.etree            : None\nmatplotlib            : 3.10.8\nnumba                 : None\nnumexpr               : None\nodfpy                 : None\nopenpyxl              : 3.1.5\npsycopg2              : None\npymysql               : None\npyarrow               : 23.0.1\npyiceberg             : None\npyreadstat            : None\npytest                : None\npython-calamine       : None\npytz                  : None\npyxlsb                : None\ns3fs                  : None\nscipy                 : None\nsqlalchemy            : None\ntables                : None\ntabulate              : None\nxarray                : None\nxlrd                  : 2.0.2\nxlsxwriter            : None\nzstandard             : None\nqtpy                  : None\npyqt5                 : None\n",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "Bug"
+        },
+        {
+          "name": "Timestamp"
+        },
+        {
+          "name": "combine/combine_first/update"
+        }
+      ],
+      "created_at": "2026-04-22T14:13:57Z",
+      "updated_at": "2026-05-03T13:22:26Z",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65333"
+    },
+    "related_issues": [
+      {
+        "number": 17998,
+        "title": "Working with arrays inside cells - mean() works, median() crashes",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/17998"
+      },
+      {
+        "number": 38534,
+        "title": "BUG: Series mode crashes when there is more than one mode",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/38534"
+      },
+      {
+        "number": 2728,
+        "title": "DataFrame.copy(), at least, should be threadsafe",
+        "state": "open",
+        "html_url": "https://github.com/pandas-dev/pandas/issues/2728"
+      }
+    ],
+    "probable_code_areas": [
+      "pandas/core/series.py",
+      "pandas/core/reshape/concat.py"
+    ],
+    "classification": "bug",
+    "justification": "The issue title and body clearly indicate a failure in `Series.combine_first` functionality when dealing with `Timestamp` names. The error traceback points to issues within `pd.concat`, suggesting a bug.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed, but the problem described is still present. The classification as 'bug' is based on the evidence provided.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #65333: BUG: Series.combine_first fails when names are of type Timestamp"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pandas-dev/pandas:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: documentation"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['auth/*', 'docs/*', 'tests/*', 'db/*', 'installation/setup']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 8 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 821,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 892,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 829,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1005,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 27979,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 126,
+    "started_at_unix": 1779050826.970865,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 35.922,
+    "token_count": 126,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

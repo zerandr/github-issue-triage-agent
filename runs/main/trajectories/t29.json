@@ -1,0 +1,173 @@
+{
+  "task_id": "t29",
+  "task": {
+    "task_id": "t29",
+    "repo": "jax-ml/jax",
+    "issue_number": 37251,
+    "task_type": "classify",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "jax-ml/jax",
+    "issue_number": 37251,
+    "issue_snapshot": {
+      "number": 37251,
+      "title": "pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad",
+      "body": "# `pl.kernel` body returns a mutable Ref out of JIT when traced under `jax.lax.scan` + `jax.grad`\n\n## Summary\n\nA `pl.kernel`-decorated identity Pallas kernel — and its (also identity) backward kernel — both work correctly when invoked through `jax.custom_vjp` outside any loop. As soon as the same `custom_vjp` is placed inside a `jax.lax.scan` body and the surrounding function is differentiated with `jax.grad`, JIT rejects the wrapper trace:\n\n```\nValueError: function wrapper at jax/_src/pallas/helpers.py:193 traced for jit\nreturned a mutable array reference of type Ref{bfloat16[M,N]}, but mutable\narray references cannot be returned.\n```\n\nThe leaked Ref's shape matches the kernel's input/output array shape, so the wrapper appears to be returning one of the `arg_refs` allocated inside `_make_kernel`.\n\n`jax.lax.scan(..., unroll=len(xs))` is **not** a workaround — the leak still triggers (full unroll still emits `scan_p`). Replacing `lax.scan` with a Python `for` loop produces a clean trace and a numerically correct gradient.\n\n## Versions\n- `jax==0.10.1.dev20260417` (also reproduced on `dev20260421` and `dev20260424`; the `_make_kernel` line moves from 193 → 201 due to a wrapper refactor, mechanism identical)\n- `jaxlib==0.10.1.dev20260417`\n- `libtpu==0.0.41.dev20260417`\n- TPU v7x SparseCore (single 4×4×4 slice — 16 chips, 8 cores/chip, 128 devices, 16 hosts)\n\n## Self-contained repro\n\n```python\n\"\"\"Identity Pallas kernel + identity backward kernel via jax.custom_vjp.\nDemonstrates a JIT trace failure that only appears under lax.scan + grad.\"\"\"\nimport sys\nimport numpy as np\nimport jax, jax.numpy as jnp\nfrom jax import lax\nfrom jax.experimental import pallas as pl\nfrom jax.experimental.pallas import tpu as pltpu\nfrom jax.experimental.pallas import tpu_sc as plsc\n\n# (single-host check, no-op on solo runs)\ntry: jax.distributed.initialize()\nexcept Exception: pass\nif jax.process_index() != 0: sys.exit(0)\n\nassert pltpu.get_tpu_info().sparse_core is not None, \"needs SparseCore TPU\"\n\nSC_MESH = plsc.VectorSubcoreMesh(\n    core_axis_name=\"core\", subcore_axis_name=\"subcore\", num_cores=1)\nM, N, DT = 2, 16, jnp.bfloat16   # SC `Get` only supports (32,) and (2,16) bf16\n\ndef _copy_block(in_blk, out_blk):\n    out_blk[...] = in_blk[...]\n\ndef _identity_body(in_ref, out_ref):\n    pltpu.emit_pipeline(\n        _copy_block, grid=(1,),\n        in_specs =pl.BlockSpec((M, N), lambda i: (0, 0)),\n        out_specs=pl.BlockSpec((M, N), lambda i: (0, 0)),\n    )(in_ref, out_ref)\n\n# Forward and backward kernels are both identity — d/dx of x is the cotangent\nidentity_fwd = pl.kernel(_identity_body,\n                         out_shape=jax.ShapeDtypeStruct((M, N), DT), mesh=SC_MESH)\nidentity_bwd = pl.kernel(_identity_body,\n                         out_shape=jax.ShapeDtypeStruct((M, N), DT), mesh=SC_MESH)\n\n@jax.custom_vjp\ndef cvjp_identity(x):\n    return cvjp_identity_fwd(x)[0]\ndef cvjp_identity_fwd(x):\n    return identity_fwd(x), None\ndef cvjp_identity_bwd(_, g):\n    return (identity_bwd(g),)\ncvjp_identity.defvjp(cvjp_identity_fwd, cvjp_identity_bwd)\n\n\n# --- Step 1: confirm the kernel pair is correct outside any loop ---\nx = jax.random.normal(jax.random.key(0), (M, N), dtype=DT)\nnp.testing.assert_array_equal(np.asarray(jax.jit(cvjp_identity)(x)), np.asarray(x))\ng = jax.jit(jax.grad(lambda x: jnp.sum(cvjp_identity(x).astype(jnp.float32))))(x)\nnp.testing.assert_array_equal(np.asarray(g),\n                              np.ones_like(np.asarray(x), dtype=np.float32))\nprint(\"[PASS] forward + backward kernels match the reference identity\")\n\n\n# --- Step 2: drop the kernel into a layered loop, take grad ---\nN_LAYERS = 4\ndef layer(carry, _):\n    out = cvjp_identity(carry)\n    return out, out\n\n@jax.jit\ndef loss_scan(x):\n    _, ys = jax.lax.scan(layer, x, jnp.arange(N_LAYERS))\n    return jnp.sum(ys.astype(jnp.float32))\n@jax.jit\ndef loss_scan_unroll(x):\n    _, ys = jax.lax.scan(layer, x, jnp.arange(N_LAYERS), unroll=N_LAYERS)\n    return jnp.sum(ys.astype(jnp.float32))\n@jax.jit\ndef loss_pyloop(x):\n    h, outs = x, []\n    for i in range(N_LAYERS):\n        h, out = layer(h, i)\n        outs.append(out)\n    return jnp.sum(jnp.stack(outs).astype(jnp.float32))\n\n# (a) jax.lax.scan + jax.grad        → fails\njax.make_jaxpr(jax.jit(jax.grad(loss_scan)))(x)\n# (b) jax.lax.scan(unroll=N) + grad  → also fails (scan_p still emitted)\njax.make_jaxpr(jax.jit(jax.grad(loss_scan_unroll)))(x)\n# (c) Python for loop + grad         → succeeds; gradient is correct\ng_pyloop = jax.jit(jax.grad(loss_pyloop))(x)\nnp.testing.assert_array_equal(np.asarray(g_pyloop),\n                              N_LAYERS * np.ones_like(np.asarray(x), dtype=np.float32))\nprint(\"[PASS] Python-for workaround produces correct gradient\")\n```\n\n## Observed output on v7x SparseCore\n\n```\n[PASS] forward + backward kernels match the reference identity\n\n(a) jax.jit(grad(jax.lax.scan(cvjp_identity)))\nValueError: function wrapper at jax/_src/pallas/helpers.py:193 traced for jit\nreturned a mutable array reference of type Ref{bfloat16[2,16]}, but mutable\narray references cannot be returned.\n\n(b) jax.jit(grad(jax.lax.scan(unroll=N)(cvjp_identity)))\nValueError: function wrapper at jax/_src/pallas/helpers.py:193 traced for jit\nreturned a mutable array reference of type Ref{bfloat16[2,16]}, ...\n\n(c) jax.jit(grad(python_for_loop(cvjp_identity)))\n[ShapedArray(bfloat16[2,16])]\n[PASS] Python-for workaround produces correct gradient\n```\n\n## What we ruled out\n\nThe repro above is a clean isolation. Each of the following passes (all under JIT, with the same `cvjp_identity`):\n\n| Pattern | Result |\n|---|---|\n| `cvjp_identity(x)` directly | ✓ value-correct |\n| `jax.grad(sum(cvjp_identity(x)))` | ✓ value-correct |\n| `jax.checkpoint(...)` + `jax.grad` over the cvjp | ✓ |\n| `jax.lax.scan(layer, ...)` *forward only* (no `grad`) | ✓ |\n| `jax.lax.scan(layer, ...)` + `jax.grad` | ✗ ref leak |\n| `jax.lax.scan(layer, ..., unroll=N)` + `jax.grad` | ✗ ref leak |\n| Python `for` over `layer` + `jax.grad` | ✓ value-correct |\n\nThe only bit that flips a passing trace into a failing one is replacing the Python `for` with `lax.scan` while keeping `jax.grad` on the outside.\n\n## Workaround\nReplace `jax.lax.scan(body, init, xs)` with a Python `for` loop. **`lax.scan(..., unroll=len(xs))` does not work** — `scan_p` is still emitted (with an inlined body), and its reverse-mode transpose still leaks the input ref. The Python-`for` workaround costs the usual things you give up by not using `scan`: larger jaxpr, longer compile, no scan-of-scan optimizations.\n\n## Hypothesis (for triage)\n\nIn `jax/_src/pallas/helpers.py`, `_make_kernel.wrapper`:\n\n```python\n@api.jit\ndef wrapper(*operands):\n    arg_refs = tree_util.tree_map(jax_core.new_ref, operands)   # inputs become Refs\n    out_refs = tree_util.tree_map(_get_empty_ref, out_shape)\n    @pl_core.core_map(mesh, ...)\n    def _():\n        return body(*arg_refs, *out_refs, ...)\n    outs = tree_util.tree_map(lambda ref: ref[...], out_refs)\n    return outs[0] if unwrap_out else outs\n```\n\nWhen `wrapper` is the body of a `lax.scan` and we apply `jax.grad`, `scan_p`'s reverse-mode transpose re-emits the wrapper jaxpr in transposed form. We hypothesize the transpose treats `new_ref(input_arg)` as residual-producing rather than as a scoped intermediate, surfacing a `Ref{input_arg_aval}` at the wrapper's JIT boundary. The leaked Ref's shape always matches an *input* aval — never the `out_ref` aval — which is consistent with `arg_refs[i]` being the leaked value.\n\n---\n\n*Happy to share a TPU run-log or a fuller bisection script (≈10 cases that walk a `cvjp` + a real production kernel through the same scenarios) on request.*\n",
+      "state": "closed",
+      "labels": [],
+      "created_at": "2026-04-28T19:07:42Z",
+      "updated_at": "2026-05-02T02:05:41Z",
+      "html_url": "https://github.com/jax-ml/jax/issues/37251"
+    },
+    "related_issues": [
+      {
+        "number": 37668,
+        "title": "jax crashes when a CUDA enabled version is installed, but CUDA_VISIBLE_DEVICES=''",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/37668"
+      },
+      {
+        "number": 23506,
+        "title": "[ROCM] x64 mode crashes with \"redzone_checker with block dimensions: 1024x1x1: hipError_t\"",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/23506"
+      },
+      {
+        "number": 32882,
+        "title": "JIT compilation fails with CUDA_ERROR_INVALID_VALUE",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/32882"
+      }
+    ],
+    "probable_code_areas": [
+      "api/*",
+      "tests/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a specific scenario where using `jax.lax.scan` with a Pallas kernel and then applying `jax.grad` results in a mutable array reference leak. This is inconsistent behavior that should be addressed.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed without resolution, and the classification was inferred based on the provided evidence.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #37251: pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: feature request"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['api/*', 'tests/*']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 5 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1091,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1038,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 803,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 35888,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 112,
+    "started_at_unix": 1779050923.2200289,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 42.444,
+    "token_count": 112,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

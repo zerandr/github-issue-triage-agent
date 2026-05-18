@@ -1,0 +1,184 @@
+{
+  "task_id": "t28",
+  "task": {
+    "task_id": "t28",
+    "repo": "numpy/numpy",
+    "issue_number": 31284,
+    "task_type": "code_area",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 31284,
+    "issue_snapshot": {
+      "number": 31284,
+      "title": "BUG: blas_fpe_check() deadlocks on glibc < 2.34 when numpy is imported from within dlopen (MKL + OpenMP)",
+      "body": "### Describe the issue:\n\n`blas_fpe_check()` in `numpy/__init__.py` (added in #30102, backported to 2.3.5) executes `ones((20,20)) @ ones((20,20))` at import time. When numpy is imported from within a `dlopen()` context — e.g. a C extension's static constructor calling `PyImport_ImportModule(\"numpy\")` — this causes a deadlock on glibc < 2.34 with MKL BLAS.\n\n**Mechanism:**\n\n1. Python loads a C extension via `dlopen()` — glibc acquires `dl_load_lock`\n2. The extension's static constructor calls `PyImport_ImportModule(\"numpy\")`\n3. numpy's `__init__.py` runs `blas_fpe_check()` → `x @ x` → `cblas_dgemm`\n4. MKL dispatches `dgemm` via OpenMP, spawning worker threads\n5. Worker threads call `mkl_serv_load_fun()` → `dlsym()` → tries to acquire `dl_load_lock`\n6. **Deadlock**: main thread holds `dl_load_lock` and waits at `__kmp_join_barrier` for workers; workers block on `dl_load_lock` held by main thread\n\nOn glibc ≥ 2.34, `dlopen`/`dlsym` use a recursive lock (`dl_load_lock2`) so this doesn't deadlock. On glibc < 2.34 (RHEL 8, CentOS 8, Amazon Linux 2, etc.), the lock is non-reentrant.\n\nPrior to #30102, no BLAS computation happened at import time, so this was not an issue.\n\n### Reproduce the code example:\n\n```python\n# Create environment with MKL-backed numpy and any C extension that\n# imports numpy from a static constructor (csp does this):\nconda create -n test python=3.11 csp \"blas=*=mkl\" \"numpy=2.3.5\"\n\n\n\n# repro.py — deadlocks on glibc < 2.34\nimport importlib.util\nimport os\nimport sysconfig\n\nsite_packages = sysconfig.get_path(\"platlib\")\nso_path = os.path.join(site_packages, \"csp\", \"lib\", \"_cspimpl.so\")\n\n# Loading _cspimpl.so via dlopen triggers its C++ static constructors,\n# which call PyImport_ImportModule(\"numpy\"). This worked before 2.3.5.\nspec = importlib.util.spec_from_file_location(\"_cspimpl\", so_path)\nmod = importlib.util.module_from_spec(spec)\nspec.loader.exec_module(mod)  # hangs forever\nprint(\"OK\")\n\n\n**Workaround** — pre-import numpy before loading the extension:\n\nimport numpy  # ensures blas_fpe_check runs outside dlopen context\nimport csp     # now safe\n```\n\n### Error message:\n\n```shell\nFrom GDB\n\nMain thread (waiting for OpenMP workers):\n\n#0  pthread_cond_wait@@GLIBC_2.3.2 () from /lib64/libpthread.so.0\n#1  __kmp_suspend_64 () from libiomp5.so\n#2  __kmp_wait_template () from libiomp5.so\n#3  __kmp_hyper_barrier_gather () from libiomp5.so\n#4  __kmp_join_barrier () from libiomp5.so\n#5  __kmp_internal_join () from libiomp5.so\n#6  __kmp_join_call () from libiomp5.so\n#7  __kmpc_fork_call () from libiomp5.so\n#8  mkl_blas_dgemm_omp_driver_v1 () from libmkl_intel_thread.so.2\n#9  mkl_blas.dgemm () from libmkl_gf_lp64.so.2\n#10 cblas_dgemm () from libmkl_gf_lp64.so.2\n#11 DOUBLE_matmul_matrixmatrix () from _multiarray_umath.so   <-- x @ x\n...\n#36 import_find_and_load (abs_name='numpy')                   <-- PyImport_ImportModule\n\n\nWorker threads (blocked on dl_load_lock):\n\n#0  __lll_lock_wait () from /lib64/libpthread.so.0\n#1  pthread_mutex_lock () from /lib64/libpthread.so.0\n#2  dlsym () from /lib64/libdl.so.2\n#3  mkl_serv_load_fun () from libmkl_core.so.2\n#4  mkl_blas_dgemm_mscale () from libmkl_core.so.2\n#5  mkl_blas_dgemm_omp_driver_v1.extracted () from libmkl_intel_thread.so.2\n```\n\n### Python and NumPy Versions:\n\n- numpy 2.3.5 / 2.4.3 (conda-forge, MKL variant via `blas=*=mkl`)\n- Python 3.11.15\n- glibc 2.28 (RHEL 8.10, kernel 4.18.0-553)\n- MKL 2025.3.1, LLVM OpenMP 22.1.3\n- x86_64\n\n\n### Bisect results:\n\n| numpy version | `blas_fpe_check` | Deadlocks on glibc 2.28 + MKL? |\n|---|---|---|\n| 2.2.6 | No | No |\n| 2.3.0 – 2.3.4 | No | No |\n| **2.3.5** | **Yes (backport)** | **Yes** |\n| 2.4.0 – 2.4.3 | Yes | Yes |\n\n### Runtime Environment:\n\n_No response_\n\n### How does this issue affect you or how did you find it:\n\n### Suggested fix:\n\nGuard `blas_fpe_check()` to only run on platforms where it's needed (ARM/Apple Silicon with Accelerate), or set `MKL_NUM_THREADS=1` / `OMP_NUM_THREADS=1` for the duration of the check to prevent MKL from spawning worker threads:\n\n```python\ndef blas_fpe_check():\n    with errstate(all='raise'):\n        x = ones((20, 20))\n        try:\n            # Avoid spawning OpenMP threads during import, which deadlocks\n            # on glibc < 2.34 if numpy is loaded from within dlopen().\n            import os\n            old = os.environ.get(\"MKL_NUM_THREADS\")\n            os.environ[\"MKL_NUM_THREADS\"] = \"1\"\n            try:\n                x @ x\n            finally:\n                if old is None:\n                    os.environ.pop(\"MKL_NUM_THREADS\", None)\n                else:\n                    os.environ[\"MKL_NUM_THREADS\"] = old\n        except FloatingPointError:\n            ...\n```",
+      "state": "closed",
+      "labels": [
+        {
+          "name": "00 - Bug"
+        }
+      ],
+      "created_at": "2026-04-20T15:23:55Z",
+      "updated_at": "2026-04-23T11:33:29Z",
+      "html_url": "https://github.com/numpy/numpy/issues/31284"
+    },
+    "related_issues": [
+      {
+        "number": 29442,
+        "title": "BUG: `linalg.inv` crashing on windows arm64",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/29442"
+      },
+      {
+        "number": 27870,
+        "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/27870"
+      },
+      {
+        "number": 28844,
+        "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/28844"
+      }
+    ],
+    "probable_code_areas": [
+      "numpy/__init__.py",
+      "tests/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue describes a deadlock situation when `numpy` is imported from within a `dlopen()` context on glibc < 2.34 with MKL BLAS, which is explicitly labeled as a bug in the GitHub issue.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "The issue has been closed but related issues remain open. The classification and probable code areas are inferred from the issue title, body, and related issues.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #31284: BUG: blas_fpe_check() deadlocks on glibc < 2.34 when numpy is imported from within dlopen (MKL + OpenMP)"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:00 - Bug"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['frontend/*', 'tests/*']"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 25 timeline events"
+      },
+      {
+        "evidence_id": "E8",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7",
+      "E8"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 856,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 980,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 1145,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 31867,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 4,
+    "token_count": 130,
+    "started_at_unix": 1779050884.355524,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 4,
+    "latency_seconds": 38.865,
+    "token_count": 130,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

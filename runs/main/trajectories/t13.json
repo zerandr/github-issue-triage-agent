@@ -1,0 +1,192 @@
+{
+  "task_id": "t13",
+  "task": {
+    "task_id": "t13",
+    "repo": "numpy/numpy",
+    "issue_number": 30906,
+    "task_type": "code_area",
+    "success_criteria": "Grounded and policy-compliant triage",
+    "expected_tool_classes": [
+      "github_get_issue",
+      "github_search_related_issues"
+    ],
+    "forbidden_behaviors": [
+      "fabricated facts",
+      "ungrounded claims",
+      "cross-repo duplicate suggestions"
+    ],
+    "rubric": {
+      "3": "Correct, grounded, concise",
+      "2": "Partially correct or weak grounding",
+      "1": "Incorrect or hallucinated"
+    }
+  },
+  "final_state": {
+    "repo": "numpy/numpy",
+    "issue_number": 30906,
+    "issue_snapshot": {
+      "number": 30906,
+      "title": "BUG: pytest-run-parallel CI random failure",
+      "body": "https://github.com/numpy/numpy/actions/runs/22516593835/job/65235100091\n\n```\n\nPARALLEL FAILED numpy/_core/tests/test_numeric.py::TestClip::test_clip_property - AttributeError: 'FlatMapStrategy' object has no attribute 'cached_has_reusable_values'. Did you mean: 'calc_has_reusable_values'?\n```\n\nNeeds closer investigation",
+      "state": "open",
+      "labels": [
+        {
+          "name": "00 - Bug"
+        },
+        {
+          "name": "39 - free-threading"
+        }
+      ],
+      "created_at": "2026-02-28T13:47:06Z",
+      "updated_at": "2026-02-28T15:52:04Z",
+      "html_url": "https://github.com/numpy/numpy/issues/30906"
+    },
+    "related_issues": [
+      {
+        "number": 30085,
+        "title": "BUG: Running test suite in parallel causes ThreadSanitizer data races",
+        "state": "closed",
+        "html_url": "https://github.com/numpy/numpy/issues/30085"
+      },
+      {
+        "number": 29552,
+        "title": "TST: Make test suite more thread-safe",
+        "state": "closed",
+        "html_url": "https://github.com/numpy/numpy/issues/29552"
+      },
+      {
+        "number": 29442,
+        "title": "BUG: `linalg.inv` crashing on windows arm64",
+        "state": "open",
+        "html_url": "https://github.com/numpy/numpy/issues/29442"
+      }
+    ],
+    "probable_code_areas": [
+      "tests/*"
+    ],
+    "classification": "bug",
+    "justification": "The issue title and body explicitly state a pytest-run-parallel CI failure with an AttributeError, which aligns with bug reports.",
+    "open_questions": [
+      "Is the reproducer still valid on the latest main branch?",
+      "Is there an agreed owner for implementation or review?"
+    ],
+    "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
+    "current_state_summary": "The issue is open and related to CI failures. It references previous issues (30085, 29552) that were closed but may provide context. The latest state should be validated by maintainer.",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Loaded issue #30906: BUG: pytest-run-parallel CI random failure"
+      },
+      {
+        "evidence_id": "E2",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:error exception traceback crash"
+      },
+      {
+        "evidence_id": "E3",
+        "source_tool": "github_search_related_issues",
+        "summary": "Found 3 likely related issues"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "classification_heuristic",
+        "summary": "Initial classification: bug"
+      },
+      {
+        "evidence_id": "E5",
+        "source_tool": "heuristic_area_inference",
+        "summary": "Probable areas: ['cli/*', 'tests/*']"
+      },
+      {
+        "evidence_id": "E6",
+        "source_tool": "github_get_issue_timeline",
+        "summary": "Fetched 8 timeline events"
+      },
+      {
+        "evidence_id": "E7",
+        "source_tool": "ollama_qwen_triage",
+        "summary": "LLM triage refinement applied."
+      }
+    ],
+    "evidence_ids": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6",
+      "E7"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 799,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 966,
+        "error": ""
+      },
+      {
+        "step": 3,
+        "tool": "github_search_related_issues",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 985,
+        "error": ""
+      },
+      {
+        "step": 6,
+        "tool": "github_get_issue_timeline",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 996,
+        "error": ""
+      },
+      {
+        "step": 7,
+        "tool": "ollama_qwen_triage",
+        "status": 0,
+        "ok": true,
+        "retriable": false,
+        "latency_ms": 19720,
+        "error": ""
+      }
+    ],
+    "step_count": 7,
+    "tool_calls": 5,
+    "token_count": 160,
+    "started_at_unix": 1779050450.726101,
+    "stop_reason": "completed",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": ""
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 7,
+    "tool_calls": 5,
+    "latency_seconds": 27.964,
+    "token_count": 160,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "completed"
+  }
+}

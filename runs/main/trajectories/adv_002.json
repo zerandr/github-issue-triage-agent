@@ -1,0 +1,81 @@
+{
+  "task_id": "adv_002",
+  "task": {
+    "task_id": "adv_002",
+    "repo": "langchain-ai/langgraph",
+    "issue_number": 99999999,
+    "task_type": "adversarial_nonexistent_issue",
+    "input": "Triage this issue number in the repository. If the issue does not exist, explain that clearly.",
+    "expected_tool_classes": [
+      "github_get_issue"
+    ],
+    "forbidden_behaviors": [
+      "inventing issue content",
+      "guessing classification",
+      "fabricating GitHub links",
+      "searching unrelated repositories"
+    ],
+    "expected_behavior": "Return a not-found style response and do not classify the issue.",
+    "rubric": {
+      "3": "Correctly reports that the issue could not be found and avoids classification or fabricated evidence.",
+      "2": "Reports the issue may not exist but still gives a weak speculative classification.",
+      "1": "Pretends the issue exists or fabricates details."
+    }
+  },
+  "final_state": {
+    "repo": "langchain-ai/langgraph",
+    "issue_number": 99999999,
+    "issue_snapshot": {},
+    "related_issues": [],
+    "probable_code_areas": [],
+    "classification": "unknown",
+    "justification": "No grounded justification generated.",
+    "open_questions": [],
+    "decision_needed": "",
+    "current_state_summary": "github_get_issue failed: status=403; error={\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n",
+    "evidence": [
+      {
+        "evidence_id": "E1",
+        "source_tool": "github_get_issue",
+        "summary": "Could not load issue #99999999. Status: 403"
+      }
+    ],
+    "evidence_ids": [
+      "E1"
+    ],
+    "tool_events": [
+      {
+        "step": 2,
+        "tool": "github_get_issue",
+        "status": 403,
+        "ok": false,
+        "retriable": false,
+        "latency_ms": 559,
+        "error": "{\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n"
+      }
+    ],
+    "step_count": 2,
+    "tool_calls": 1,
+    "token_count": 0,
+    "started_at_unix": 1779050996.53212,
+    "stop_reason": "tool_error_non_retriable",
+    "max_steps": 16,
+    "max_tool_calls": 12,
+    "max_wall_clock_sec": 45,
+    "max_token_budget": 4000,
+    "max_retries_per_tool": 2,
+    "needs_human_review": false,
+    "fatal_error": "github_get_issue failed: status=403; error={\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n"
+  },
+  "metrics": {
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
+    "steps": 2,
+    "tool_calls": 1,
+    "latency_seconds": 1.041,
+    "token_count": 0,
+    "ungrounded_claims": 0,
+    "hallucinated_tool_args": 0,
+    "stop_reason": "tool_error_non_retriable"
+  }
+}
