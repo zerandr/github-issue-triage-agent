@@ -5,7 +5,7 @@ Maintainer triaging issues in one of the fixed evaluation repositories (Track C 
 
 ## Inputs
 - `repo` (`owner/name`)
-- `issue_number` (int) or URL parsed into repo + issue
+- `issue_number` (int)
 - optional reviewer action at human-in-the-loop gate
 
 ## Outputs
@@ -29,36 +29,39 @@ Considered and rejected:
 Reason for choice: simple, debuggable trajectories with explicit conditional routing and one mandatory interrupt point.
 
 ## Tool contract
-### Third-party MCP server
-- Filesystem MCP (read/write local artifacts, logs, task files).
+### Third-party MCP servers
+1. Filesystem MCP (`@modelcontextprotocol/server-filesystem`)
+- Purpose: local file access for evaluation artifacts and reports.
+- Tools: `read_file`, `write_file`, `list_directory`.
+- Side effects: bounded local filesystem reads/writes inside the project directory.
+
+2. Git MCP (`@cyanheads/git-mcp-server`)
+- Purpose: version generated JSON evaluation artifacts after an eval run.
+- Tools used by eval: `git_add`, `git_commit`, `git_push`.
+- Side effects: stages JSON artifacts, creates a commit, and optionally pushes to the configured remote.
 
 ### Custom MCP server (`src/mcp_custom/server.py`)
-1. `parse_issue_reference(issue_ref: str)`
-- Purpose: parse issue URL or `owner/repo#number`.
-- Returns: `{ok, repo, issue_number}` or `{ok:false, status, error, retriable:false}`.
-- Side effects: none.
-
-2. `github_get_issue(repo: str, issue_number: int)`
+1. `github_get_issue(repo: str, issue_number: int)`
 - Purpose: fetch issue payload from GitHub REST.
 - Returns: `{ok:true, issue}` or error envelope.
 - Side effects: external network call.
 
-3. `github_search_related_issues(repo: str, query: str, limit: int=10)`
+2. `github_search_related_issues(repo: str, query: str, limit: int=10)`
 - Purpose: find duplicates/related issues.
 - Returns: `{ok, total_count, items}` or error envelope.
 - Side effects: external network call.
 
-4. `github_get_issue_timeline(repo: str, issue_number: int, per_page: int=50)`
+3. `github_get_issue_timeline(repo: str, issue_number: int, per_page: int=50)`
 - Purpose: summarize stale issues.
 - Returns: `{ok, events}` or error envelope.
 - Side effects: external network call.
 
-5. `triage_cache_get(key: str, max_age_sec: int=86400)`
+4. `triage_cache_get(key: str, max_age_sec: int=86400)`
 - Purpose: local read-through cache.
 - Returns: `{ok, hit, value_json?, stale?, ts?}`.
 - Side effects: local SQLite read.
 
-6. `triage_cache_put(key: str, value_json: str)`
+5. `triage_cache_put(key: str, value_json: str)`
 - Purpose: persist JSON tool payloads.
 - Returns: `{ok, key}` or validation error.
 - Side effects: local SQLite write.

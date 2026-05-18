@@ -32,6 +32,28 @@
           "write_file",
           "list_directory"
         ]
+      },
+      "git": {
+        "description": "Third-party Git MCP server used by eval to commit and push generated JSON artifacts.",
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "@cyanheads/git-mcp-server@latest"
+        ],
+        "env": {
+          "MCP_TRANSPORT_TYPE": "stdio",
+          "MCP_RESPONSE_FORMAT": "json",
+          "MCP_RESPONSE_VERBOSITY": "minimal",
+          "GIT_BASE_DIR": ".",
+          "GIT_DEFAULT_PATH": ".",
+          "GIT_SIGN_COMMITS": "false"
+        },
+        "tools": [
+          "git_add",
+          "git_commit",
+          "git_push",
+          "git_status"
+        ]
       }
     }
   }

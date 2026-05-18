@@ -13,12 +13,13 @@ from __future__ import annotations
 
 import asyncio
 import os
+import sys
 import warnings
 from typing import Any, Dict, Optional
 
 
 USE_MCP = os.getenv("USE_MCP", "1") not in {"0", "false", "False", "no", "NO"}
-MCP_SERVER_COMMAND = os.getenv("MCP_SERVER_COMMAND", "python")
+MCP_SERVER_COMMAND = os.getenv("MCP_SERVER_COMMAND", sys.executable)
 MCP_SERVER_ARGS = os.getenv("MCP_SERVER_ARGS", "-m src.mcp_custom.server").split()
 
 

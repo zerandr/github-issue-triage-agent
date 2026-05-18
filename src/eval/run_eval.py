@@ -8,6 +8,7 @@ from typing import Any
 
 from src.agent.graph import Graph
 from src.agent.state import TriageState
+from src.eval.git_mcp_autocommit import commit_json_artifacts
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -85,6 +86,22 @@ def extract_tool_names(final_state: dict[str, Any]) -> list[str]:
     for event in final_state.get("tool_events", []) or []:
         if isinstance(event, dict) and event.get("tool"):
             names.append(str(event["tool"]))
+
+    for item in final_state.get("evidence", []) or []:
+        if not isinstance(item, dict):
+            continue
+
+        source_tool = str(item.get("source_tool") or "")
+        summary = str(item.get("summary") or "")
+
+        if source_tool:
+            names.append(source_tool)
+
+        if source_tool == "triage_cache_get" and summary.startswith("Cache hit for "):
+            cached_key = summary.removeprefix("Cache hit for ").split(":", 1)[0]
+
+            if cached_key:
+                names.append(cached_key)
 
     calls = final_state.get("tool_calls", [])
 
@@ -243,6 +260,7 @@ def run_one_task(
         "tool_calls": tool_calls_count,
         "latency_seconds": latency,
         "token_count": int(final_state.get("token_count", 0) or 0),
+        "estimated_usd_cost": 0.0,
         "ungrounded_claims": count_ungrounded_claims(final_state),
         "hallucinated_tool_args": count_hallucinated_tool_args(final_state),
         "stop_reason": final_state.get("stop_reason"),
@@ -295,6 +313,10 @@ def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
         "total_tokens": int(
             sum(int(item.get("token_count", 0) or 0) for item in metrics)
         ),
+        "total_estimated_usd_cost": round(
+            sum(float(item.get("estimated_usd_cost", 0) or 0) for item in metrics),
+            6,
+        ),
         "total_ungrounded_claims": int(
             sum(int(item.get("ungrounded_claims", 0) or 0) for item in metrics)
         ),
@@ -331,6 +353,48 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Optional task limit for quick checks.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-autocommit",
+        action="store_true",
+        help="Commit JSON eval artifacts through a third-party Git MCP server.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-push",
+        action="store_true",
+        help="Push the Git MCP commit to the configured remote.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-required",
+        action="store_true",
+        help="Fail evaluation if Git MCP auto-commit/push fails.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-dir",
+        default=None,
+        help="Directory of JSON artifacts to commit. Defaults to the eval output directory.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-message",
+        default="Auto-commit eval JSON artifacts",
+        help="Commit message used by Git MCP.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-remote",
+        default="origin",
+        help="Remote used by Git MCP push.",
+    )
+
+    parser.add_argument(
+        "--git-mcp-branch",
+        default=None,
+        help="Branch used by Git MCP push. Defaults to the server/git current branch.",
     )
 
     return parser.parse_args()
@@ -371,6 +435,37 @@ def main() -> None:
 
     write_json(Path(args.summary), summary)
     write_json(Path(args.out) / "summary.json", summary)
+
+    if args.git_mcp_autocommit:
+        summary["git_mcp_autocommit"] = {
+            "requested": True,
+            "push": bool(args.git_mcp_push),
+            "artifact_dir": str(Path(args.git_mcp_dir or args.out)),
+        }
+        write_json(Path(args.summary), summary)
+        write_json(Path(args.out) / "summary.json", summary)
+
+        artifact_dir = Path(args.git_mcp_dir or args.out)
+
+        try:
+            git_result = commit_json_artifacts(
+                artifact_dir,
+                repo_root=Path("."),
+                message=args.git_mcp_message,
+                push=args.git_mcp_push,
+                remote=args.git_mcp_remote,
+                branch=args.git_mcp_branch,
+            )
+        except Exception as exc:
+            git_result = {
+                "ok": False,
+                "error": str(exc),
+            }
+
+        print(json.dumps({"git_mcp_autocommit_result": git_result}, ensure_ascii=False, indent=2))
+
+        if not git_result.get("ok") and args.git_mcp_required:
+            raise RuntimeError(f"Git MCP auto-commit failed: {git_result}")
 
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 

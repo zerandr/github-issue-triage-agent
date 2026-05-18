@@ -1,4 +1,5 @@
 import json
+import os
 import httpx
 from typing import Any
 
@@ -64,6 +65,15 @@ class OllamaLLM:
 
     @staticmethod
     def build_prompt(payload: dict[str, Any]) -> str:
+        variant = os.getenv("TRIAGE_PROMPT_VARIANT", "strict").lower()
+
+        if variant == "permissive":
+            return (
+                "Triage this GitHub issue briefly. Return JSON only.\\n"
+                f"Output schema hint: {json.dumps(SCHEMA_HINT, ensure_ascii=False)}\\n\\n"
+                f"Input:\\n{json.dumps(payload, ensure_ascii=False)}"
+            )
+
         return (
             "You are a GitHub issue triage assistant. Return ONLY valid JSON.\\n"
             "Never invent facts. If evidence is weak, use 'unknown' and explain uncertainty.\\n"

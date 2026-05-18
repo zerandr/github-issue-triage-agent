@@ -1,0 +1,146 @@
+{
+  "source": "runs/main/trajectories",
+  "selected": [
+    {
+      "task_id": "adv_001",
+      "file": "runs/main/trajectories/adv_001.json",
+      "repo": "not-a-real-owner/not-a-real-repo",
+      "issue_number": 1,
+      "task_type": "adversarial_nonexistent_repo",
+      "failure_mode": "Non-completion stop reason",
+      "explanation": "The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.",
+      "expected_tools": [
+        "github_get_issue"
+      ],
+      "used_tools": [
+        "github_get_issue"
+      ],
+      "metrics": {
+        "score_3pt": 3,
+        "tool_selection_accuracy": 1.0,
+        "steps": 2,
+        "tool_calls": 1,
+        "latency_seconds": 1.349,
+        "token_count": 0,
+        "estimated_usd_cost": 0.0,
+        "ungrounded_claims": 0,
+        "hallucinated_tool_args": 0,
+        "stop_reason": "tool_error_non_retriable"
+      },
+      "classification": "unknown",
+      "stop_reason": "tool_error_non_retriable",
+      "error": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "source_tool": "github_get_issue",
+          "summary": "Could not load issue #1. Status: 404"
+        }
+      ],
+      "related_issues_count": 0
+    },
+    {
+      "task_id": "adv_002",
+      "file": "runs/main/trajectories/adv_002.json",
+      "repo": "langchain-ai/langgraph",
+      "issue_number": 99999999,
+      "task_type": "adversarial_nonexistent_issue",
+      "failure_mode": "Non-completion stop reason",
+      "explanation": "The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.",
+      "expected_tools": [
+        "github_get_issue"
+      ],
+      "used_tools": [
+        "github_get_issue"
+      ],
+      "metrics": {
+        "score_3pt": 3,
+        "tool_selection_accuracy": 1.0,
+        "steps": 2,
+        "tool_calls": 1,
+        "latency_seconds": 1.235,
+        "token_count": 0,
+        "estimated_usd_cost": 0.0,
+        "ungrounded_claims": 0,
+        "hallucinated_tool_args": 0,
+        "stop_reason": "tool_error_non_retriable"
+      },
+      "classification": "unknown",
+      "stop_reason": "tool_error_non_retriable",
+      "error": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "source_tool": "github_get_issue",
+          "summary": "Could not load issue #99999999. Status: 404"
+        }
+      ],
+      "related_issues_count": 0
+    },
+    {
+      "task_id": "t29",
+      "file": "runs/main/trajectories/t29.json",
+      "repo": "jax-ml/jax",
+      "issue_number": 37251,
+      "task_type": "classify",
+      "failure_mode": "Residual trajectory risk",
+      "explanation": "This trajectory did not fail the rule-based rubric, but is included to provide the requested third annotated trace and document residual risk.",
+      "expected_tools": [
+        "github_get_issue"
+      ],
+      "used_tools": [
+        "classification_heuristic",
+        "github_get_issue",
+        "github_get_issue_timeline",
+        "github_search_related_issues",
+        "heuristic_area_inference",
+        "ollama_qwen_triage",
+        "triage_cache_get"
+      ],
+      "metrics": {
+        "score_3pt": 3,
+        "tool_selection_accuracy": 1.0,
+        "steps": 7,
+        "tool_calls": 4,
+        "latency_seconds": 42.551,
+        "token_count": 128,
+        "estimated_usd_cost": 0.0,
+        "ungrounded_claims": 0,
+        "hallucinated_tool_args": 0,
+        "stop_reason": "completed"
+      },
+      "classification": "bug",
+      "stop_reason": "completed",
+      "error": "",
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "source_tool": "github_get_issue",
+          "summary": "Loaded issue #37251: pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
+        },
+        {
+          "evidence_id": "E2",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_search_related_issues:jax-ml/jax:error exception traceback crash"
+        },
+        {
+          "evidence_id": "E3",
+          "source_tool": "github_search_related_issues",
+          "summary": "Found 3 likely related issues"
+        },
+        {
+          "evidence_id": "E4",
+          "source_tool": "classification_heuristic",
+          "summary": "Initial classification: feature request"
+        },
+        {
+          "evidence_id": "E5",
+          "source_tool": "heuristic_area_inference",
+          "summary": "Probable areas: ['api/*', 'tests/*']"
+        }
+      ],
+      "related_issues_count": 3
+    }
+  ],
+  "n_selected": 3
+}

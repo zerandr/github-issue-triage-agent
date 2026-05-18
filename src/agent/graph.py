@@ -1,4 +1,5 @@
 import json
+import os
 import time
 from typing import Any, Literal
 
@@ -636,7 +637,9 @@ class Graph:
             state.stop_reason = "step_cap_hit"
             return "finalize"
 
-        if state.needs_human_review:
+        graph_variant = os.getenv("TRIAGE_GRAPH_VARIANT", "baseline").lower()
+
+        if state.needs_human_review and graph_variant != "no_human_gate":
             return "human_gate"
 
         return "infer_code_areas"
