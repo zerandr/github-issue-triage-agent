@@ -34,7 +34,7 @@
         }
       ],
       "created_at": "2026-03-19T22:21:52Z",
-      "updated_at": "2026-05-14T20:42:18Z",
+      "updated_at": "2026-05-18T16:07:56Z",
       "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33586"
     },
     "related_issues": [
@@ -66,16 +66,31 @@
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:scikit-learn/scikit-learn:33586"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #33586: [Callbacks] Add a developer test suite with common tests for callbacks"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:[Callbacks] Add a developer test suite with common tests for callbacks"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:Callbacks"
+      },
+      {
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: unknown"
       }
@@ -83,41 +98,16 @@
     "evidence_ids": [
       "E1",
       "E2",
-      "E3"
+      "E3",
+      "E4",
+      "E5",
+      "E6"
     ],
-    "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 827,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1032,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 972,
-        "error": ""
-      }
-    ],
+    "tool_events": [],
     "step_count": 4,
-    "tool_calls": 3,
+    "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779050246.402847,
+    "started_at_unix": 1779138622.191902,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -127,16 +117,17 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='95bb6ff0ccd6f10c82e88c743eb1d64f')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='0a269b7cbf8e17d0359d05fcf9279644')"
     ]
   },
   "metrics": {
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 4,
-    "tool_calls": 3,
-    "latency_seconds": 5.985,
+    "tool_calls": 0,
+    "latency_seconds": 2.633,
     "token_count": 0,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": null

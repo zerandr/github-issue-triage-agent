@@ -32,12 +32,12 @@
     "justification": "No grounded justification generated.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "github_get_issue failed: status=403; error={\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n",
+    "current_state_summary": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
     "evidence": [
       {
         "evidence_id": "E1",
         "source_tool": "github_get_issue",
-        "summary": "Could not load issue #1. Status: 403"
+        "summary": "Could not load issue #1. Status: 404"
       }
     ],
     "evidence_ids": [
@@ -47,17 +47,17 @@
       {
         "step": 2,
         "tool": "github_get_issue",
-        "status": 403,
+        "status": 404,
         "ok": false,
         "retriable": false,
-        "latency_ms": 700,
-        "error": "{\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n"
+        "latency_ms": 957,
+        "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
       }
     ],
     "step_count": 2,
     "tool_calls": 1,
     "token_count": 0,
-    "started_at_unix": 1779050995.087203,
+    "started_at_unix": 1779139430.929635,
     "stop_reason": "tool_error_non_retriable",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -65,15 +65,16 @@
     "max_token_budget": 4000,
     "max_retries_per_tool": 2,
     "needs_human_review": false,
-    "fatal_error": "github_get_issue failed: status=403; error={\"message\":\"API rate limit exceeded for 109.157.155.214. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)\",\"documentation_url\":\"https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting\"}\n"
+    "fatal_error": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
   },
   "metrics": {
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 2,
     "tool_calls": 1,
-    "latency_seconds": 1.446,
+    "latency_seconds": 1.699,
     "token_count": 0,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "tool_error_non_retriable"

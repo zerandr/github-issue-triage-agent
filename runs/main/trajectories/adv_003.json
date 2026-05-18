@@ -100,7 +100,7 @@
     "step_count": 4,
     "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779050997.573036,
+    "started_at_unix": 1779139433.92291,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -110,16 +110,17 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'langchain-ai/langgraph', 'issue_number': 1, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='80080203c271a08b0bb6bd450dd676fb')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'langchain-ai/langgraph', 'issue_number': 1, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='1f29bd942f1ddf0793de24bd5d954e1c')"
     ]
   },
   "metrics": {
-    "score_3pt": 2,
-    "tool_selection_accuracy": 0.0,
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
     "steps": 4,
     "tool_calls": 0,
-    "latency_seconds": 0.943,
+    "latency_seconds": 0.932,
     "token_count": 0,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": null

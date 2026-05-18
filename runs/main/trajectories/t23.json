@@ -58,31 +58,51 @@
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:pytorch/pytorch:182826"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #182826: [Docathon] Document undocumented functions in `distributed.checkpoint.md` (7 functions)"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pytorch/pytorch:[Docathon] Document undocumented functions in `distributed.checkpoint.md` (7 fun"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pytorch/pytorch:module: docs triaged medium"
+      },
+      {
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "No strong related issue candidates found"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: documentation"
       },
       {
-        "evidence_id": "E4",
+        "evidence_id": "E7",
         "source_tool": "heuristic_area_inference",
         "summary": "Probable areas: ['api/*', 'frontend/*', 'docs/*', 'installation/setup']"
       },
       {
-        "evidence_id": "E5",
+        "evidence_id": "E8",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue_timeline:pytorch/pytorch:182826"
+      },
+      {
+        "evidence_id": "E9",
         "source_tool": "github_get_issue_timeline",
         "summary": "Fetched 30 timeline events"
       },
       {
-        "evidence_id": "E6",
+        "evidence_id": "E10",
         "source_tool": "ollama_qwen_triage",
         "summary": "LLM triage refinement applied."
       }
@@ -93,59 +113,27 @@
       "E3",
       "E4",
       "E5",
-      "E6"
+      "E6",
+      "E7",
+      "E8",
+      "E9",
+      "E10"
     ],
     "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1156,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1061,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1085,
-        "error": ""
-      },
-      {
-        "step": 6,
-        "tool": "github_get_issue_timeline",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1202,
-        "error": ""
-      },
       {
         "step": 7,
         "tool": "ollama_qwen_triage",
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 31187,
+        "latency_ms": 30763,
         "error": ""
       }
     ],
     "step_count": 7,
-    "tool_calls": 5,
+    "tool_calls": 1,
     "token_count": 86,
-    "started_at_unix": 1779050729.255123,
+    "started_at_unix": 1779139156.7202501,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -159,9 +147,10 @@
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 7,
-    "tool_calls": 5,
-    "latency_seconds": 43.466,
+    "tool_calls": 1,
+    "latency_seconds": 33.203,
     "token_count": 86,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "completed"

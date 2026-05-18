@@ -67,16 +67,31 @@
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:numpy/numpy:30962"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #30962: CI: AI slop detection"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:CI: AI slop detection"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:numpy/numpy:component: CI"
+      },
+      {
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: unknown"
       }
@@ -84,41 +99,16 @@
     "evidence_ids": [
       "E1",
       "E2",
-      "E3"
+      "E3",
+      "E4",
+      "E5",
+      "E6"
     ],
-    "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 898,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1013,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1133,
-        "error": ""
-      }
-    ],
+    "tool_events": [],
     "step_count": 4,
-    "tool_calls": 3,
+    "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779050599.410954,
+    "started_at_unix": 1779139032.000679,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -128,16 +118,17 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='30d5efc9d88c8515dff2e92a96fc8b93')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='305f86974e4d35d2b39e8f2eeb0c670d')"
     ]
   },
   "metrics": {
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 4,
-    "tool_calls": 3,
-    "latency_seconds": 6.368,
+    "tool_calls": 0,
+    "latency_seconds": 1.914,
     "token_count": 0,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": null

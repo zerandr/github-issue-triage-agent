@@ -84,7 +84,7 @@
     "justification": "The issue describes a specific crash scenario in `torch.compile` when using the mem-efficient attention backend with non-aligned head dimensions. The error is reproducible and has been closed, indicating it was likely a bug.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue has been classified as a bug based on the provided evidence. The classification is supported by the error message, minimal reproducer, and closed state of the issue.",
+    "current_state_summary": "The issue has been classified as a bug based on the provided evidence. The classification is supported by the error description, minimal reproducer, and closed state.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -162,14 +162,14 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 19452,
+        "latency_ms": 17815,
         "error": ""
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 138,
-    "started_at_unix": 1779050182.394288,
+    "token_count": 135,
+    "started_at_unix": 1779138526.8943639,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -180,12 +180,13 @@
     "fatal_error": ""
   },
   "metrics": {
-    "score_3pt": 2,
-    "tool_selection_accuracy": 0.0,
+    "score_3pt": 3,
+    "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 22.05,
-    "token_count": 138,
+    "latency_seconds": 20.363,
+    "token_count": 135,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "completed"

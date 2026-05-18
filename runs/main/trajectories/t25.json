@@ -70,16 +70,31 @@
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:scikit-learn/scikit-learn:33558"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #33558: Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:New Feature Needs Decision - Include Feature"
+      },
+      {
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: unknown"
       }
@@ -87,41 +102,16 @@
     "evidence_ids": [
       "E1",
       "E2",
-      "E3"
+      "E3",
+      "E4",
+      "E5",
+      "E6"
     ],
-    "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 879,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 941,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1100,
-        "error": ""
-      }
-    ],
+    "tool_events": [],
     "step_count": 4,
-    "tool_calls": 3,
+    "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779050820.802272,
+    "started_at_unix": 1779139236.70152,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -131,16 +121,17 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33558, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='89158f10c3b8642dd903ec4542099008')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33558, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='29412c96c416a57033faa089203477ef')"
     ]
   },
   "metrics": {
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 4,
-    "tool_calls": 3,
-    "latency_seconds": 6.171,
+    "tool_calls": 0,
+    "latency_seconds": 2.084,
     "token_count": 0,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": null

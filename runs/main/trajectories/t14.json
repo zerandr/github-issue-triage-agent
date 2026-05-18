@@ -45,16 +45,16 @@
         "html_url": "https://github.com/jax-ml/jax/issues/34001"
       },
       {
+        "number": 37751,
+        "title": "`jax.scipy.special.xlogy` and `xlog1py` return `0.0` instead of `nan` when `x=0` and `y=nan`",
+        "state": "open",
+        "html_url": "https://github.com/jax-ml/jax/issues/37751"
+      },
+      {
         "number": 29924,
         "title": "Foreign function interface (FFI) tutorial bugs",
         "state": "open",
         "html_url": "https://github.com/jax-ml/jax/issues/29924"
-      },
-      {
-        "number": 23052,
-        "title": "Scatter on Sharded Matrices has bugs",
-        "state": "open",
-        "html_url": "https://github.com/jax-ml/jax/issues/23052"
       }
     ],
     "probable_code_areas": [
@@ -62,45 +62,60 @@
       "jax.ops.segment_sum"
     ],
     "classification": "bug",
-    "justification": "The issue describes a performance bottleneck in JAX's segmented softmax implementation due to XLA limitations, which affects the overall speed of operations. The title and body clearly indicate this is a problem with existing functionality.",
+    "justification": "The issue describes a performance bottleneck in JAX's segmented softmax implementation due to XLA limitations, which affects the overall speed of operations. The title and body clearly indicate this is a bug related to fusion capabilities.",
     "open_questions": [
-      "Are there any ongoing efforts or plans to address this specific issue in JAX?"
+      "Are there any ongoing efforts or plans to address this specific issue in future releases?"
     ],
-    "decision_needed": "Assign an owner for the bug and set a concrete next milestone for review or implementation.",
-    "current_state_summary": "The issue is open with no assigned labels or milestones. The current state summary should be validated by maintainer input.",
+    "decision_needed": "Assign an owner for the issue and set a concrete next milestone for review or implementation.",
+    "current_state_summary": "The issue is open with no assigned owner, and it has not been updated since its creation. The performance impact of segmented softmax operations needs to be addressed.",
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:jax-ml/jax:37511"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #37511: # [Perf] XLA fails to fuse segmented reductions in softmax (segment_max → exp → segment_sum), 8-19x slower than hand-fus"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:jax-ml/jax:# [Perf] XLA fails to fuse segmented reductions in softmax (segment_max → exp → "
+      },
+      {
+        "evidence_id": "E4",
         "source_tool": "triage_cache_get",
         "summary": "Cache hit for github_search_related_issues:jax-ml/jax:bug"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E4",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: feature request"
       },
       {
-        "evidence_id": "E5",
+        "evidence_id": "E7",
         "source_tool": "heuristic_area_inference",
         "summary": "Probable areas: ['unknown (insufficient evidence)']"
       },
       {
-        "evidence_id": "E6",
+        "evidence_id": "E8",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue_timeline:jax-ml/jax:37511"
+      },
+      {
+        "evidence_id": "E9",
         "source_tool": "github_get_issue_timeline",
         "summary": "Fetched 7 timeline events"
       },
       {
-        "evidence_id": "E7",
+        "evidence_id": "E10",
         "source_tool": "ollama_qwen_triage",
         "summary": "LLM triage refinement applied."
       }
@@ -112,50 +127,26 @@
       "E4",
       "E5",
       "E6",
-      "E7"
+      "E7",
+      "E8",
+      "E9",
+      "E10"
     ],
     "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 786,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1060,
-        "error": ""
-      },
-      {
-        "step": 6,
-        "tool": "github_get_issue_timeline",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 815,
-        "error": ""
-      },
       {
         "step": 7,
         "tool": "ollama_qwen_triage",
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 27762,
+        "latency_ms": 40297,
         "error": ""
       }
     ],
     "step_count": 7,
-    "tool_calls": 4,
-    "token_count": 152,
-    "started_at_unix": 1779050478.6926,
+    "tool_calls": 1,
+    "token_count": 161,
+    "started_at_unix": 1779138902.949965,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -169,9 +160,10 @@
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 7,
-    "tool_calls": 4,
-    "latency_seconds": 33.82,
-    "token_count": 152,
+    "tool_calls": 1,
+    "latency_seconds": 42.811,
+    "token_count": 161,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "completed"

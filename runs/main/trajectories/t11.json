@@ -68,31 +68,51 @@
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:scikit-learn/scikit-learn:33858"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #33858: ⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Apr 27, 2026) ⚠️"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 ("
+      },
+      {
+        "evidence_id": "E4",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:Bug"
+      },
+      {
+        "evidence_id": "E5",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E6",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: bug"
       },
       {
-        "evidence_id": "E4",
+        "evidence_id": "E7",
         "source_tool": "heuristic_area_inference",
         "summary": "Probable areas: ['tests/*']"
       },
       {
-        "evidence_id": "E5",
+        "evidence_id": "E8",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue_timeline:scikit-learn/scikit-learn:33858"
+      },
+      {
+        "evidence_id": "E9",
         "source_tool": "github_get_issue_timeline",
         "summary": "Fetched 8 timeline events"
       },
       {
-        "evidence_id": "E6",
+        "evidence_id": "E10",
         "source_tool": "ollama_qwen_triage",
         "summary": "LLM triage refinement applied."
       }
@@ -103,59 +123,27 @@
       "E3",
       "E4",
       "E5",
-      "E6"
+      "E6",
+      "E7",
+      "E8",
+      "E9",
+      "E10"
     ],
     "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 873,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 894,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 991,
-        "error": ""
-      },
-      {
-        "step": 6,
-        "tool": "github_get_issue_timeline",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 815,
-        "error": ""
-      },
       {
         "step": 7,
         "tool": "ollama_qwen_triage",
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 15177,
+        "latency_ms": 21219,
         "error": ""
       }
     ],
     "step_count": 7,
-    "tool_calls": 5,
+    "tool_calls": 1,
     "token_count": 102,
-    "started_at_unix": 1779050394.276118,
+    "started_at_unix": 1779138805.5222988,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -169,9 +157,10 @@
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 7,
-    "tool_calls": 5,
-    "latency_seconds": 22.882,
+    "tool_calls": 1,
+    "latency_seconds": 23.81,
     "token_count": 102,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "completed"

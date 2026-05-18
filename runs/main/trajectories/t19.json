@@ -61,47 +61,67 @@
       }
     ],
     "probable_code_areas": [
-      "pandas/core/frame.py",
-      "pandas/query_compiler/expressions.py"
+      "pandas/core/expressions.py",
+      "pandas/query_compiler/expression.py"
     ],
     "classification": "bug",
-    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug.",
+    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue has been closed without resolution. The maintainer should validate the current state.",
+    "current_state_summary": "The issue has been closed without resolution. Further validation by maintainers is needed to confirm if the behavior is intended or a bug.",
     "evidence": [
       {
         "evidence_id": "E1",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue:pandas-dev/pandas:65357"
+      },
+      {
+        "evidence_id": "E2",
         "source_tool": "github_get_issue",
         "summary": "Loaded issue #65357: BUG: df.query() returning an empty dataframe on this condition - col1 in (col2, col3)"
       },
       {
-        "evidence_id": "E2",
+        "evidence_id": "E3",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pandas-dev/pandas:BUG: df.query() returning an empty dataframe on this condition - col1 in (col2, "
+      },
+      {
+        "evidence_id": "E4",
         "source_tool": "triage_cache_get",
         "summary": "Cache hit for github_search_related_issues:pandas-dev/pandas:error exception traceback crash"
       },
       {
-        "evidence_id": "E3",
+        "evidence_id": "E5",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_search_related_issues:pandas-dev/pandas:Bug expressions"
+      },
+      {
+        "evidence_id": "E6",
         "source_tool": "github_search_related_issues",
         "summary": "Found 3 likely related issues"
       },
       {
-        "evidence_id": "E4",
+        "evidence_id": "E7",
         "source_tool": "classification_heuristic",
         "summary": "Initial classification: documentation"
       },
       {
-        "evidence_id": "E5",
+        "evidence_id": "E8",
         "source_tool": "heuristic_area_inference",
         "summary": "Probable areas: ['auth/*', 'docs/*', 'tests/*', 'installation/setup']"
       },
       {
-        "evidence_id": "E6",
+        "evidence_id": "E9",
+        "source_tool": "triage_cache_get",
+        "summary": "Cache hit for github_get_issue_timeline:pandas-dev/pandas:65357"
+      },
+      {
+        "evidence_id": "E10",
         "source_tool": "github_get_issue_timeline",
         "summary": "Fetched 6 timeline events"
       },
       {
-        "evidence_id": "E7",
+        "evidence_id": "E11",
         "source_tool": "ollama_qwen_triage",
         "summary": "LLM triage refinement applied."
       }
@@ -113,59 +133,27 @@
       "E4",
       "E5",
       "E6",
-      "E7"
+      "E7",
+      "E8",
+      "E9",
+      "E10",
+      "E11"
     ],
     "tool_events": [
-      {
-        "step": 2,
-        "tool": "github_get_issue",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 788,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1002,
-        "error": ""
-      },
-      {
-        "step": 3,
-        "tool": "github_search_related_issues",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1125,
-        "error": ""
-      },
-      {
-        "step": 6,
-        "tool": "github_get_issue_timeline",
-        "status": 0,
-        "ok": true,
-        "retriable": false,
-        "latency_ms": 1018,
-        "error": ""
-      },
       {
         "step": 7,
         "tool": "ollama_qwen_triage",
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 17278,
+        "latency_ms": 25378,
         "error": ""
       }
     ],
     "step_count": 7,
-    "tool_calls": 5,
-    "token_count": 104,
-    "started_at_unix": 1779050605.776984,
+    "tool_calls": 1,
+    "token_count": 117,
+    "started_at_unix": 1779139033.91361,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -179,9 +167,10 @@
     "score_3pt": 3,
     "tool_selection_accuracy": 1.0,
     "steps": 7,
-    "tool_calls": 5,
-    "latency_seconds": 26.262,
-    "token_count": 104,
+    "tool_calls": 1,
+    "latency_seconds": 27.878,
+    "token_count": 117,
+    "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "stop_reason": "completed"

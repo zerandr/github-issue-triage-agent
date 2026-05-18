@@ -1,20 +1,25 @@
 {
   "n_tasks": 33,
-  "mean_score_3pt": 2.909,
+  "mean_score_3pt": 3.0,
   "score_counts": {
-    "2": 3,
-    "3": 30
+    "3": 33
   },
-  "tool_selection_accuracy": 0.909,
+  "tool_selection_accuracy": 1.0,
   "mean_steps": 6.333,
-  "mean_tool_calls": 4.061,
-  "mean_latency_seconds": 25.273,
-  "total_tokens": 3598,
+  "mean_tool_calls": 0.879,
+  "mean_latency_seconds": 28.035,
+  "total_tokens": 3566,
+  "total_estimated_usd_cost": 0.0,
   "total_ungrounded_claims": 0,
   "total_hallucinated_tool_args": 0,
   "stop_reasons": {
     "completed": 27,
     "None": 4,
     "tool_error_non_retriable": 2
+  },
+  "git_mcp_autocommit": {
+    "requested": true,
+    "push": true,
+    "artifact_dir": "runs/main"
   }
 }
