@@ -1996,7 +1996,7 @@
           "eval_count": 126
         }
       },
-      "latency_ms": 25205
+      "latency_ms": 24396
     }
   ],
   "final_state": {
@@ -2128,7 +2128,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 25205,
+        "latency_ms": 24396,
         "error": ""
       }
     ],
@@ -4108,13 +4108,13 @@
             "eval_count": 126
           }
         },
-        "latency_ms": 25205
+        "latency_ms": 24396
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
     "token_count": 126,
-    "started_at_unix": 1779168105.504713,
+    "started_at_unix": 1779213754.4343529,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -4129,7 +4129,7 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 27.535,
+    "latency_seconds": 26.699,
     "token_count": 126,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,

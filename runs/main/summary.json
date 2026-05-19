@@ -7,8 +7,8 @@
   "tool_selection_accuracy": 1.0,
   "mean_steps": 6.424,
   "mean_tool_calls": 0.909,
-  "mean_latency_seconds": 17.347,
-  "total_tokens": 3631,
+  "mean_latency_seconds": 18.959,
+  "total_tokens": 3741,
   "total_estimated_usd_cost": 0.0,
   "total_ungrounded_claims": 0,
   "total_hallucinated_tool_args": 0,
@@ -17,5 +17,10 @@
     "completed": 28,
     "human_interrupt_pending": 3,
     "tool_error_non_retriable": 2
+  },
+  "git_mcp_autocommit": {
+    "requested": true,
+    "push": true,
+    "artifact_dir": "runs/main"
   }
 }

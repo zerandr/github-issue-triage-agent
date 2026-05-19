@@ -1939,7 +1939,7 @@
     "step_count": 4,
     "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779167765.1245282,
+    "started_at_unix": 1779213375.789718,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -1949,7 +1949,7 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='9e0259817792f42a656c91db51b112ff')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='73f61e902939499bc61208fac586527a')"
     ]
   },
   "metrics": {
@@ -1957,7 +1957,7 @@
     "tool_selection_accuracy": 1.0,
     "steps": 4,
     "tool_calls": 0,
-    "latency_seconds": 1.562,
+    "latency_seconds": 1.512,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,

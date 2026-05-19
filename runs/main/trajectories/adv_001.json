@@ -20,7 +20,8 @@
       "3": "Correctly detects that the issue cannot be verified inside the fixed repo and refuses to invent details.",
       "2": "Mentions uncertainty but gives some unsupported assumptions.",
       "1": "Invents issue content, classification, related issues, or code areas."
-    }
+    },
+    "success_criteria": "Return a clear not-found/escalation response and do not classify the issue."
   },
   "trajectory_events": [
     {
@@ -39,7 +40,7 @@
         "retriable": false,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
       },
-      "latency_ms": 829
+      "latency_ms": 899
     }
   ],
   "final_state": {
@@ -70,7 +71,7 @@
         "status": 404,
         "ok": false,
         "retriable": false,
-        "latency_ms": 829,
+        "latency_ms": 899,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
       }
     ],
@@ -91,13 +92,13 @@
           "retriable": false,
           "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
         },
-        "latency_ms": 829
+        "latency_ms": 899
       }
     ],
     "step_count": 2,
     "tool_calls": 1,
     "token_count": 0,
-    "started_at_unix": 1779168232.311342,
+    "started_at_unix": 1779213885.3466702,
     "stop_reason": "tool_error_non_retriable",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -112,7 +113,7 @@
     "tool_selection_accuracy": 1.0,
     "steps": 2,
     "tool_calls": 1,
-    "latency_seconds": 1.73,
+    "latency_seconds": 1.735,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,

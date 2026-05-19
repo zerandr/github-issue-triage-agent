@@ -2117,13 +2117,13 @@
             "Is there an agreed owner for implementation or review?"
           ],
           "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-          "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer."
+          "current_state_summary": "The issue is open and related to CI failures. It references previous issues (30085, 29552) that are closed but may provide context. The latest state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 134
+          "eval_count": 160
         }
       },
-      "latency_ms": 11706
+      "latency_ms": 14112
     }
   ],
   "final_state": {
@@ -2176,7 +2176,7 @@
       "Is there an agreed owner for implementation or review?"
     ],
     "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-    "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer.",
+    "current_state_summary": "The issue is open and related to CI failures. It references previous issues (30085, 29552) that are closed but may provide context. The latest state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2254,7 +2254,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 11706,
+        "latency_ms": 14112,
         "error": ""
       }
     ],
@@ -4354,19 +4354,19 @@
               "Is there an agreed owner for implementation or review?"
             ],
             "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-            "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer."
+            "current_state_summary": "The issue is open and related to CI failures. It references previous issues (30085, 29552) that are closed but may provide context. The latest state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 134
+            "eval_count": 160
           }
         },
-        "latency_ms": 11706
+        "latency_ms": 14112
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 134,
-    "started_at_unix": 1779167883.158627,
+    "token_count": 160,
+    "started_at_unix": 1779213500.423777,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -4381,8 +4381,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 14.317,
-    "token_count": 134,
+    "latency_seconds": 16.823,
+    "token_count": 160,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

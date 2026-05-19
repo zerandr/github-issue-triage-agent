@@ -2257,19 +2257,19 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The test is disabled due to failures on specific platforms (rocm), indicating potential bugs.",
+          "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
           "probable_code_areas": [
             "tests/*"
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue is closed, but the test remains disabled. The latest state should be validated by a maintainer."
+          "current_state_summary": "The issue has been closed, but the problem persists as evidenced by recent failures. The latest state should be validated by a maintainer."
         },
         "usage": {
-          "eval_count": 86
+          "eval_count": 90
         }
       },
-      "latency_ms": 10896
+      "latency_ms": 11360
     }
   ],
   "final_state": {
@@ -2307,10 +2307,10 @@
       "tests/*"
     ],
     "classification": "bug",
-    "justification": "The test is disabled due to failures on specific platforms (rocm), indicating potential bugs.",
+    "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue is closed, but the test remains disabled. The latest state should be validated by a maintainer.",
+    "current_state_summary": "The issue has been closed, but the problem persists as evidenced by recent failures. The latest state should be validated by a maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2382,7 +2382,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 10896,
+        "latency_ms": 11360,
         "error": ""
       }
     ],
@@ -4623,25 +4623,25 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The test is disabled due to failures on specific platforms (rocm), indicating potential bugs.",
+            "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
             "probable_code_areas": [
               "tests/*"
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue is closed, but the test remains disabled. The latest state should be validated by a maintainer."
+            "current_state_summary": "The issue has been closed, but the problem persists as evidenced by recent failures. The latest state should be validated by a maintainer."
           },
           "usage": {
-            "eval_count": 86
+            "eval_count": 90
           }
         },
-        "latency_ms": 10896
+        "latency_ms": 11360
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 86,
-    "started_at_unix": 1779168133.0544589,
+    "token_count": 90,
+    "started_at_unix": 1779213781.1452968,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -4656,8 +4656,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 13.154,
-    "token_count": 86,
+    "latency_seconds": 13.584,
+    "token_count": 90,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

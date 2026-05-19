@@ -3298,7 +3298,7 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue title and body indicate that unit tests are failing on a specific CI run, which is a clear indication of a bug.",
+          "justification": "The issue title and body indicate that specific unit tests are failing on a particular CI environment.",
           "probable_code_areas": [
             "tests/*"
           ],
@@ -3310,10 +3310,10 @@
           "current_state_summary": "Timeline events reviewed: 27. Latest state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 132
+          "eval_count": 124
         }
       },
-      "latency_ms": 26594
+      "latency_ms": 27843
     }
   ],
   "final_state": {
@@ -3357,7 +3357,7 @@
       "tests/*"
     ],
     "classification": "bug",
-    "justification": "The issue title and body indicate that unit tests are failing on a specific CI run, which is a clear indication of a bug.",
+    "justification": "The issue title and body indicate that specific unit tests are failing on a particular CI environment.",
     "open_questions": [
       "Is the reproducer still valid on the latest main branch?",
       "Is there an agreed owner for implementation or review?"
@@ -3441,7 +3441,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 26594,
+        "latency_ms": 27843,
         "error": ""
       }
     ],
@@ -6722,7 +6722,7 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue title and body indicate that unit tests are failing on a specific CI run, which is a clear indication of a bug.",
+            "justification": "The issue title and body indicate that specific unit tests are failing on a particular CI environment.",
             "probable_code_areas": [
               "tests/*"
             ],
@@ -6734,16 +6734,16 @@
             "current_state_summary": "Timeline events reviewed: 27. Latest state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 132
+            "eval_count": 124
           }
         },
-        "latency_ms": 26594
+        "latency_ms": 27843
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 132,
-    "started_at_unix": 1779168074.5227451,
+    "token_count": 124,
+    "started_at_unix": 1779213721.902524,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -6758,8 +6758,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 29.194,
-    "token_count": 132,
+    "latency_seconds": 30.756,
+    "token_count": 124,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

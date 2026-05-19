@@ -2686,23 +2686,22 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue title and body indicate a problem with the type of input to a scalar function when using `np.vectorize` to convert an array of `np.datetime64` to an array of `datetime.datetime`. This is consistent with a bug in NumPy's handling of datetime types.",
+          "justification": "The issue title and body indicate a problem with the type of input to the scalar function when using `np.vectorize` to convert `np.datetime64` to `datetime.datetime`. This is consistent with other bug reports in the repository.",
           "probable_code_areas": [
-            "numpy/core/src/multiarray/vectorize.c",
-            "numpy/core/_methods.py"
+            "numpy/core/src/multiarray/vectorize.c"
           ],
           "open_questions": [
             "Is the reproducer still valid on the latest main branch?",
             "Is there an agreed owner for implementation or review?"
           ],
           "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-          "current_state_summary": "The issue is open and labeled as a bug. The code example provided does not produce an error message but shows unexpected behavior in the type of input to the scalar function. Related issues are present, indicating ongoing maintenance efforts."
+          "current_state_summary": "The issue is open and labeled as a bug. Related issues are also marked as bugs. The code example provided does not produce an error but may have unexpected behavior. The current state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 205
+          "eval_count": 187
         }
       },
-      "latency_ms": 17867
+      "latency_ms": 17096
     }
   ],
   "final_state": {
@@ -2746,17 +2745,16 @@
       }
     ],
     "probable_code_areas": [
-      "numpy/core/src/multiarray/vectorize.c",
-      "numpy/core/_methods.py"
+      "numpy/core/src/multiarray/vectorize.c"
     ],
     "classification": "bug",
-    "justification": "The issue title and body indicate a problem with the type of input to a scalar function when using `np.vectorize` to convert an array of `np.datetime64` to an array of `datetime.datetime`. This is consistent with a bug in NumPy's handling of datetime types.",
+    "justification": "The issue title and body indicate a problem with the type of input to the scalar function when using `np.vectorize` to convert `np.datetime64` to `datetime.datetime`. This is consistent with other bug reports in the repository.",
     "open_questions": [
       "Is the reproducer still valid on the latest main branch?",
       "Is there an agreed owner for implementation or review?"
     ],
     "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-    "current_state_summary": "The issue is open and labeled as a bug. The code example provided does not produce an error message but shows unexpected behavior in the type of input to the scalar function. Related issues are present, indicating ongoing maintenance efforts.",
+    "current_state_summary": "The issue is open and labeled as a bug. Related issues are also marked as bugs. The code example provided does not produce an error but may have unexpected behavior. The current state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2834,7 +2832,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 17867,
+        "latency_ms": 17096,
         "error": ""
       }
     ],
@@ -5504,29 +5502,28 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue title and body indicate a problem with the type of input to a scalar function when using `np.vectorize` to convert an array of `np.datetime64` to an array of `datetime.datetime`. This is consistent with a bug in NumPy's handling of datetime types.",
+            "justification": "The issue title and body indicate a problem with the type of input to the scalar function when using `np.vectorize` to convert `np.datetime64` to `datetime.datetime`. This is consistent with other bug reports in the repository.",
             "probable_code_areas": [
-              "numpy/core/src/multiarray/vectorize.c",
-              "numpy/core/_methods.py"
+              "numpy/core/src/multiarray/vectorize.c"
             ],
             "open_questions": [
               "Is the reproducer still valid on the latest main branch?",
               "Is there an agreed owner for implementation or review?"
             ],
             "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-            "current_state_summary": "The issue is open and labeled as a bug. The code example provided does not produce an error message but shows unexpected behavior in the type of input to the scalar function. Related issues are present, indicating ongoing maintenance efforts."
+            "current_state_summary": "The issue is open and labeled as a bug. Related issues are also marked as bugs. The code example provided does not produce an error but may have unexpected behavior. The current state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 205
+            "eval_count": 187
           }
         },
-        "latency_ms": 17867
+        "latency_ms": 17096
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 205,
-    "started_at_unix": 1779167812.353759,
+    "token_count": 187,
+    "started_at_unix": 1779213425.744389,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -5541,8 +5538,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 20.22,
-    "token_count": 205,
+    "latency_seconds": 19.65,
+    "token_count": 187,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

@@ -1710,13 +1710,13 @@
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show similar patterns of failures. The latest state should be validated by maintainer."
+          "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 99
+          "eval_count": 87
         }
       },
-      "latency_ms": 9660
+      "latency_ms": 9635
     }
   ],
   "final_state": {
@@ -1763,7 +1763,7 @@
     "justification": "The issue title and body indicate a failure in unit tests for a specific CI environment, which aligns with a bug classification.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show similar patterns of failures. The latest state should be validated by maintainer.",
+    "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -1835,7 +1835,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 9660,
+        "latency_ms": 9635,
         "error": ""
       }
     ],
@@ -3529,19 +3529,19 @@
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show similar patterns of failures. The latest state should be validated by maintainer."
+            "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 99
+            "eval_count": 87
           }
         },
-        "latency_ms": 9660
+        "latency_ms": 9635
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 99,
-    "started_at_unix": 1779167850.4068952,
+    "token_count": 87,
+    "started_at_unix": 1779213465.544929,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -3556,8 +3556,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 11.74,
-    "token_count": 99,
+    "latency_seconds": 11.894,
+    "token_count": 87,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
