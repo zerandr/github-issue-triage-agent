@@ -77,8 +77,12 @@ def _call_local_tool(tool_name: str, arguments: Dict[str, Any]) -> Any:
 
     mapping = {
         "github_get_issue": getattr(local_server, "github_get_issue", None),
-        "github_get_issue_timeline": getattr(local_server, "github_get_issue_timeline", None),
-        "github_search_related_issues": getattr(local_server, "github_search_related_issues", None),
+        "github_get_issue_timeline": getattr(
+            local_server, "github_get_issue_timeline", None
+        ),
+        "github_search_related_issues": getattr(
+            local_server, "github_search_related_issues", None
+        ),
         "triage_cache_get": getattr(local_server, "triage_cache_get", None),
         "triage_cache_put": getattr(local_server, "triage_cache_put", None),
     }

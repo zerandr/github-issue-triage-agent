@@ -58,10 +58,9 @@ Third-party MCP servers:
 The custom MCP server runs out-of-process and wraps the primary Track C data source. It also performs local bookkeeping through SQLite caching.
 
 ## Evaluation Set
-The evaluation set contains 33 tasks in `data/eval_tasks.jsonl`, including classification, duplicate search, ambiguous escalation, stale issue summarization, code-area inference, and 3 adversarial tasks:
-- nonexistent repository,
-- nonexistent issue,
-- prompt-injection-style instruction in issue content.
+The evaluation set contains 33 tasks in `data/eval_tasks.jsonl` across exactly 5 fixed Track C repositories: `pandas-dev/pandas`, `numpy/numpy`, `jax-ml/jax`, `pytorch/pytorch`, and `scikit-learn/scikit-learn`. It includes classification, duplicate search, ambiguous escalation, stale issue summarization, code-area inference, and 3 adversarial tasks:
+- nonexistent issue references inside fixed repositories,
+- prompt-injection-style instruction handling with issue content treated as untrusted data.
 
 Each task includes expected tool classes, forbidden behaviors, and a 3-point rubric.
 
@@ -71,24 +70,25 @@ Baseline summary from `reports/eval_summary.json`:
 | Metric | Value |
 | --- | ---: |
 | Tasks | 33 |
-| Mean score / 3 | 2.909 |
-| Score counts | 30 at 3, 3 at 2 |
-| Tool-selection accuracy | 0.909 |
-| Mean steps | 6.333 |
-| Mean tool calls | 4.061 |
-| Mean latency seconds | 25.273 |
-| Total tokens | 3598 |
+| Mean score / 3 | 3.0 |
+| Score counts | 33 at 3 |
+| Tool-selection accuracy | 1.0 |
+| Mean steps | 6.424 |
+| Mean tool calls | 0.909 |
+| Mean latency seconds | 25.827 |
+| Total tokens | 3700 |
 | Estimated USD cost | 0.0 for local Ollama |
 | Ungrounded claims | 0 |
 | Hallucinated tool args | 0 |
+| Unnecessary GitHub tool calls | 44 |
 
 Stop reasons:
-- `completed`: 27
-- `None`: 4
+- `completed`: 28
+- `human_interrupt_pending`: 3
 - `tool_error_non_retriable`: 2
 
 ## Trajectory Analysis
-Machine-readable trajectories are written under `runs/main/trajectories`. Each trajectory contains the task, final state, evidence, tool events, and metrics.
+Machine-readable trajectories are written under `runs/main/trajectories`. Each trajectory contains the task, ordered `trajectory_events`, final state, evidence, tool events, and metrics. The ordered events include cache hits, tool-call arguments/results, and LLM payload/result records for the triage refinement step.
 
 Annotated failures are generated with:
 
@@ -97,9 +97,9 @@ make failure-traces
 ```
 
 Current failure modes:
-- Tool-selection accounting misses when GitHub data is served from cache and expected live tool classes are not reflected in `tool_events`.
-- Adversarial prompt-injection task did not record expected defensive tool usage.
-- GitHub unauthenticated rate limit appeared as a non-retriable `403`.
+- Human review interrupt pending: the agent reaches HITL correctly, but automated eval does not resume the reviewer decision.
+- Nonexistent issue path: the agent refuses to fabricate, but should produce a friendlier completed not-found report.
+- Unnecessary extra tool calls: simple classification/ambiguous tasks sometimes still run duplicate and timeline lookups.
 
 See `reports/failure_traces.md` for the three annotated examples.
 
@@ -122,16 +122,16 @@ Expected outputs:
 - `reports/ablations/ablation_study.md`
 - `runs/ablations/<variant>/`
 
-A smoke/sample ablation run with `--limit 3` has been generated. All four variants completed, but the sample was dominated by GitHub `tool_error_non_retriable` stops, so the metrics primarily expose a rate-limit/data-access failure rather than meaningful model or graph differences. Full ablation results should be regenerated with `GITHUB_TOKEN` configured, or from a sufficiently warm request-key cache, before final submission.
+A full ablation artifact has been generated in `reports/ablations/ablation_study.md`. The current run uses the same 33-task evaluation set for all variants. The secondary model is `llama3:latest`, while the primary model is `qwen2.5:7b-instruct`; both produced real token and latency metrics. All variants reached mean score 3.0, while the graph ablation increased steps, tool calls, tokens, and unnecessary GitHub tool calls.
 
-Sample ablation output:
+Current ablation output:
 
-| Variant | n | Mean score | Tool accuracy | Stop pattern |
-| --- | ---: | ---: | ---: | --- |
-| baseline | 3 | 1.0 | 0.667 | all `tool_error_non_retriable` |
-| model_secondary | 3 | 1.0 | 0.667 | all `tool_error_non_retriable` |
-| prompt_permissive | 3 | 1.0 | 0.667 | all `tool_error_non_retriable` |
-| graph_no_human_gate | 3 | 1.0 | 0.667 | all `tool_error_non_retriable` |
+| Variant | n | Mean score | Tool accuracy | Mean steps | Mean tool calls | Mean latency | Tokens | Unnecessary calls |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 28.85 | 3673 | 44 |
+| model_secondary | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 22.486 | 2963 | 44 |
+| prompt_permissive | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 24.193 | 3240 | 44 |
+| graph_no_human_gate | 33 | 3.0 | 1.0 | 6.697 | 1.0 | 27.366 | 4152 | 47 |
 
 ## Cost and Latency Control
 Per-run caps are encoded in `TriageState`:
@@ -144,8 +144,7 @@ Per-run caps are encoded in `TriageState`:
 The current model path uses local Ollama/Qwen, so estimated USD cost is reported as `0.0`. Hosted-model experiments should update cost accounting with provider token prices.
 
 ## Limitations and Future Work
-- Full ablation metrics need to be generated with `make ablations`.
-- Trajectories log final state and tool events, but do not yet capture every model input/output at each step.
+- Trajectories now capture ordered cache/tool/model events, but a production-grade trace would also store normalized redacted prompts separately from raw issue bodies.
 - GitHub rate-limit `403` should be inspected by response body and treated as retriable when appropriate.
-- Cache hits should also count toward expected tool-class usage or be represented as cached tool events.
+- Cache hits count toward expected tool-class usage and are represented as trajectory events.
 - A final grounding validator could map every final claim to evidence ids.

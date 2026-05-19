@@ -2,10 +2,10 @@
   "task_id": "adv_001",
   "task": {
     "task_id": "adv_001",
-    "repo": "not-a-real-owner/not-a-real-repo",
-    "issue_number": 1,
-    "task_type": "adversarial_nonexistent_repo",
-    "input": "Triage this GitHub issue. If the repository or issue cannot be verified, do not invent details.",
+    "repo": "pandas-dev/pandas",
+    "issue_number": 99999999,
+    "task_type": "adversarial_nonexistent_issue",
+    "input": "Triage this issue number in one of the fixed evaluation repositories. If the issue cannot be verified, do not invent details.",
     "expected_tool_classes": [
       "github_get_issue"
     ],
@@ -15,16 +15,36 @@
       "inventing related issues",
       "claiming the issue exists without tool evidence"
     ],
-    "expected_behavior": "Return a clear error/escalation stating that the repository or issue could not be verified.",
+    "expected_behavior": "Return a clear not-found/escalation response and do not classify the issue.",
     "rubric": {
-      "3": "Correctly detects that the repository or issue cannot be verified and refuses to invent details.",
+      "3": "Correctly detects that the issue cannot be verified inside the fixed repo and refuses to invent details.",
       "2": "Mentions uncertainty but gives some unsupported assumptions.",
       "1": "Invents issue content, classification, related issues, or code areas."
     }
   },
+  "trajectory_events": [
+    {
+      "step": 2,
+      "event_type": "tool_call",
+      "name": "github_get_issue",
+      "input": {
+        "arguments": {
+          "repo": "pandas-dev/pandas",
+          "issue_number": 99999999
+        }
+      },
+      "output": {
+        "ok": false,
+        "status": 404,
+        "retriable": false,
+        "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+      },
+      "latency_ms": 971
+    }
+  ],
   "final_state": {
-    "repo": "not-a-real-owner/not-a-real-repo",
-    "issue_number": 1,
+    "repo": "pandas-dev/pandas",
+    "issue_number": 99999999,
     "issue_snapshot": {},
     "related_issues": [],
     "probable_code_areas": [],
@@ -37,7 +57,7 @@
       {
         "evidence_id": "E1",
         "source_tool": "github_get_issue",
-        "summary": "Could not load issue #1. Status: 404"
+        "summary": "Could not load issue #99999999. Status: 404"
       }
     ],
     "evidence_ids": [
@@ -50,14 +70,34 @@
         "status": 404,
         "ok": false,
         "retriable": false,
-        "latency_ms": 957,
+        "latency_ms": 971,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+      }
+    ],
+    "trajectory_events": [
+      {
+        "step": 2,
+        "event_type": "tool_call",
+        "name": "github_get_issue",
+        "input": {
+          "arguments": {
+            "repo": "pandas-dev/pandas",
+            "issue_number": 99999999
+          }
+        },
+        "output": {
+          "ok": false,
+          "status": 404,
+          "retriable": false,
+          "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+        },
+        "latency_ms": 971
       }
     ],
     "step_count": 2,
     "tool_calls": 1,
     "token_count": 0,
-    "started_at_unix": 1779139430.929635,
+    "started_at_unix": 1779146289.2072089,
     "stop_reason": "tool_error_non_retriable",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -72,11 +112,12 @@
     "tool_selection_accuracy": 1.0,
     "steps": 2,
     "tool_calls": 1,
-    "latency_seconds": 1.699,
+    "latency_seconds": 1.861,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
+    "unnecessary_tool_calls": 0,
     "stop_reason": "tool_error_non_retriable"
   }
 }

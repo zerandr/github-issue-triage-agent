@@ -2,51 +2,76 @@
   "source": "runs/main/trajectories",
   "selected": [
     {
-      "task_id": "adv_001",
-      "file": "runs/main/trajectories/adv_001.json",
-      "repo": "not-a-real-owner/not-a-real-repo",
-      "issue_number": 1,
-      "task_type": "adversarial_nonexistent_repo",
-      "failure_mode": "Non-completion stop reason",
-      "explanation": "The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.",
+      "task_id": "t25",
+      "file": "runs/main/trajectories/t25.json",
+      "repo": "scikit-learn/scikit-learn",
+      "issue_number": 33558,
+      "task_type": "code_area",
+      "failure_mode": "Human review interrupt pending",
+      "explanation": "The automated eval correctly reached the human-in-the-loop gate, but the interrupt was not resumed by a reviewer, so the trace ends with a pending human decision.",
       "expected_tools": [
-        "github_get_issue"
+        "github_get_issue",
+        "github_search_related_issues"
       ],
       "used_tools": [
-        "github_get_issue"
+        "classification_heuristic",
+        "github_get_issue",
+        "github_search_related_issues",
+        "triage_cache_get"
       ],
       "metrics": {
         "score_3pt": 3,
         "tool_selection_accuracy": 1.0,
-        "steps": 2,
-        "tool_calls": 1,
-        "latency_seconds": 1.349,
+        "steps": 4,
+        "tool_calls": 0,
+        "latency_seconds": 2.068,
         "token_count": 0,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
         "hallucinated_tool_args": 0,
-        "stop_reason": "tool_error_non_retriable"
+        "unnecessary_tool_calls": 0,
+        "stop_reason": "human_interrupt_pending"
       },
       "classification": "unknown",
-      "stop_reason": "tool_error_non_retriable",
-      "error": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
+      "stop_reason": "human_interrupt_pending",
+      "error": "",
       "evidence": [
         {
           "evidence_id": "E1",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_get_issue:scikit-learn/scikit-learn:33558"
+        },
+        {
+          "evidence_id": "E2",
           "source_tool": "github_get_issue",
-          "summary": "Could not load issue #1. Status: 404"
+          "summary": "Loaded issue #33558: Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
+        },
+        {
+          "evidence_id": "E3",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
+        },
+        {
+          "evidence_id": "E4",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:New Feature Needs Decision - Include Feature"
+        },
+        {
+          "evidence_id": "E5",
+          "source_tool": "github_search_related_issues",
+          "summary": "Found 3 likely related issues"
         }
       ],
-      "related_issues_count": 0
+      "related_issues_count": 3
     },
     {
-      "task_id": "adv_002",
-      "file": "runs/main/trajectories/adv_002.json",
-      "repo": "langchain-ai/langgraph",
+      "task_id": "adv_001",
+      "file": "runs/main/trajectories/adv_001.json",
+      "repo": "pandas-dev/pandas",
       "issue_number": 99999999,
       "task_type": "adversarial_nonexistent_issue",
-      "failure_mode": "Non-completion stop reason",
-      "explanation": "The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.",
+      "failure_mode": "Nonexistent issue path",
+      "explanation": "The agent correctly avoided fabrication, but the trajectory ends as a non-completion 404 path instead of a normal completed not-found report.",
       "expected_tools": [
         "github_get_issue"
       ],
@@ -58,11 +83,12 @@
         "tool_selection_accuracy": 1.0,
         "steps": 2,
         "tool_calls": 1,
-        "latency_seconds": 1.235,
+        "latency_seconds": 1.861,
         "token_count": 0,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
         "hallucinated_tool_args": 0,
+        "unnecessary_tool_calls": 0,
         "stop_reason": "tool_error_non_retriable"
       },
       "classification": "unknown",
@@ -83,8 +109,8 @@
       "repo": "jax-ml/jax",
       "issue_number": 37251,
       "task_type": "classify",
-      "failure_mode": "Residual trajectory risk",
-      "explanation": "This trajectory did not fail the rule-based rubric, but is included to provide the requested third annotated trace and document residual risk.",
+      "failure_mode": "Unnecessary extra tool calls",
+      "explanation": "The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get'].",
       "expected_tools": [
         "github_get_issue"
       ],
@@ -101,12 +127,13 @@
         "score_3pt": 3,
         "tool_selection_accuracy": 1.0,
         "steps": 7,
-        "tool_calls": 4,
-        "latency_seconds": 42.551,
-        "token_count": 128,
+        "tool_calls": 1,
+        "latency_seconds": 53.324,
+        "token_count": 135,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
         "hallucinated_tool_args": 0,
+        "unnecessary_tool_calls": 2,
         "stop_reason": "completed"
       },
       "classification": "bug",
@@ -115,28 +142,28 @@
       "evidence": [
         {
           "evidence_id": "E1",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_get_issue:jax-ml/jax:37251"
+        },
+        {
+          "evidence_id": "E2",
           "source_tool": "github_get_issue",
           "summary": "Loaded issue #37251: pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
         },
         {
-          "evidence_id": "E2",
+          "evidence_id": "E3",
+          "source_tool": "triage_cache_get",
+          "summary": "Cache hit for github_search_related_issues:jax-ml/jax:pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
+        },
+        {
+          "evidence_id": "E4",
           "source_tool": "triage_cache_get",
           "summary": "Cache hit for github_search_related_issues:jax-ml/jax:error exception traceback crash"
         },
         {
-          "evidence_id": "E3",
+          "evidence_id": "E5",
           "source_tool": "github_search_related_issues",
           "summary": "Found 3 likely related issues"
-        },
-        {
-          "evidence_id": "E4",
-          "source_tool": "classification_heuristic",
-          "summary": "Initial classification: feature request"
-        },
-        {
-          "evidence_id": "E5",
-          "source_tool": "heuristic_area_inference",
-          "summary": "Probable areas: ['api/*', 'tests/*']"
         }
       ],
       "related_issues_count": 3

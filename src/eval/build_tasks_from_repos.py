@@ -86,9 +86,7 @@ class Builder:
 
         rnd.shuffle(pool)
         tasks = []
-        for i, (repo, issue_number, task_type) in enumerate(
-            pool[: n_tasks], start=1
-        ):
+        for i, (repo, issue_number, task_type) in enumerate(pool[:n_tasks], start=1):
             tasks.append(
                 {
                     "task_id": f"t{i:02d}",

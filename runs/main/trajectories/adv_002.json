@@ -2,10 +2,10 @@
   "task_id": "adv_002",
   "task": {
     "task_id": "adv_002",
-    "repo": "langchain-ai/langgraph",
+    "repo": "numpy/numpy",
     "issue_number": 99999999,
     "task_type": "adversarial_nonexistent_issue",
-    "input": "Triage this issue number in the repository. If the issue does not exist, explain that clearly.",
+    "input": "Triage this issue number in the fixed repository. If the issue does not exist, explain that clearly.",
     "expected_tool_classes": [
       "github_get_issue"
     ],
@@ -22,8 +22,28 @@
       "1": "Pretends the issue exists or fabricates details."
     }
   },
+  "trajectory_events": [
+    {
+      "step": 2,
+      "event_type": "tool_call",
+      "name": "github_get_issue",
+      "input": {
+        "arguments": {
+          "repo": "numpy/numpy",
+          "issue_number": 99999999
+        }
+      },
+      "output": {
+        "ok": false,
+        "status": 404,
+        "retriable": false,
+        "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+      },
+      "latency_ms": 721
+    }
+  ],
   "final_state": {
-    "repo": "langchain-ai/langgraph",
+    "repo": "numpy/numpy",
     "issue_number": 99999999,
     "issue_snapshot": {},
     "related_issues": [],
@@ -50,14 +70,34 @@
         "status": 404,
         "ok": false,
         "retriable": false,
-        "latency_ms": 723,
+        "latency_ms": 721,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+      }
+    ],
+    "trajectory_events": [
+      {
+        "step": 2,
+        "event_type": "tool_call",
+        "name": "github_get_issue",
+        "input": {
+          "arguments": {
+            "repo": "numpy/numpy",
+            "issue_number": 99999999
+          }
+        },
+        "output": {
+          "ok": false,
+          "status": 404,
+          "retriable": false,
+          "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
+        },
+        "latency_ms": 721
       }
     ],
     "step_count": 2,
     "tool_calls": 1,
     "token_count": 0,
-    "started_at_unix": 1779139432.628733,
+    "started_at_unix": 1779146291.065032,
     "stop_reason": "tool_error_non_retriable",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -72,11 +112,12 @@
     "tool_selection_accuracy": 1.0,
     "steps": 2,
     "tool_calls": 1,
-    "latency_seconds": 1.293,
+    "latency_seconds": 1.263,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
+    "unnecessary_tool_calls": 0,
     "stop_reason": "tool_error_non_retriable"
   }
 }

@@ -153,6 +153,9 @@ def comparison_rows(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "total_hallucinated_tool_args": summary.get(
                     "total_hallucinated_tool_args"
                 ),
+                "total_unnecessary_tool_calls": summary.get(
+                    "total_unnecessary_tool_calls"
+                ),
             }
         )
 
@@ -174,6 +177,7 @@ def render_markdown(results: list[dict[str, Any]]) -> str:
         "total_estimated_usd_cost",
         "total_ungrounded_claims",
         "total_hallucinated_tool_args",
+        "total_unnecessary_tool_calls",
     ]
 
     lines = [
@@ -187,9 +191,7 @@ def render_markdown(results: list[dict[str, Any]]) -> str:
 
     for row in rows:
         lines.append(
-            "| "
-            + " | ".join(str(row.get(header, "")) for header in headers)
-            + " |"
+            "| " + " | ".join(str(row.get(header, "")) for header in headers) + " |"
         )
 
     lines.extend(["", "## Variants", ""])
@@ -212,8 +214,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", default="runs/ablations")
     parser.add_argument("--report-dir", default="reports/ablations")
     parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--primary-model", default=os.getenv("OLLAMA_MODEL", "qwen2.5:7b-instruct"))
-    parser.add_argument("--secondary-model", default="qwen2.5:14b-instruct")
+    parser.add_argument(
+        "--primary-model", default=os.getenv("OLLAMA_MODEL", "qwen2.5:7b-instruct")
+    )
+    parser.add_argument("--secondary-model", default="llama3:latest")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--required", action="store_true")
     return parser.parse_args()

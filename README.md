@@ -14,7 +14,7 @@ Implementation scaffold aligned with the assignment requirements:
 - `src/agent/` - state schema, graph, CLI runner, LLM adapter
 - `src/mcp_custom/` - custom MCP server (GitHub + cache tools)
 - `src/eval/` - evaluation runner and machine-readable trajectory outputs
-- `data/eval_tasks.jsonl` - 30+ task definitions with rubric and constraints
+- `data/eval_tasks.jsonl` - 33 task definitions with rubric and constraints across the 5 fixed Track C repositories
 - `reports/` - agent spec, graph diagram, summaries
 
 ## Quick start
@@ -75,6 +75,9 @@ Outputs:
 - `runs/main/trajectories/*.json`
 - cache DB: `data/cache/triage_cache.sqlite`
 
+Each trajectory JSON includes ordered `trajectory_events` for cache hits,
+GitHub/MCP tool arguments and results, and the local LLM triage payload/result.
+
 ## Run evaluation with Git MCP artifact commit
 ```bash
 make eval-git-mcp
@@ -102,6 +105,9 @@ Outputs:
 - `reports/failure_traces.json`
 - `reports/failure_traces.md`
 
+The analyzer reports concrete trajectory-level risks such as not-found terminal
+paths and unnecessary extra GitHub tool calls.
+
 ## Notes
-- Replace placeholder repos/issues in `data/eval_tasks.jsonl` with the official fixed 5-repo list once published.
+- The evaluation set is constrained to 5 Track C repositories: `pandas-dev/pandas`, `numpy/numpy`, `jax-ml/jax`, `pytorch/pytorch`, and `scikit-learn/scikit-learn`.
 - No model training is required: this is inference-time agentic triage with tool calls.

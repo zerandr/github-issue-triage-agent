@@ -41,6 +41,7 @@ class TriageState:
     evidence: list[EvidenceItem] = field(default_factory=list)
     evidence_ids: list[str] = field(default_factory=list)
     tool_events: list[ToolEvent] = field(default_factory=list)
+    trajectory_events: list[dict[str, Any]] = field(default_factory=list)
 
     step_count: int = 0
     tool_calls: int = 0

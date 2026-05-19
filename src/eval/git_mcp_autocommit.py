@@ -189,10 +189,7 @@ def commit_json_artifacts(
     remote: str = "origin",
     branch: str | None = None,
 ) -> dict[str, Any]:
-    files = [
-        project_relative(path, repo_root)
-        for path in json_artifacts(directory)
-    ]
+    files = [project_relative(path, repo_root) for path in json_artifacts(directory)]
 
     if not files:
         return {
@@ -214,7 +211,9 @@ def commit_json_artifacts(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Commit JSON artifacts through Git MCP.")
+    parser = argparse.ArgumentParser(
+        description="Commit JSON artifacts through Git MCP."
+    )
     parser.add_argument("--dir", default="runs/main/trajectories")
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--message", default="Auto-commit eval JSON artifacts")

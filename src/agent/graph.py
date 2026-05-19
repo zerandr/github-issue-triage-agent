@@ -81,9 +81,31 @@ class Graph:
         state.evidence_ids.append(evidence_id)
 
     @staticmethod
+    def _record_trajectory_event(
+        state: TriageState,
+        event_type: str,
+        name: str,
+        *,
+        input_payload: dict[str, Any] | None = None,
+        output_payload: dict[str, Any] | None = None,
+        latency_ms: int = 0,
+    ) -> None:
+        state.trajectory_events.append(
+            {
+                "step": state.step_count,
+                "event_type": event_type,
+                "name": name,
+                "input": input_payload or {},
+                "output": output_payload or {},
+                "latency_ms": latency_ms,
+            }
+        )
+
+    @staticmethod
     def _record_tool(
         state: TriageState,
         tool: str,
+        arguments: dict[str, Any],
         result: dict[str, Any],
         latency_ms: int,
     ) -> None:
@@ -103,11 +125,20 @@ class Graph:
             )
         )
         state.tool_calls += 1
+        Graph._record_trajectory_event(
+            state,
+            "tool_call",
+            tool,
+            input_payload={"arguments": arguments},
+            output_payload=result,
+            latency_ms=latency_ms,
+        )
 
     @staticmethod
     def _call_with_cache(
         state: TriageState,
         cache_key: str,
+        producer_args: dict[str, Any],
         producer,
     ) -> dict[str, Any]:
         """
@@ -119,6 +150,16 @@ class Graph:
         if cache_result.get("hit"):
             try:
                 payload = json.loads(cache_result["value_json"])
+                Graph._record_trajectory_event(
+                    state,
+                    "cache_hit",
+                    cache_key.split(":", 1)[0],
+                    input_payload={
+                        "cache_key": cache_key,
+                        "max_age_sec": 86400,
+                    },
+                    output_payload=payload,
+                )
                 Graph._add_evidence(
                     state,
                     "triage_cache_get",
@@ -146,6 +187,7 @@ class Graph:
             Graph._record_tool(
                 state,
                 tool_name,
+                producer_args,
                 payload,
                 int((time.time() - started) * 1000),
             )
@@ -181,6 +223,7 @@ class Graph:
         result = Graph._call_with_cache(
             state,
             cache_key,
+            {"repo": state.repo, "issue_number": state.issue_number},
             lambda: github_get_issue(state.repo, state.issue_number),
         )
 
@@ -188,7 +231,9 @@ class Graph:
             status = result.get("status")
             error = result.get("error", "")
 
-            state.fatal_error = f"github_get_issue failed: status={status}; error={error}"
+            state.fatal_error = (
+                f"github_get_issue failed: status={status}; error={error}"
+            )
             state.stop_reason = "tool_error_non_retriable"
 
             Graph._add_evidence(
@@ -239,7 +284,10 @@ class Graph:
 
         lower_body = body.lower()
 
-        if any(token in lower_body for token in ["error", "exception", "traceback", "crash"]):
+        if any(
+            token in lower_body
+            for token in ["error", "exception", "traceback", "crash"]
+        ):
             queries.append("error exception traceback crash")
 
         labels = [
@@ -262,6 +310,7 @@ class Graph:
             result = Graph._call_with_cache(
                 state,
                 cache_key,
+                {"repo": state.repo, "query": query, "limit": 8},
                 lambda query=query: github_search_related_issues(
                     state.repo,
                     query,
@@ -318,13 +367,20 @@ class Graph:
             classification = "duplicate"
         elif "duplicate" in title:
             classification = "duplicate"
-        elif any(token in title for token in ["how", "why", "question"]) or "?" in title:
+        elif (
+            any(token in title for token in ["how", "why", "question"]) or "?" in title
+        ):
             classification = "question"
         elif any(token in text for token in ["doc", "documentation", "readme", "docs"]):
             classification = "documentation"
-        elif any(token in text for token in ["feature", "enhancement", "proposal", "request"]):
+        elif any(
+            token in text for token in ["feature", "enhancement", "proposal", "request"]
+        ):
             classification = "feature request"
-        elif any(token in text for token in ["bug", "error", "crash", "exception", "traceback", "fail"]):
+        elif any(
+            token in text
+            for token in ["bug", "error", "crash", "exception", "traceback", "fail"]
+        ):
             classification = "bug"
         else:
             classification = "unknown"
@@ -411,6 +467,7 @@ class Graph:
         result = Graph._call_with_cache(
             state,
             cache_key,
+            {"repo": state.repo, "issue_number": state.issue_number},
             lambda: github_get_issue_timeline(
                 state.repo,
                 state.issue_number,
@@ -493,6 +550,7 @@ class Graph:
         Graph._record_tool(
             state,
             "ollama_qwen_triage",
+            {"payload": payload},
             result,
             int((time.time() - started) * 1000),
         )

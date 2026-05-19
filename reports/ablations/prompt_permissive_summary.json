@@ -5,16 +5,17 @@
     "3": 33
   },
   "tool_selection_accuracy": 1.0,
-  "mean_steps": 6.333,
-  "mean_tool_calls": 1.0,
-  "mean_latency_seconds": 0.033,
-  "total_tokens": 0,
+  "mean_steps": 6.424,
+  "mean_tool_calls": 0.909,
+  "mean_latency_seconds": 24.193,
+  "total_tokens": 3240,
   "total_estimated_usd_cost": 0.0,
   "total_ungrounded_claims": 0,
   "total_hallucinated_tool_args": 0,
+  "total_unnecessary_tool_calls": 44,
   "stop_reasons": {
-    "completed": 27,
-    "None": 4,
-    "tool_error_non_retriable": 2
+    "tool_error_non_retriable": 2,
+    "completed": 28,
+    "human_interrupt_pending": 3
   }
 }

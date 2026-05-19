@@ -19,10 +19,7 @@ def make_json_safe(value: Any) -> Any:
         return [make_json_safe(item) for item in value]
 
     if isinstance(value, dict):
-        return {
-            str(key): make_json_safe(item)
-            for key, item in value.items()
-        }
+        return {str(key): make_json_safe(item) for key, item in value.items()}
 
     if hasattr(value, "model_dump"):
         return make_json_safe(value.model_dump())
@@ -66,7 +63,7 @@ def main() -> None:
     parser.add_argument(
         "--repo",
         required=True,
-        help="Repository in owner/name format, e.g. langchain-ai/langgraph",
+        help="Repository in owner/name format, e.g. pandas-dev/pandas",
     )
     parser.add_argument(
         "--issue",

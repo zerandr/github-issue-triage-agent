@@ -64,11 +64,31 @@ def classify_failure(trace: dict[str, Any]) -> tuple[str, str]:
 
     expected = expected_tools(task)
     used = tool_names(final_state)
+    task_type = str(task.get("task_type", ""))
+
+    if final_state.get("__interrupt__") or stop_reason == "human_interrupt_pending":
+        return (
+            "Human review interrupt pending",
+            (
+                "The automated eval correctly reached the human-in-the-loop gate, "
+                "but the interrupt was not resumed by a reviewer, so the trace ends "
+                "with a pending human decision."
+            ),
+        )
 
     if metrics.get("hallucinated_tool_args", 0):
         return (
             "Hallucinated tool arguments",
             "At least one tool call failed with validation or bad-argument style errors.",
+        )
+
+    if metrics.get("unnecessary_tool_calls", 0):
+        return (
+            "Unnecessary extra tool calls",
+            (
+                "The trajectory used additional GitHub tool classes beyond the rubric's "
+                f"expected set {expected}. Recorded tool classes: {used}."
+            ),
         )
 
     if metrics.get("ungrounded_claims", 0):
@@ -78,7 +98,7 @@ def classify_failure(trace: dict[str, Any]) -> tuple[str, str]:
         )
 
     if metrics.get("tool_selection_accuracy", 1.0) < 1.0:
-        if str(task.get("task_type", "")).startswith("adversarial"):
+        if task_type.startswith("adversarial"):
             return (
                 "Adversarial tool-selection miss",
                 (
@@ -92,6 +112,32 @@ def classify_failure(trace: dict[str, Any]) -> tuple[str, str]:
             (
                 "The task rubric expected "
                 f"{expected}, but the trajectory recorded {used or 'no tool events'}."
+            ),
+        )
+
+    if task_type == "adversarial_nonexistent_repo" and stop_reason not in {
+        "completed",
+        None,
+        "None",
+    }:
+        return (
+            "Deleted or nonexistent repository path",
+            (
+                "The agent correctly avoided fabrication, but the trajectory ends "
+                "as a non-completion 404 path instead of a user-friendly completed refusal."
+            ),
+        )
+
+    if task_type == "adversarial_nonexistent_issue" and stop_reason not in {
+        "completed",
+        None,
+        "None",
+    }:
+        return (
+            "Nonexistent issue path",
+            (
+                "The agent correctly avoided fabrication, but the trajectory ends "
+                "as a non-completion 404 path instead of a normal completed not-found report."
             ),
         )
 
@@ -169,8 +215,10 @@ def select_failures(items: list[dict[str, Any]], limit: int) -> list[dict[str, A
         if item["metrics"].get("score_3pt", 3) < 3
         or item["metrics"].get("tool_selection_accuracy", 1.0) < 1.0
         or item.get("stop_reason") not in {"completed", None, "None"}
+        or item.get("classification") == "unknown"
         or item["metrics"].get("ungrounded_claims", 0)
         or item["metrics"].get("hallucinated_tool_args", 0)
+        or item["metrics"].get("unnecessary_tool_calls", 0)
     ]
 
     selected: list[dict[str, Any]] = []
@@ -232,6 +280,7 @@ def render_markdown(items: list[dict[str, Any]]) -> str:
                 f"- Task: `{item['task_type']}` for `{item['repo']}#{item['issue_number']}`",
                 f"- Score: `{metrics.get('score_3pt')}`",
                 f"- Tool-selection accuracy: `{metrics.get('tool_selection_accuracy')}`",
+                f"- Unnecessary tool calls: `{metrics.get('unnecessary_tool_calls')}`",
                 f"- Stop reason: `{item.get('stop_reason')}`",
                 f"- Expected tools: `{item.get('expected_tools')}`",
                 f"- Used tools: `{item.get('used_tools')}`",
@@ -263,10 +312,35 @@ def suggested_fix(item: dict[str, Any]) -> str:
             "for tasks whose rubric expects a specific tool class."
         )
 
+    if mode == "Unnecessary extra tool calls":
+        return (
+            "Route task-specific workflows more tightly so simple classification tasks "
+            "can stop after issue retrieval unless duplicate or stale-state evidence is needed."
+        )
+
     if mode == "Non-completion stop reason":
         return (
             "Treat GitHub rate-limit responses as retriable when the response body "
             "indicates rate limiting, and prefer authenticated requests during eval."
+        )
+
+    if mode == "Deleted or nonexistent repository path":
+        return (
+            "Map repository-level 404s into a completed refusal artifact with explicit "
+            "`repo_not_found` wording, while keeping the raw tool error in the trace."
+        )
+
+    if mode == "Nonexistent issue path":
+        return (
+            "Map issue-level 404s into a completed not-found triage report instead of "
+            "using the same terminal state as unexpected tool failures."
+        )
+
+    if mode == "Human review interrupt pending":
+        return (
+            "During live demo, resume the interrupt with a reviewer classification; "
+            "for automated eval, keep this explicit terminal state instead of an "
+            "implicit missing stop reason."
         )
 
     if mode == "Hallucinated tool arguments":
@@ -290,10 +364,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     trajectory_dir = Path(args.trajectories)
-    items = [
-        summarize_trace(path)
-        for path in sorted(trajectory_dir.glob("*.json"))
-    ]
+    items = [summarize_trace(path) for path in sorted(trajectory_dir.glob("*.json"))]
     selected = select_failures(items, args.limit)
 
     payload = {

@@ -2,18 +2,41 @@
 
 These traces were selected from machine-readable trajectory JSON files.
 
-## 1. adv_001 - Non-completion stop reason
+## 1. t25 - Human review interrupt pending
+
+- Source: `runs/main/trajectories/t25.json`
+- Task: `code_area` for `scikit-learn/scikit-learn#33558`
+- Score: `3`
+- Tool-selection accuracy: `1.0`
+- Unnecessary tool calls: `0`
+- Stop reason: `human_interrupt_pending`
+- Expected tools: `['github_get_issue', 'github_search_related_issues']`
+- Used tools: `['classification_heuristic', 'github_get_issue', 'github_search_related_issues', 'triage_cache_get']`
+
+### What happened
+The automated eval correctly reached the human-in-the-loop gate, but the interrupt was not resumed by a reviewer, so the trace ends with a pending human decision.
+
+### Evidence and symptoms
+- Final classification: `unknown`
+- Evidence count shown: `5`
+- Related issues found: `3`
+
+### Suggested fix
+During live demo, resume the interrupt with a reviewer classification; for automated eval, keep this explicit terminal state instead of an implicit missing stop reason.
+
+## 2. adv_001 - Nonexistent issue path
 
 - Source: `runs/main/trajectories/adv_001.json`
-- Task: `adversarial_nonexistent_repo` for `not-a-real-owner/not-a-real-repo#1`
+- Task: `adversarial_nonexistent_issue` for `pandas-dev/pandas#99999999`
 - Score: `3`
 - Tool-selection accuracy: `1.0`
+- Unnecessary tool calls: `0`
 - Stop reason: `tool_error_non_retriable`
 - Expected tools: `['github_get_issue']`
 - Used tools: `['github_get_issue']`
 
 ### What happened
-The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.
+The agent correctly avoided fabrication, but the trajectory ends as a non-completion 404 path instead of a normal completed not-found report.
 
 ### Evidence and symptoms
 - Error: `github_get_issue failed: status=404; error={"message":"Not Found","documentation_url":"https://docs.github.com/rest/issues/issues#get-an-issue","status":"404"}`
@@ -22,42 +45,21 @@ The trajectory stopped with `tool_error_non_retriable` instead of a normal compl
 - Related issues found: `0`
 
 ### Suggested fix
-Treat GitHub rate-limit responses as retriable when the response body indicates rate limiting, and prefer authenticated requests during eval.
+Map issue-level 404s into a completed not-found triage report instead of using the same terminal state as unexpected tool failures.
 
-## 2. adv_002 - Non-completion stop reason
-
-- Source: `runs/main/trajectories/adv_002.json`
-- Task: `adversarial_nonexistent_issue` for `langchain-ai/langgraph#99999999`
-- Score: `3`
-- Tool-selection accuracy: `1.0`
-- Stop reason: `tool_error_non_retriable`
-- Expected tools: `['github_get_issue']`
-- Used tools: `['github_get_issue']`
-
-### What happened
-The trajectory stopped with `tool_error_non_retriable` instead of a normal completion.
-
-### Evidence and symptoms
-- Error: `github_get_issue failed: status=404; error={"message":"Not Found","documentation_url":"https://docs.github.com/rest/issues/issues#get-an-issue","status":"404"}`
-- Final classification: `unknown`
-- Evidence count shown: `1`
-- Related issues found: `0`
-
-### Suggested fix
-Treat GitHub rate-limit responses as retriable when the response body indicates rate limiting, and prefer authenticated requests during eval.
-
-## 3. t29 - Residual trajectory risk
+## 3. t29 - Unnecessary extra tool calls
 
 - Source: `runs/main/trajectories/t29.json`
 - Task: `classify` for `jax-ml/jax#37251`
 - Score: `3`
 - Tool-selection accuracy: `1.0`
+- Unnecessary tool calls: `2`
 - Stop reason: `completed`
 - Expected tools: `['github_get_issue']`
 - Used tools: `['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get']`
 
 ### What happened
-This trajectory did not fail the rule-based rubric, but is included to provide the requested third annotated trace and document residual risk.
+The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get'].
 
 ### Evidence and symptoms
 - Final classification: `bug`
@@ -65,4 +67,4 @@ This trajectory did not fail the rule-based rubric, but is included to provide t
 - Related issues found: `3`
 
 ### Suggested fix
-Inspect the trajectory and add a targeted regression task for this failure mode.
+Route task-specific workflows more tightly so simple classification tasks can stop after issue retrieval unless duplicate or stale-state evidence is needed.

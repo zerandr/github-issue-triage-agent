@@ -3,7 +3,7 @@
       "custom_github_triage": {
         "description": "Custom MCP server for GitHub issue triage tools and local cache.",
         "transport": "stdio",
-        "command": "python",
+        "command": "./venv/bin/python",
         "args": ["-m", "src.mcp_custom.server"],
         "env": {
           "GITHUB_TOKEN": "${GITHUB_TOKEN}",

@@ -47,10 +47,7 @@ def make_json_safe(value: Any) -> Any:
         return [make_json_safe(item) for item in value]
 
     if isinstance(value, dict):
-        return {
-            str(key): make_json_safe(item)
-            for key, item in value.items()
-        }
+        return {str(key): make_json_safe(item) for key, item in value.items()}
 
     if hasattr(value, "model_dump"):
         return make_json_safe(value.model_dump())
@@ -171,11 +168,7 @@ def tool_selection_accuracy(
     if not used:
         return 0.0
 
-    matched = sum(
-        1
-        for exp in expected
-        if any(exp in got for got in used)
-    )
+    matched = sum(1 for exp in expected if any(exp in got for got in used))
 
     return matched / len(expected)
 
@@ -211,6 +204,37 @@ def count_hallucinated_tool_args(final_state: dict[str, Any]) -> int:
             count += 1
 
     return count
+
+
+def terminal_state(final_state: dict[str, Any]) -> str:
+    stop_reason = final_state.get("stop_reason")
+
+    if stop_reason in {None, "", "None", "null"} and final_state.get("__interrupt__"):
+        return "human_interrupt_pending"
+
+    if stop_reason in {None, ""}:
+        return "unknown"
+
+    return str(stop_reason)
+
+
+def count_unnecessary_tool_calls(
+    task: dict[str, Any],
+    final_state: dict[str, Any],
+) -> int:
+    expected = {
+        str(item)
+        for item in task.get(
+            "expected_tool_classes",
+            task.get("expected_tools", []),
+        )
+    }
+
+    observed = {
+        name for name in extract_tool_names(final_state) if name.startswith("github_")
+    }
+
+    return sum(1 for name in observed if name not in expected)
 
 
 def run_one_task(
@@ -263,12 +287,14 @@ def run_one_task(
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": count_ungrounded_claims(final_state),
         "hallucinated_tool_args": count_hallucinated_tool_args(final_state),
-        "stop_reason": final_state.get("stop_reason"),
+        "unnecessary_tool_calls": count_unnecessary_tool_calls(task, final_state),
+        "stop_reason": terminal_state(final_state),
     }
 
     trajectory = {
         "task_id": task_id,
         "task": task,
+        "trajectory_events": final_state.get("trajectory_events", []),
         "final_state": final_state,
         "metrics": metrics,
     }
@@ -322,6 +348,9 @@ def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "total_hallucinated_tool_args": int(
             sum(int(item.get("hallucinated_tool_args", 0) or 0) for item in metrics)
+        ),
+        "total_unnecessary_tool_calls": int(
+            sum(int(item.get("unnecessary_tool_calls", 0) or 0) for item in metrics)
         ),
         "stop_reasons": stop_reasons,
     }
@@ -462,7 +491,11 @@ def main() -> None:
                 "error": str(exc),
             }
 
-        print(json.dumps({"git_mcp_autocommit_result": git_result}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {"git_mcp_autocommit_result": git_result}, ensure_ascii=False, indent=2
+            )
+        )
 
         if not git_result.get("ok") and args.git_mcp_required:
             raise RuntimeError(f"Git MCP auto-commit failed: {git_result}")

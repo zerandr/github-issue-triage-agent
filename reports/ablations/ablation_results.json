@@ -11,8 +11,6 @@
       "out_dir": "runs/ablations/baseline",
       "summary_path": "reports/ablations/baseline_summary.json",
       "returncode": 0,
-      "stdout_tail": "[1/33] Running t01...\n  score=3 latency=0.433s\n[2/33] Running t02...\n  score=3 latency=0.029s\n[3/33] Running t03...\n  score=3 latency=0.026s\n[4/33] Running t04...\n  score=3 latency=0.026s\n[5/33] Running t05...\n  score=3 latency=0.011s\n[6/33] Running t06...\n  score=3 latency=0.026s\n[7/33] Running t07...\n  score=3 latency=0.026s\n[8/33] Running t08...\n  score=3 latency=0.03s\n[9/33] Running t09...\n  score=3 latency=0.027s\n[10/33] Running t10...\n  score=3 latency=0.028s\n[11/33] Running t11...\n  score=3 latency=0.054s\n[12/33] Running t12...\n  score=3 latency=0.031s\n[13/33] Running t13...\n  score=3 latency=0.031s\n[14/33] Running t14...\n  score=3 latency=0.027s\n[15/33] Running t15...\n  score=3 latency=0.028s\n[16/33] Running t16...\n  score=3 latency=0.025s\n[17/33] Running t17...\n  score=3 latency=0.023s\n[18/33] Running t18...\n  score=3 latency=0.013s\n[19/33] Running t19...\n  score=3 latency=0.027s\n[20/33] Running t20...\n  score=3 latency=0.029s\n[21/33] Running t21...\n  score=3 latency=0.026s\n[22/33] Running t22...\n  score=3 latency=0.026s\n[23/33] Running t23...\n  score=3 latency=0.025s\n[24/33] Running t24...\n  score=3 latency=0.03s\n[25/33] Running t25...\n  score=3 latency=0.012s\n[26/33] Running t26...\n  score=3 latency=0.028s\n[27/33] Running t27...\n  score=3 latency=0.024s\n[28/33] Running t28...\n  score=3 latency=0.03s\n[29/33] Running t29...\n  score=3 latency=0.027s\n[30/33] Running t30...\n  score=3 latency=0.025s\n[31/33] Running adv_001...\n  score=3 latency=0.048s\n[32/33] Running adv_002...\n  score=3 latency=0.045s\n[33/33] Running adv_003...\n  score=3 latency=0.008s\n{\n  \"n_tasks\": 33,\n  \"mean_score_3pt\": 3.0,\n  \"score_counts\": {\n    \"3\": 33\n  },\n  \"tool_selection_accuracy\": 1.0,\n  \"mean_steps\": 6.333,\n  \"mean_tool_calls\": 1.0,\n  \"mean_latency_seconds\": 0.04,\n  \"total_tokens\": 0,\n  \"total_estimated_usd_cost\": 0.0,\n  \"total_ungrounded_claims\": 0,\n  \"total_hallucinated_tool_args\": 0,\n  \"stop_reasons\": {\n    \"completed\": 27,\n    \"None\": 4,\n    \"tool_error_non_retriable\": 2\n  }\n}\n",
-      "stderr_tail": "ent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n",
       "summary": {
         "n_tasks": 33,
         "mean_score_3pt": 3.0,
@@ -20,17 +18,18 @@
           "3": 33
         },
         "tool_selection_accuracy": 1.0,
-        "mean_steps": 6.333,
-        "mean_tool_calls": 1.0,
-        "mean_latency_seconds": 0.04,
-        "total_tokens": 0,
+        "mean_steps": 6.424,
+        "mean_tool_calls": 0.909,
+        "mean_latency_seconds": 28.85,
+        "total_tokens": 3673,
         "total_estimated_usd_cost": 0.0,
         "total_ungrounded_claims": 0,
         "total_hallucinated_tool_args": 0,
+        "total_unnecessary_tool_calls": 44,
         "stop_reasons": {
-          "completed": 27,
-          "None": 4,
-          "tool_error_non_retriable": 2
+          "tool_error_non_retriable": 2,
+          "completed": 28,
+          "human_interrupt_pending": 3
         }
       }
     },
@@ -38,15 +37,13 @@
       "name": "model_secondary",
       "description": "Same graph and prompt, secondary model.",
       "env": {
-        "OLLAMA_MODEL": "qwen2.5:14b-instruct",
+        "OLLAMA_MODEL": "llama3:latest",
         "TRIAGE_PROMPT_VARIANT": "strict",
         "TRIAGE_GRAPH_VARIANT": "baseline"
       },
       "out_dir": "runs/ablations/model_secondary",
       "summary_path": "reports/ablations/model_secondary_summary.json",
       "returncode": 0,
-      "stdout_tail": "[1/33] Running t01...\n  score=3 latency=0.301s\n[2/33] Running t02...\n  score=3 latency=0.027s\n[3/33] Running t03...\n  score=3 latency=0.024s\n[4/33] Running t04...\n  score=3 latency=0.022s\n[5/33] Running t05...\n  score=3 latency=0.01s\n[6/33] Running t06...\n  score=3 latency=0.024s\n[7/33] Running t07...\n  score=3 latency=0.024s\n[8/33] Running t08...\n  score=3 latency=0.025s\n[9/33] Running t09...\n  score=3 latency=0.026s\n[10/33] Running t10...\n  score=3 latency=0.026s\n[11/33] Running t11...\n  score=3 latency=0.048s\n[12/33] Running t12...\n  score=3 latency=0.025s\n[13/33] Running t13...\n  score=3 latency=0.025s\n[14/33] Running t14...\n  score=3 latency=0.024s\n[15/33] Running t15...\n  score=3 latency=0.024s\n[16/33] Running t16...\n  score=3 latency=0.023s\n[17/33] Running t17...\n  score=3 latency=0.021s\n[18/33] Running t18...\n  score=3 latency=0.01s\n[19/33] Running t19...\n  score=3 latency=0.026s\n[20/33] Running t20...\n  score=3 latency=0.027s\n[21/33] Running t21...\n  score=3 latency=0.024s\n[22/33] Running t22...\n  score=3 latency=0.025s\n[23/33] Running t23...\n  score=3 latency=0.023s\n[24/33] Running t24...\n  score=3 latency=0.028s\n[25/33] Running t25...\n  score=3 latency=0.01s\n[26/33] Running t26...\n  score=3 latency=0.026s\n[27/33] Running t27...\n  score=3 latency=0.023s\n[28/33] Running t28...\n  score=3 latency=0.027s\n[29/33] Running t29...\n  score=3 latency=0.025s\n[30/33] Running t30...\n  score=3 latency=0.024s\n[31/33] Running adv_001...\n  score=3 latency=0.044s\n[32/33] Running adv_002...\n  score=3 latency=0.045s\n[33/33] Running adv_003...\n  score=3 latency=0.009s\n{\n  \"n_tasks\": 33,\n  \"mean_score_3pt\": 3.0,\n  \"score_counts\": {\n    \"3\": 33\n  },\n  \"tool_selection_accuracy\": 1.0,\n  \"mean_steps\": 6.333,\n  \"mean_tool_calls\": 1.0,\n  \"mean_latency_seconds\": 0.033,\n  \"total_tokens\": 0,\n  \"total_estimated_usd_cost\": 0.0,\n  \"total_ungrounded_claims\": 0,\n  \"total_hallucinated_tool_args\": 0,\n  \"stop_reasons\": {\n    \"completed\": 27,\n    \"None\": 4,\n    \"tool_error_non_retriable\": 2\n  }\n}\n",
-      "stderr_tail": "ent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n",
       "summary": {
         "n_tasks": 33,
         "mean_score_3pt": 3.0,
@@ -54,17 +51,18 @@
           "3": 33
         },
         "tool_selection_accuracy": 1.0,
-        "mean_steps": 6.333,
-        "mean_tool_calls": 1.0,
-        "mean_latency_seconds": 0.033,
-        "total_tokens": 0,
+        "mean_steps": 6.424,
+        "mean_tool_calls": 0.909,
+        "mean_latency_seconds": 22.486,
+        "total_tokens": 2963,
         "total_estimated_usd_cost": 0.0,
         "total_ungrounded_claims": 0,
         "total_hallucinated_tool_args": 0,
+        "total_unnecessary_tool_calls": 44,
         "stop_reasons": {
-          "completed": 27,
-          "None": 4,
-          "tool_error_non_retriable": 2
+          "tool_error_non_retriable": 2,
+          "completed": 28,
+          "human_interrupt_pending": 3
         }
       }
     },
@@ -79,8 +77,6 @@
       "out_dir": "runs/ablations/prompt_permissive",
       "summary_path": "reports/ablations/prompt_permissive_summary.json",
       "returncode": 0,
-      "stdout_tail": "[1/33] Running t01...\n  score=3 latency=0.297s\n[2/33] Running t02...\n  score=3 latency=0.027s\n[3/33] Running t03...\n  score=3 latency=0.024s\n[4/33] Running t04...\n  score=3 latency=0.022s\n[5/33] Running t05...\n  score=3 latency=0.009s\n[6/33] Running t06...\n  score=3 latency=0.025s\n[7/33] Running t07...\n  score=3 latency=0.025s\n[8/33] Running t08...\n  score=3 latency=0.025s\n[9/33] Running t09...\n  score=3 latency=0.025s\n[10/33] Running t10...\n  score=3 latency=0.026s\n[11/33] Running t11...\n  score=3 latency=0.05s\n[12/33] Running t12...\n  score=3 latency=0.025s\n[13/33] Running t13...\n  score=3 latency=0.026s\n[14/33] Running t14...\n  score=3 latency=0.024s\n[15/33] Running t15...\n  score=3 latency=0.025s\n[16/33] Running t16...\n  score=3 latency=0.024s\n[17/33] Running t17...\n  score=3 latency=0.021s\n[18/33] Running t18...\n  score=3 latency=0.01s\n[19/33] Running t19...\n  score=3 latency=0.025s\n[20/33] Running t20...\n  score=3 latency=0.027s\n[21/33] Running t21...\n  score=3 latency=0.024s\n[22/33] Running t22...\n  score=3 latency=0.024s\n[23/33] Running t23...\n  score=3 latency=0.024s\n[24/33] Running t24...\n  score=3 latency=0.026s\n[25/33] Running t25...\n  score=3 latency=0.01s\n[26/33] Running t26...\n  score=3 latency=0.026s\n[27/33] Running t27...\n  score=3 latency=0.023s\n[28/33] Running t28...\n  score=3 latency=0.027s\n[29/33] Running t29...\n  score=3 latency=0.025s\n[30/33] Running t30...\n  score=3 latency=0.023s\n[31/33] Running adv_001...\n  score=3 latency=0.044s\n[32/33] Running adv_002...\n  score=3 latency=0.045s\n[33/33] Running adv_003...\n  score=3 latency=0.008s\n{\n  \"n_tasks\": 33,\n  \"mean_score_3pt\": 3.0,\n  \"score_counts\": {\n    \"3\": 33\n  },\n  \"tool_selection_accuracy\": 1.0,\n  \"mean_steps\": 6.333,\n  \"mean_tool_calls\": 1.0,\n  \"mean_latency_seconds\": 0.033,\n  \"total_tokens\": 0,\n  \"total_estimated_usd_cost\": 0.0,\n  \"total_ungrounded_claims\": 0,\n  \"total_hallucinated_tool_args\": 0,\n  \"stop_reasons\": {\n    \"completed\": 27,\n    \"None\": 4,\n    \"tool_error_non_retriable\": 2\n  }\n}\n",
-      "stderr_tail": "ent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n",
       "summary": {
         "n_tasks": 33,
         "mean_score_3pt": 3.0,
@@ -88,17 +84,18 @@
           "3": 33
         },
         "tool_selection_accuracy": 1.0,
-        "mean_steps": 6.333,
-        "mean_tool_calls": 1.0,
-        "mean_latency_seconds": 0.033,
-        "total_tokens": 0,
+        "mean_steps": 6.424,
+        "mean_tool_calls": 0.909,
+        "mean_latency_seconds": 24.193,
+        "total_tokens": 3240,
         "total_estimated_usd_cost": 0.0,
         "total_ungrounded_claims": 0,
         "total_hallucinated_tool_args": 0,
+        "total_unnecessary_tool_calls": 44,
         "stop_reasons": {
-          "completed": 27,
-          "None": 4,
-          "tool_error_non_retriable": 2
+          "tool_error_non_retriable": 2,
+          "completed": 28,
+          "human_interrupt_pending": 3
         }
       }
     },
@@ -113,8 +110,6 @@
       "out_dir": "runs/ablations/graph_no_human_gate",
       "summary_path": "reports/ablations/graph_no_human_gate_summary.json",
       "returncode": 0,
-      "stdout_tail": "[1/33] Running t01...\n  score=3 latency=0.313s\n[2/33] Running t02...\n  score=3 latency=0.028s\n[3/33] Running t03...\n  score=3 latency=0.025s\n[4/33] Running t04...\n  score=3 latency=0.024s\n[5/33] Running t05...\n  score=3 latency=0.023s\n[6/33] Running t06...\n  score=3 latency=0.028s\n[7/33] Running t07...\n  score=3 latency=0.025s\n[8/33] Running t08...\n  score=3 latency=0.027s\n[9/33] Running t09...\n  score=3 latency=0.027s\n[10/33] Running t10...\n  score=3 latency=0.029s\n[11/33] Running t11...\n  score=3 latency=0.055s\n[12/33] Running t12...\n  score=3 latency=0.026s\n[13/33] Running t13...\n  score=3 latency=0.028s\n[14/33] Running t14...\n  score=3 latency=0.026s\n[15/33] Running t15...\n  score=3 latency=0.025s\n[16/33] Running t16...\n  score=3 latency=0.025s\n[17/33] Running t17...\n  score=3 latency=0.021s\n[18/33] Running t18...\n  score=3 latency=0.024s\n[19/33] Running t19...\n  score=3 latency=0.028s\n[20/33] Running t20...\n  score=3 latency=0.028s\n[21/33] Running t21...\n  score=3 latency=0.025s\n[22/33] Running t22...\n  score=3 latency=0.025s\n[23/33] Running t23...\n  score=3 latency=0.023s\n[24/33] Running t24...\n  score=3 latency=0.027s\n[25/33] Running t25...\n  score=3 latency=0.024s\n[26/33] Running t26...\n  score=3 latency=0.029s\n[27/33] Running t27...\n  score=3 latency=0.025s\n[28/33] Running t28...\n  score=3 latency=0.027s\n[29/33] Running t29...\n  score=3 latency=0.024s\n[30/33] Running t30...\n  score=3 latency=0.025s\n[31/33] Running adv_001...\n  score=3 latency=0.043s\n[32/33] Running adv_002...\n  score=3 latency=0.046s\n[33/33] Running adv_003...\n  score=3 latency=0.029s\n{\n  \"n_tasks\": 33,\n  \"mean_score_3pt\": 3.0,\n  \"score_counts\": {\n    \"3\": 33\n  },\n  \"tool_selection_accuracy\": 1.0,\n  \"mean_steps\": 6.697,\n  \"mean_tool_calls\": 1.121,\n  \"mean_latency_seconds\": 0.037,\n  \"total_tokens\": 0,\n  \"total_estimated_usd_cost\": 0.0,\n  \"total_ungrounded_claims\": 0,\n  \"total_hallucinated_tool_args\": 0,\n  \"stop_reasons\": {\n    \"completed\": 31,\n    \"tool_error_non_retriable\": 2\n  }\n}\n",
-      "stderr_tail": "ent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `github_get_issue`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n/Users/fonkurz/Documents/GitHub/github-issue-triage-agent/src/agent/mcp_client.py:99: RuntimeWarning: MCP call failed for tool `triage_cache_get`. Falling back to local function call. Error: [Errno 2] No such file or directory: 'python'\n  warnings.warn(\n",
       "summary": {
         "n_tasks": 33,
         "mean_score_3pt": 3.0,
@@ -123,15 +118,16 @@
         },
         "tool_selection_accuracy": 1.0,
         "mean_steps": 6.697,
-        "mean_tool_calls": 1.121,
-        "mean_latency_seconds": 0.037,
-        "total_tokens": 0,
+        "mean_tool_calls": 1.0,
+        "mean_latency_seconds": 27.366,
+        "total_tokens": 4152,
         "total_estimated_usd_cost": 0.0,
         "total_ungrounded_claims": 0,
         "total_hallucinated_tool_args": 0,
+        "total_unnecessary_tool_calls": 47,
         "stop_reasons": {
-          "completed": 31,
-          "tool_error_non_retriable": 2
+          "tool_error_non_retriable": 2,
+          "completed": 31
         }
       }
     }
@@ -143,13 +139,14 @@
       "n_tasks": 33,
       "mean_score_3pt": 3.0,
       "tool_selection_accuracy": 1.0,
-      "mean_steps": 6.333,
-      "mean_tool_calls": 1.0,
-      "mean_latency_seconds": 0.04,
-      "total_tokens": 0,
+      "mean_steps": 6.424,
+      "mean_tool_calls": 0.909,
+      "mean_latency_seconds": 28.85,
+      "total_tokens": 3673,
       "total_estimated_usd_cost": 0.0,
       "total_ungrounded_claims": 0,
-      "total_hallucinated_tool_args": 0
+      "total_hallucinated_tool_args": 0,
+      "total_unnecessary_tool_calls": 44
     },
     {
       "variant": "model_secondary",
@@ -157,13 +154,14 @@
       "n_tasks": 33,
       "mean_score_3pt": 3.0,
       "tool_selection_accuracy": 1.0,
-      "mean_steps": 6.333,
-      "mean_tool_calls": 1.0,
-      "mean_latency_seconds": 0.033,
-      "total_tokens": 0,
+      "mean_steps": 6.424,
+      "mean_tool_calls": 0.909,
+      "mean_latency_seconds": 22.486,
+      "total_tokens": 2963,
       "total_estimated_usd_cost": 0.0,
       "total_ungrounded_claims": 0,
-      "total_hallucinated_tool_args": 0
+      "total_hallucinated_tool_args": 0,
+      "total_unnecessary_tool_calls": 44
     },
     {
       "variant": "prompt_permissive",
@@ -171,13 +169,14 @@
       "n_tasks": 33,
       "mean_score_3pt": 3.0,
       "tool_selection_accuracy": 1.0,
-      "mean_steps": 6.333,
-      "mean_tool_calls": 1.0,
-      "mean_latency_seconds": 0.033,
-      "total_tokens": 0,
+      "mean_steps": 6.424,
+      "mean_tool_calls": 0.909,
+      "mean_latency_seconds": 24.193,
+      "total_tokens": 3240,
       "total_estimated_usd_cost": 0.0,
       "total_ungrounded_claims": 0,
-      "total_hallucinated_tool_args": 0
+      "total_hallucinated_tool_args": 0,
+      "total_unnecessary_tool_calls": 44
     },
     {
       "variant": "graph_no_human_gate",
@@ -186,12 +185,13 @@
       "mean_score_3pt": 3.0,
       "tool_selection_accuracy": 1.0,
       "mean_steps": 6.697,
-      "mean_tool_calls": 1.121,
-      "mean_latency_seconds": 0.037,
-      "total_tokens": 0,
+      "mean_tool_calls": 1.0,
+      "mean_latency_seconds": 27.366,
+      "total_tokens": 4152,
       "total_estimated_usd_cost": 0.0,
       "total_ungrounded_claims": 0,
-      "total_hallucinated_tool_args": 0
+      "total_hallucinated_tool_args": 0,
+      "total_unnecessary_tool_calls": 47
     }
   ]
 }
