@@ -2108,23 +2108,22 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue title and body indicate a failure in the pytest-run-parallel CI process with an AttributeError, which aligns with known issues related to parallel testing.",
+          "justification": "The issue title and body explicitly state a pytest-run-parallel CI failure with an AttributeError, which aligns with bug reports.",
           "probable_code_areas": [
-            "tests/*",
-            "cli/*"
+            "tests/*"
           ],
           "open_questions": [
             "Is the reproducer still valid on the latest main branch?",
             "Is there an agreed owner for implementation or review?"
           ],
           "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-          "current_state_summary": "The issue is open and related to CI failures in parallel testing. It references previous issues (30085, 29552) that were closed but may provide context. The latest state should be validated by maintainer."
+          "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 173
+          "eval_count": 134
         }
       },
-      "latency_ms": 28574
+      "latency_ms": 11706
     }
   ],
   "final_state": {
@@ -2168,17 +2167,16 @@
       }
     ],
     "probable_code_areas": [
-      "tests/*",
-      "cli/*"
+      "tests/*"
     ],
     "classification": "bug",
-    "justification": "The issue title and body indicate a failure in the pytest-run-parallel CI process with an AttributeError, which aligns with known issues related to parallel testing.",
+    "justification": "The issue title and body explicitly state a pytest-run-parallel CI failure with an AttributeError, which aligns with bug reports.",
     "open_questions": [
       "Is the reproducer still valid on the latest main branch?",
       "Is there an agreed owner for implementation or review?"
     ],
     "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-    "current_state_summary": "The issue is open and related to CI failures in parallel testing. It references previous issues (30085, 29552) that were closed but may provide context. The latest state should be validated by maintainer.",
+    "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2256,7 +2254,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 28574,
+        "latency_ms": 11706,
         "error": ""
       }
     ],
@@ -4347,29 +4345,28 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue title and body indicate a failure in the pytest-run-parallel CI process with an AttributeError, which aligns with known issues related to parallel testing.",
+            "justification": "The issue title and body explicitly state a pytest-run-parallel CI failure with an AttributeError, which aligns with bug reports.",
             "probable_code_areas": [
-              "tests/*",
-              "cli/*"
+              "tests/*"
             ],
             "open_questions": [
               "Is the reproducer still valid on the latest main branch?",
               "Is there an agreed owner for implementation or review?"
             ],
             "decision_needed": "Close as stale, ask for updated reproduction, or assign an owner with a concrete next milestone.",
-            "current_state_summary": "The issue is open and related to CI failures in parallel testing. It references previous issues (30085, 29552) that were closed but may provide context. The latest state should be validated by maintainer."
+            "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 173
+            "eval_count": 134
           }
         },
-        "latency_ms": 28574
+        "latency_ms": 11706
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 173,
-    "started_at_unix": 1779145739.72699,
+    "token_count": 134,
+    "started_at_unix": 1779167883.158627,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -4384,8 +4381,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 31.639,
-    "token_count": 173,
+    "latency_seconds": 14.317,
+    "token_count": 134,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

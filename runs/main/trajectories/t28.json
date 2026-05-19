@@ -4262,13 +4262,13 @@
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue has been closed but related issues exist. The classification and probable code areas are inferred from the evidence provided."
+          "current_state_summary": "The issue has been closed but related issues remain open. The classification and probable code areas are based on the evidence provided."
         },
         "usage": {
-          "eval_count": 123
+          "eval_count": 124
         }
       },
-      "latency_ms": 37408
+      "latency_ms": 25549
     }
   ],
   "final_state": {
@@ -4316,7 +4316,7 @@
     "justification": "The issue describes a deadlock scenario when `numpy` is imported from within a `dlopen()` context on glibc < 2.34 with MKL BLAS, which is explicitly labeled as a bug in the GitHub issue.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue has been closed but related issues exist. The classification and probable code areas are inferred from the evidence provided.",
+    "current_state_summary": "The issue has been closed but related issues remain open. The classification and probable code areas are based on the evidence provided.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -4394,7 +4394,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 37408,
+        "latency_ms": 25549,
         "error": ""
       }
     ],
@@ -8639,19 +8639,19 @@
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue has been closed but related issues exist. The classification and probable code areas are inferred from the evidence provided."
+            "current_state_summary": "The issue has been closed but related issues remain open. The classification and probable code areas are based on the evidence provided."
           },
           "usage": {
-            "eval_count": 123
+            "eval_count": 124
           }
         },
-        "latency_ms": 37408
+        "latency_ms": 25549
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 123,
-    "started_at_unix": 1779146163.526964,
+    "token_count": 124,
+    "started_at_unix": 1779168146.2174149,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -8666,8 +8666,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 40.555,
-    "token_count": 123,
+    "latency_seconds": 28.278,
+    "token_count": 124,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

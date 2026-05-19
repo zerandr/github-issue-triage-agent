@@ -39,7 +39,7 @@
         "retriable": false,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
       },
-      "latency_ms": 721
+      "latency_ms": 679
     }
   ],
   "final_state": {
@@ -49,7 +49,7 @@
     "related_issues": [],
     "probable_code_areas": [],
     "classification": "unknown",
-    "justification": "No grounded justification generated.",
+    "justification": "The issue could not be verified from GitHub evidence, so the agent does not classify it or invent related details.",
     "open_questions": [],
     "decision_needed": "",
     "current_state_summary": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
@@ -70,7 +70,7 @@
         "status": 404,
         "ok": false,
         "retriable": false,
-        "latency_ms": 721,
+        "latency_ms": 679,
         "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
       }
     ],
@@ -91,13 +91,13 @@
           "retriable": false,
           "error": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}"
         },
-        "latency_ms": 721
+        "latency_ms": 679
       }
     ],
     "step_count": 2,
     "tool_calls": 1,
     "token_count": 0,
-    "started_at_unix": 1779146291.065032,
+    "started_at_unix": 1779168234.039957,
     "stop_reason": "tool_error_non_retriable",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -112,7 +112,7 @@
     "tool_selection_accuracy": 1.0,
     "steps": 2,
     "tool_calls": 1,
-    "latency_seconds": 1.263,
+    "latency_seconds": 1.162,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,

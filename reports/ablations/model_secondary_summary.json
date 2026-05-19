@@ -7,15 +7,15 @@
   "tool_selection_accuracy": 1.0,
   "mean_steps": 6.424,
   "mean_tool_calls": 0.909,
-  "mean_latency_seconds": 22.486,
-  "total_tokens": 2963,
+  "mean_latency_seconds": 18.857,
+  "total_tokens": 2997,
   "total_estimated_usd_cost": 0.0,
   "total_ungrounded_claims": 0,
   "total_hallucinated_tool_args": 0,
   "total_unnecessary_tool_calls": 44,
   "stop_reasons": {
-    "tool_error_non_retriable": 2,
     "completed": 28,
-    "human_interrupt_pending": 3
+    "human_interrupt_pending": 3,
+    "tool_error_non_retriable": 2
   }
 }

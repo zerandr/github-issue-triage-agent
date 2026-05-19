@@ -2542,20 +2542,20 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+          "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug.",
           "probable_code_areas": [
-            "pandas/core/expressions.py",
-            "pandas/query_compiler/expression.py"
+            "pandas/core/frame.py",
+            "pandas/query_compiler/expressions.py"
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue has been closed by the maintainers, but no resolution or confirmation of a bug fix is mentioned. Related issues are open and may provide additional context."
+          "current_state_summary": "The issue has been closed without resolution. The maintainer should validate the current state."
         },
         "usage": {
-          "eval_count": 123
+          "eval_count": 104
         }
       },
-      "latency_ms": 25262
+      "latency_ms": 13856
     }
   ],
   "final_state": {
@@ -2599,14 +2599,14 @@
       }
     ],
     "probable_code_areas": [
-      "pandas/core/expressions.py",
-      "pandas/query_compiler/expression.py"
+      "pandas/core/frame.py",
+      "pandas/query_compiler/expressions.py"
     ],
     "classification": "bug",
-    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue has been closed by the maintainers, but no resolution or confirmation of a bug fix is mentioned. Related issues are open and may provide additional context.",
+    "current_state_summary": "The issue has been closed without resolution. The maintainer should validate the current state.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2684,7 +2684,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 25262,
+        "latency_ms": 13856,
         "error": ""
       }
     ],
@@ -5210,26 +5210,26 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+            "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug.",
             "probable_code_areas": [
-              "pandas/core/expressions.py",
-              "pandas/query_compiler/expression.py"
+              "pandas/core/frame.py",
+              "pandas/query_compiler/expressions.py"
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue has been closed by the maintainers, but no resolution or confirmation of a bug fix is mentioned. Related issues are open and may provide additional context."
+            "current_state_summary": "The issue has been closed without resolution. The maintainer should validate the current state."
           },
           "usage": {
-            "eval_count": 123
+            "eval_count": 104
           }
         },
-        "latency_ms": 25262
+        "latency_ms": 13856
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 123,
-    "started_at_unix": 1779145893.409436,
+    "token_count": 104,
+    "started_at_unix": 1779167975.973566,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -5244,8 +5244,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 27.731,
-    "token_count": 123,
+    "latency_seconds": 16.167,
+    "token_count": 104,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

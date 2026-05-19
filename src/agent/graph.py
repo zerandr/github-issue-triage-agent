@@ -660,11 +660,20 @@ class Graph:
         if not state.stop_reason:
             state.stop_reason = "completed"
 
-        if not state.justification:
-            state.justification = "No grounded justification generated."
-
         if state.fatal_error and not state.current_state_summary:
             state.current_state_summary = state.fatal_error
+
+        if state.fatal_error and (
+            not state.justification
+            or state.justification == "No grounded justification generated."
+        ):
+            state.justification = (
+                "The issue could not be verified from GitHub evidence, so the agent "
+                "does not classify it or invent related details."
+            )
+
+        if not state.justification:
+            state.justification = "No grounded justification generated."
 
         return state
 

@@ -1527,20 +1527,20 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue describes a problem with incorrect namespace and device information returned when using DPNP GPU arrays with scikit-learn's array API utilities. This directly impacts functionality and is classified as a bug.",
+          "justification": "The issue describes a problem where array API utilities return incorrect namespaces and devices for DPNP GPU arrays, which directly impacts functionality. Related issues also indicate ongoing bug fixes.",
           "probable_code_areas": [
             "api/*",
             "frontend/*"
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue is closed but was previously labeled as 'Bug' and 'Needs Triage'. The classification is supported by the issue title, body, and related evidence."
+          "current_state_summary": "The issue is classified as a bug based on the provided description and related issues. The latest state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 123
+          "eval_count": 110
         }
       },
-      "latency_ms": 29151
+      "latency_ms": 18809
     }
   ],
   "final_state": {
@@ -1588,10 +1588,10 @@
       "frontend/*"
     ],
     "classification": "bug",
-    "justification": "The issue describes a problem with incorrect namespace and device information returned when using DPNP GPU arrays with scikit-learn's array API utilities. This directly impacts functionality and is classified as a bug.",
+    "justification": "The issue describes a problem where array API utilities return incorrect namespaces and devices for DPNP GPU arrays, which directly impacts functionality. Related issues also indicate ongoing bug fixes.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue is closed but was previously labeled as 'Bug' and 'Needs Triage'. The classification is supported by the issue title, body, and related evidence.",
+    "current_state_summary": "The issue is classified as a bug based on the provided description and related issues. The latest state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -1663,7 +1663,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 29151,
+        "latency_ms": 18809,
         "error": ""
       }
     ],
@@ -3174,26 +3174,26 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue describes a problem with incorrect namespace and device information returned when using DPNP GPU arrays with scikit-learn's array API utilities. This directly impacts functionality and is classified as a bug.",
+            "justification": "The issue describes a problem where array API utilities return incorrect namespaces and devices for DPNP GPU arrays, which directly impacts functionality. Related issues also indicate ongoing bug fixes.",
             "probable_code_areas": [
               "api/*",
               "frontend/*"
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue is closed but was previously labeled as 'Bug' and 'Needs Triage'. The classification is supported by the issue title, body, and related evidence."
+            "current_state_summary": "The issue is classified as a bug based on the provided description and related issues. The latest state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 123
+            "eval_count": 110
           }
         },
-        "latency_ms": 29151
+        "latency_ms": 18809
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 123,
-    "started_at_unix": 1779146257.436546,
+    "token_count": 110,
+    "started_at_unix": 1779168211.259659,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -3208,8 +3208,8 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 31.759,
-    "token_count": 123,
+    "latency_seconds": 21.041,
+    "token_count": 110,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,

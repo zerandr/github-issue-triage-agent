@@ -75,8 +75,8 @@ Baseline summary from `reports/eval_summary.json`:
 | Tool-selection accuracy | 1.0 |
 | Mean steps | 6.424 |
 | Mean tool calls | 0.909 |
-| Mean latency seconds | 25.827 |
-| Total tokens | 3700 |
+| Mean latency seconds | 17.347 |
+| Total tokens | 3631 |
 | Estimated USD cost | 0.0 for local Ollama |
 | Ungrounded claims | 0 |
 | Hallucinated tool args | 0 |
@@ -128,10 +128,10 @@ Current ablation output:
 
 | Variant | n | Mean score | Tool accuracy | Mean steps | Mean tool calls | Mean latency | Tokens | Unnecessary calls |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| baseline | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 28.85 | 3673 | 44 |
-| model_secondary | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 22.486 | 2963 | 44 |
-| prompt_permissive | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 24.193 | 3240 | 44 |
-| graph_no_human_gate | 33 | 3.0 | 1.0 | 6.697 | 1.0 | 27.366 | 4152 | 47 |
+| baseline | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 21.286 | 3713 | 44 |
+| model_secondary | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 18.857 | 2997 | 44 |
+| prompt_permissive | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 20.858 | 3212 | 44 |
+| graph_no_human_gate | 33 | 3.0 | 1.0 | 6.697 | 1.0 | 27.534 | 4137 | 47 |
 
 ## Cost and Latency Control
 Per-run caps are encoded in `TriageState`:

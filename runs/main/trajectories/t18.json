@@ -2086,7 +2086,7 @@
     "step_count": 4,
     "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779145891.531202,
+    "started_at_unix": 1779167974.343252,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -2096,7 +2096,7 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='c5b9e05640dc6b4dc237fc16e7004480')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='80b386070e739b43993765c185047529')"
     ]
   },
   "metrics": {
@@ -2104,7 +2104,7 @@
     "tool_selection_accuracy": 1.0,
     "steps": 4,
     "tool_calls": 0,
-    "latency_seconds": 1.877,
+    "latency_seconds": 1.631,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
