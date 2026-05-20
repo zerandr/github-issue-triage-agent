@@ -403,7 +403,9 @@ def plan_free_input_with_llm(text: str) -> FreeInputPlan:
         fallback = plan_free_input(text)
 
         if fallback.mode != "unable_to_parse":
-            fallback.reason = f"LLM router could not plan; fallback used. {fallback.reason}"
+            fallback.reason = (
+                f"LLM router could not plan; fallback used. {fallback.reason}"
+            )
             return fallback
 
     return plan
@@ -472,11 +474,7 @@ def execute_free_input(
             "parsed": asdict(plan),
             "ok": True,
             "total_count": payload.get("total_count", 0),
-            "issues": [
-                _slim_issue(item)
-                for item in items
-                if isinstance(item, dict)
-            ],
+            "issues": [_slim_issue(item) for item in items if isinstance(item, dict)],
         }
 
     return {
@@ -524,10 +522,25 @@ def main() -> None:
         dest="interactive_human",
         help="Return pending interrupts instead of asking for terminal input.",
     )
+    parser.add_argument(
+        "--llm-judge",
+        action="store_true",
+        help="Ask the local LLM judge to evaluate the free-form run output.",
+    )
+    parser.add_argument(
+        "--judge-timeout-sec",
+        type=int,
+        default=60,
+        help="Timeout for the optional free-form LLM judge call.",
+    )
 
     args = parser.parse_args()
     text = args.input if args.input is not None else sys.stdin.read()
-    plan = plan_free_input_with_llm(text) if args.router == "llm" else plan_free_input(text)
+    plan = (
+        plan_free_input_with_llm(text)
+        if args.router == "llm"
+        else plan_free_input(text)
+    )
 
     output = {
         "parsed": asdict(plan),
@@ -538,6 +551,15 @@ def main() -> None:
             plan,
             interactive_human=bool(args.interactive_human),
         )
+
+        if args.llm_judge:
+            from src.eval.llm_judge import judge_free_run_output
+
+            output["llm_judge"] = judge_free_run_output(
+                text,
+                output,
+                timeout_sec=int(args.judge_timeout_sec),
+            )
 
     print(json.dumps(output, ensure_ascii=False, indent=2, default=str))
 

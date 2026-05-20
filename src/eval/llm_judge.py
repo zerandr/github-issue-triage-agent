@@ -14,6 +14,15 @@ JUDGE_SCHEMA = {
     "rationale": "short explanation grounded in the provided trace",
 }
 
+FREE_RUN_JUDGE_SCHEMA = {
+    "score_3pt": "integer 1, 2, or 3",
+    "intent_match": "integer 1, 2, or 3",
+    "groundedness": "integer 1, 2, or 3",
+    "tool_use": "integer 1, 2, or 3",
+    "hallucination_risk": "low | medium | high",
+    "rationale": "short explanation grounded in the provided free-run output",
+}
+
 
 def _compact_final_state(final_state: dict[str, Any]) -> dict[str, Any]:
     evidence = final_state.get("evidence", [])
@@ -130,6 +139,83 @@ def judge_trajectory(
     return {
         "ok": score > 0,
         "score_3pt": score,
+        "groundedness": groundedness,
+        "tool_use": tool_use,
+        "hallucination_risk": hallucination_risk,
+        "rationale": str(output.get("rationale") or "").strip(),
+        "usage": result.get("usage", {}),
+    }
+
+
+def build_free_run_judge_prompt(
+    user_input: str,
+    free_run_output: dict[str, Any],
+) -> str:
+    payload = {
+        "user_input": user_input,
+        "free_run_output": free_run_output,
+    }
+
+    return (
+        "You are an LLM-as-a-judge evaluator for a free-form GitHub issue "
+        "triage agent run. Evaluate ONLY the provided output. Do not use "
+        "outside knowledge and do not assume facts not present in the output.\n\n"
+        "Scoring guide:\n"
+        "- score_3pt: 3 means the result satisfies the user's request, is "
+        "grounded, and uses appropriate tool evidence; 2 means partially "
+        "satisfies it or has minor issues; 1 means incorrect, unsupported, "
+        "or unsafe.\n"
+        "- intent_match: whether the selected mode/tool matches the user's "
+        "free-form request.\n"
+        "- groundedness: whether claims are supported by returned issue data, "
+        "evidence, or tool output.\n"
+        "- tool_use: whether the selected tool/mode is appropriate and not "
+        "obviously missing required GitHub data.\n\n"
+        "Return ONLY valid JSON matching this schema:\n"
+        f"{json.dumps(FREE_RUN_JUDGE_SCHEMA, ensure_ascii=False, indent=2)}\n\n"
+        "Evaluation payload:\n"
+        f"{json.dumps(payload, ensure_ascii=False, indent=2)}"
+    )
+
+
+def judge_free_run_output(
+    user_input: str,
+    free_run_output: dict[str, Any],
+    timeout_sec: int = 60,
+) -> dict[str, Any]:
+    prompt = build_free_run_judge_prompt(user_input, free_run_output)
+    result = OllamaLLM().generate_json(prompt, timeout_sec=timeout_sec)
+
+    if not result.get("ok"):
+        return {
+            "ok": False,
+            "error": result.get("error", "Free-run LLM judge failed."),
+            "status": result.get("status"),
+            "usage": result.get("usage", {}),
+        }
+
+    output = result.get("result", {})
+
+    if not isinstance(output, dict):
+        return {
+            "ok": False,
+            "error": "Free-run LLM judge returned a non-object JSON value.",
+            "usage": result.get("usage", {}),
+        }
+
+    score = _coerce_score(output.get("score_3pt"))
+    intent_match = _coerce_score(output.get("intent_match"))
+    groundedness = _coerce_score(output.get("groundedness"))
+    tool_use = _coerce_score(output.get("tool_use"))
+    hallucination_risk = str(output.get("hallucination_risk") or "medium")
+
+    if hallucination_risk not in {"low", "medium", "high"}:
+        hallucination_risk = "medium"
+
+    return {
+        "ok": score > 0,
+        "score_3pt": score,
+        "intent_match": intent_match,
         "groundedness": groundedness,
         "tool_use": tool_use,
         "hallucination_risk": hallucination_risk,
