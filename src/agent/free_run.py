@@ -11,57 +11,6 @@ from src.agent.llm import OllamaLLM
 from src.agent.mcp_client import github_search_related_issues
 
 
-REPO_ALIASES = {
-    "pandas": "pandas-dev/pandas",
-    "numpy": "numpy/numpy",
-    "jax": "jax-ml/jax",
-    "pytorch": "pytorch/pytorch",
-    "torch": "pytorch/pytorch",
-    "scikit-learn": "scikit-learn/scikit-learn",
-    "sklearn": "scikit-learn/scikit-learn",
-}
-
-STOP_WORDS = {
-    "find",
-    "me",
-    "latest",
-    "last",
-    "recent",
-    "issue",
-    "issues",
-    "related",
-    "about",
-    "repo",
-    "repository",
-    "in",
-    "to",
-    "the",
-    "a",
-    "an",
-    "show",
-    "get",
-    "знайди",
-    "мені",
-    "останні",
-    "останніх",
-    "останній",
-    "свіжі",
-    "issue",
-    "issues",
-    "які",
-    "що",
-    "стосуються",
-    "повязані",
-    "повʼязані",
-    "пов'язані",
-    "про",
-    "по",
-    "в",
-    "у",
-    "репо",
-    "репозиторії",
-}
-
 ISSUE_URL_RE = re.compile(
     r"https?://github\.com/([\w.-]+/[\w.-]+)/issues/(\d+)",
     re.IGNORECASE,
@@ -157,12 +106,6 @@ def _parse_repo(text: str) -> str | None:
     if explicit:
         return explicit.group(1)
 
-    lowered = text.lower()
-
-    for alias, repo in REPO_ALIASES.items():
-        if re.search(rf"(?<![\w.-]){re.escape(alias)}(?![\w.-])", lowered):
-            return repo
-
     return None
 
 
@@ -185,21 +128,12 @@ def _normalize_repo(repo: str | None) -> str | None:
     if REPO_RE.fullmatch(stripped):
         return stripped
 
-    return REPO_ALIASES.get(stripped.lower())
+    return None
 
 
 def _clean_query(text: str, repo: str, limit: int) -> str:
     cleaned = ISSUE_URL_RE.sub(" ", text)
     cleaned = cleaned.replace(repo, " ")
-
-    for alias, alias_repo in REPO_ALIASES.items():
-        if alias_repo == repo:
-            cleaned = re.sub(
-                rf"(?<![\w.-]){re.escape(alias)}(?![\w.-])",
-                " ",
-                cleaned,
-                flags=re.IGNORECASE,
-            )
 
     tokens = re.findall(r"[\w.+#-]+", cleaned, flags=re.UNICODE)
     meaningful: list[str] = []
@@ -208,9 +142,6 @@ def _clean_query(text: str, repo: str, limit: int) -> str:
         normalized = token.lower().strip("-_")
 
         if not normalized or normalized == str(limit):
-            continue
-
-        if normalized in STOP_WORDS:
             continue
 
         meaningful.append(token)
@@ -249,8 +180,8 @@ def plan_free_input(text: str) -> FreeInputPlan:
             mode="unable_to_parse",
             raw_input=raw_input,
             reason=(
-                "Could not detect a GitHub repository. Use owner/repo or one of: "
-                f"{', '.join(sorted(REPO_ALIASES))}."
+                "Could not detect an explicit GitHub repository. Use owner/repo, "
+                "a GitHub issue URL, or run with --router llm so the model can infer it."
             ),
             router="rules",
         )
@@ -282,26 +213,27 @@ def plan_free_input(text: str) -> FreeInputPlan:
 
 def _build_router_prompt(text: str) -> str:
     return (
-        "You are an intent router for a GitHub issue triage agent. "
-        "Choose exactly one available tool based on the user's free-form request. "
-        "Return ONLY valid JSON. Do not answer the user directly.\n\n"
+        "You are the planning layer for a GitHub issue triage agent. "
+        "Read the user's raw free-form request and choose exactly one available "
+        "tool. Return ONLY valid JSON. Do not answer the user directly and do "
+        "not invent tool names.\n\n"
         "Available tools:\n"
         f"{json.dumps(AVAILABLE_AGENT_TOOLS, ensure_ascii=False, indent=2)}\n\n"
         "Rules:\n"
-        "- If the user gives a GitHub issue URL or owner/repo#number, choose "
-        "`run_issue_triage`.\n"
+        "- If the user asks about one concrete GitHub issue, choose "
+        "`run_issue_triage` and provide repo as owner/name plus issue_number.\n"
         "- If the user asks to find/list/search issues in a repository, choose "
-        "`github_search_related_issues`.\n"
-        "- Use repo aliases when obvious: pandas=pandas-dev/pandas, "
-        "numpy=numpy/numpy, jax=jax-ml/jax, pytorch=pytorch/pytorch, "
-        "torch=pytorch/pytorch, scikit-learn/sklearn=scikit-learn/scikit-learn.\n"
-        "- For latest/recent/останні requests, set sort to `created` and order to "
-        "`desc`.\n"
-        "- Extract the semantic search query without filler words like find me, "
-        "latest, issues, repo, знайди, мені, останніх.\n"
-        "- Clamp limit to 1..30. Default limit is 5.\n"
-        "- If the request is unsupported or no repo can be inferred, choose "
-        "`unable_to_answer`.\n\n"
+        "`github_search_related_issues` and provide repo as owner/name, a search "
+        "query, limit, sort, and order.\n"
+        "- Infer owner/name from natural language only when it is highly "
+        "confident, for example well-known GitHub projects. If uncertain, choose "
+        "`unable_to_answer` and ask for an owner/repo repository.\n"
+        "- For requests about most discussed/popular issues, prefer sort "
+        "`comments` and order `desc`.\n"
+        "- For latest/recent requests, prefer sort `created` and order `desc`.\n"
+        "- Extract a semantic query that preserves the user's topic. Do not use "
+        "empty generic queries unless the user asked for all issues.\n"
+        "- Clamp limit to 1..30. Default limit is 5.\n\n"
         "Output schema:\n"
         "{\n"
         '  "tool": "run_issue_triage | github_search_related_issues | '
@@ -382,31 +314,38 @@ def _plan_from_llm_response(text: str, response: dict[str, Any]) -> FreeInputPla
 
 
 def plan_free_input_with_llm(text: str) -> FreeInputPlan:
+    raw_input = text.strip()
+
+    if not raw_input:
+        return FreeInputPlan(
+            mode="unable_to_parse",
+            raw_input=raw_input,
+            reason="Input is empty.",
+            router="llm",
+        )
+
     prompt = _build_router_prompt(text)
     result = OllamaLLM().generate_json(prompt, timeout_sec=30)
 
     if not result.get("ok"):
-        fallback = plan_free_input(text)
-        fallback.reason = f"LLM router unavailable; fallback used. {fallback.reason}"
-        return fallback
+        return FreeInputPlan(
+            mode="unable_to_parse",
+            raw_input=raw_input,
+            reason=f"LLM router unavailable: {result.get('error', 'unknown error')}",
+            router="llm",
+        )
 
     output = result.get("result", {})
 
     if not isinstance(output, dict):
-        fallback = plan_free_input(text)
-        fallback.reason = f"LLM router returned invalid JSON shape; {fallback.reason}"
-        return fallback
+        return FreeInputPlan(
+            mode="unable_to_parse",
+            raw_input=raw_input,
+            reason="LLM router returned invalid JSON shape.",
+            router="llm",
+        )
 
     plan = _plan_from_llm_response(text.strip(), output)
-
-    if plan.mode == "unable_to_parse":
-        fallback = plan_free_input(text)
-
-        if fallback.mode != "unable_to_parse":
-            fallback.reason = (
-                f"LLM router could not plan; fallback used. {fallback.reason}"
-            )
-            return fallback
 
     return plan
 
