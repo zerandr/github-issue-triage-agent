@@ -2086,7 +2086,7 @@
     "step_count": 4,
     "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779213612.136582,
+    "started_at_unix": 1779262215.76502,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -2096,7 +2096,7 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='48cc9d0d5441792aa4d1e1b1dc107ad5')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'numpy/numpy', 'issue_number': 30962, 'issue': {'title': 'CI: AI slop detection', 'body': 'Now that we have an [AI policy](https://github.com/numpy/numpy/pull/30933) (thanks to @mattip) that prohibits undisclosed and otherwise irresponsible AI use, we\\'ll need a reliable method for detecting PRs that go against this. In many cases it can be pretty obvious that something is written by AI, e.g. excessive use of emdashes (&mdash;) and words like \"streamline\", \"facilitate\", \"comprehensive\"; phrases like \"A key takeaway is ...\" and \"This underscores the importance of ...\"; predictable markdown formatting; repetitive phrasing; etc.\\n\\nBut in some cases it\\'s not always clear. Some authors consider it to be an insult when asked whether they\\'ve used AI when they didn\\'t. This, at least for me, makes me worry that that\\'s the case when I *do* ask that question (in cases where I\\'m unsure if it\\'s AI-generated; not because I like insulting contributors or something).\\n\\nI think it would help if we started using a tool that\\'ll help us with this. For example, by adding a specific label in case it suspects slop. We could e.g. consider https://github.com/peakoss/anti-slop, which at first glance seems pretty solid, highly configurable, and is actively maintained. ', 'state': 'closed', 'labels': ['component: CI'], 'url': 'https://github.com/numpy/numpy/issues/30962'}, 'related_issues': [{'number': 25288, 'title': 'Discuss the issue of Numpy CI testing for LSX instructions', 'state': 'open', 'url': 'https://github.com/numpy/numpy/issues/25288'}, {'number': 27698, 'title': 'Add Android Support', 'state': 'open', 'url': 'https://github.com/numpy/numpy/issues/27698'}, {'number': 25859, 'title': 'ENH: WASI Build', 'state': 'open', 'url': 'https://github.com/numpy/numpy/issues/25859'}], 'current_classification': 'unknown', 'current_justification': 'Classification inferred from issue title/body and available GitHub evidence. Related candidates: [25288, 27698, 25859].', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='176bb3ed1ed98c5aff06a1aaf872deb3')"
     ]
   },
   "metrics": {
@@ -2104,12 +2104,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 4,
     "tool_calls": 0,
-    "latency_seconds": 1.74,
+    "latency_seconds": 2.034,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 0,
-    "stop_reason": "human_interrupt_pending"
+    "stop_reason": "human_interrupt_pending",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 3,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 77
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 3,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent's output is grounded in the provided evidence, correctly identifies related issues, and uses appropriate tools without hallucinating or making ungrounded claims.",
+    "usage": {
+      "eval_count": 77
+    }
   }
 }

@@ -20,8 +20,7 @@ class OllamaLLM:
     def __init__(self):
         self.config: Config = Config()
 
-    def run(self, payload: dict[str, Any], timeout_sec: int = 60) -> dict[str, Any]:
-        prompt = OllamaLLM.build_prompt(payload)
+    def generate_json(self, prompt: str, timeout_sec: int = 60) -> dict[str, Any]:
         body = {
             "model": self.config.ollama_model,
             "prompt": prompt,
@@ -62,6 +61,10 @@ class OllamaLLM:
             "result": parsed,
             "usage": {"eval_count": data.get("eval_count", 0)},
         }
+
+    def run(self, payload: dict[str, Any], timeout_sec: int = 60) -> dict[str, Any]:
+        prompt = OllamaLLM.build_prompt(payload)
+        return self.generate_json(prompt, timeout_sec=timeout_sec)
 
     @staticmethod
     def build_prompt(payload: dict[str, Any]) -> str:

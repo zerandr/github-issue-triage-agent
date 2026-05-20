@@ -1,0 +1,44 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37410,
+  "classification": "bug",
+  "justification": "Malformed serialized pytree data crashes the process with SIGSEGV, whereas expected behavior is to raise a Python exception.",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 2. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 37668,
+      "title": "jax crashes when a CUDA enabled version is installed, but CUDA_VISIBLE_DEVICES=''",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/37668"
+    },
+    {
+      "number": 23506,
+      "title": "[ROCM] x64 mode crashes with \"redzone_checker with block dimensions: 1024x1x1: hipError_t\"",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/23506"
+    },
+    {
+      "number": 32882,
+      "title": "JIT compilation fails with CUDA_ERROR_INVALID_VALUE",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/32882"
+    }
+  ],
+  "probable_code_areas": [
+    "_jax.pytree.PyTreeDef.deserialize_using_proto"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31087,
+  "classification": "bug",
+  "justification": "The issue title and body clearly indicate a problem with the `nanmax`/`nanmin` functions in NumPy. The behavior described is inconsistent and does not align with expected functionality, as evidenced by the provided code example.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and labeled as a bug. The current state summary should be updated based on further investigation or feedback from maintainers.",
+  "related_issues": [
+    {
+      "number": 31046,
+      "title": "BUG: NumPy C Extension Analysis Report",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/31046"
+    },
+    {
+      "number": 31210,
+      "title": "BUG: `Generator.choice(replace=False, p=...)` silently ignores `shuffle` parameter",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/31210"
+    },
+    {
+      "number": 30089,
+      "title": "BUG: Windows-ARM64 tests failing in `linalg.cond`",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/30089"
+    }
+  ],
+  "probable_code_areas": [
+    "numpy/lib/function_base.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ]
+}

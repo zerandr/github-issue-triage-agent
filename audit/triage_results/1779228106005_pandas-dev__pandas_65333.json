@@ -1,0 +1,41 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 65333,
+  "classification": "bug",
+  "justification": "The issue title and body clearly indicate a bug in the `Series.combine_first` method when dealing with Timestamps.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed, but the problem still exists in newer versions of pandas. Related issues suggest ongoing similar problems.",
+  "related_issues": [
+    {
+      "number": 17998,
+      "title": "Working with arrays inside cells - mean() works, median() crashes",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/17998"
+    },
+    {
+      "number": 38534,
+      "title": "BUG: Series mode crashes when there is more than one mode",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/38534"
+    },
+    {
+      "number": 53366,
+      "title": "BUG: inconsistent behavior and crash in `DataFrame.__setitem__` when >=3d ndarray is used",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/53366"
+    }
+  ],
+  "probable_code_areas": [
+    "pandas/core/series.py",
+    "pandas/core/reshape/concat.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7"
+  ]
+}

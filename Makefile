@@ -1,4 +1,4 @@
-.PHONY: install mcp-custom mcp-filesystem mcp-git run-one eval eval-git-mcp ablations failure-traces clean
+.PHONY: install mcp-custom mcp-filesystem mcp-git run-one run-one-noninteractive free-run free-run-noninteractive eval eval-llm-judge eval-git-mcp ablations failure-traces clean
 
 PYTHON ?= ./venv/bin/python
 
@@ -17,8 +17,20 @@ mcp-git:
 run-one:
 	$(PYTHON) -m src.agent.run --repo "$(REPO)" --issue "$(ISSUE)"
 
+run-one-noninteractive:
+	$(PYTHON) -m src.agent.run --repo "$(REPO)" --issue "$(ISSUE)" --no-interactive-human
+
+free-run:
+	$(PYTHON) -m src.agent.free_run --input "$(INPUT)"
+
+free-run-noninteractive:
+	$(PYTHON) -m src.agent.free_run --input "$(INPUT)" --no-interactive-human
+
 eval:
 	$(PYTHON) -m src.eval.run_eval --tasks data/eval_tasks.jsonl --out runs/main
+
+eval-llm-judge:
+	$(PYTHON) -m src.eval.run_eval --tasks data/eval_tasks.jsonl --out runs/main --llm-judge
 
 eval-git-mcp:
 	$(PYTHON) -m src.eval.run_eval --tasks data/eval_tasks.jsonl --out runs/main --git-mcp-autocommit --git-mcp-push --git-mcp-required

@@ -1,14 +1,14 @@
 # Final Report - GitHub Issue Triage Agent
 
 ## Track and Goal
-This project implements Track C: a GitHub issue triage agent. The agent receives a public repository and issue number, retrieves GitHub evidence through MCP tools, and produces a structured triage state with classification, related issues, likely code areas, open questions, decision needed, evidence ids, tool events, and stop reason.
+This project implements Track C: a GitHub issue triage agent. The agent can receive either a structured repository/issue pair or free-form user text, retrieves GitHub evidence through MCP tools, and produces a structured triage state with classification, related issues, likely code areas, open questions, decision needed, evidence ids, tool events, and stop reason.
 
 ## Agent Specification
 Target user: a repository maintainer reviewing incoming or stale GitHub issues.
 
 Inputs:
-- `repo`: repository in `owner/name` form.
-- `issue_number`: GitHub issue number.
+- structured mode: `repo` in `owner/name` form and `issue_number`.
+- free-form mode: arbitrary text handled by `src/agent/free_run.py`, including issue URLs, `owner/repo#123`, and broader repository searches such as "find me 5 latest issues about implementation loss functions in pytorch repo". The LLM receives the available tool list and selects the action to execute; deterministic parsing is kept as a fallback.
 - optional human reviewer decision at the interrupt gate.
 
 Outputs:
@@ -33,7 +33,7 @@ graph TD
   D -->|unknown/ambiguous| E[human_gate interrupt]
   D -->|confident| F[infer_code_areas]
   E --> F
-  F --> G[summarize_old_issue]
+  F --> G[summarize_issue_state]
   G --> H[llm_triage]
   H --> I[finalize]
 ```
@@ -42,17 +42,18 @@ Implementation references:
 - State schema: `src/agent/state.py`
 - Graph: `src/agent/graph.py`
 - LLM adapter: `src/agent/llm.py`
+- Free-form input router: `src/agent/free_run.py`
 
 ## MCP Tooling
 Custom MCP server: `src/mcp_custom/server.py`
 - `github_get_issue(repo, issue_number)`: fetches issue metadata from GitHub REST.
-- `github_search_related_issues(repo, query, limit)`: searches same-repo issues for related or duplicate candidates.
+- `github_search_related_issues(repo, query, limit, sort, order)`: searches same-repo issues for related or duplicate candidates and supports free-form "latest issues" search.
 - `github_get_issue_timeline(repo, issue_number, per_page)`: fetches issue timeline events.
 - `triage_cache_get(key, max_age_sec)`: reads cached JSON from SQLite.
 - `triage_cache_put(key, value_json)`: writes JSON to SQLite cache.
 
 Third-party MCP servers:
-- Filesystem MCP: configured for local artifact access.
+- Filesystem MCP: writes finalize-time audit JSON records under `audit/triage_results/` with the run classification, justification, stop reason, evidence ids, and related triage fields.
 - Git MCP (`@cyanheads/git-mcp-server`): used by eval to `git_add`, `git_commit`, and `git_push` generated JSON artifacts.
 
 The custom MCP server runs out-of-process and wraps the primary Track C data source. It also performs local bookkeeping through SQLite caching.
@@ -89,6 +90,14 @@ Stop reasons:
 
 ## Trajectory Analysis
 Machine-readable trajectories are written under `runs/main/trajectories`. Each trajectory contains the task, ordered `trajectory_events`, final state, evidence, tool events, and metrics. The ordered events include cache hits, tool-call arguments/results, and LLM payload/result records for the triage refinement step.
+
+Optional LLM-as-a-judge evaluation is implemented in `src/eval/llm_judge.py` and enabled with:
+
+```bash
+make eval-llm-judge
+```
+
+The judge receives the task rubric, compact final state, evidence, tool events, and deterministic rule metrics. It returns JSON with `score_3pt`, `groundedness`, `tool_use`, `hallucination_risk`, and a short rationale. These fields are stored in each trajectory under `llm_judge` and summarized under `llm_judge` in the aggregate summary.
 
 Annotated failures are generated with:
 

@@ -1,0 +1,42 @@
+{
+  "repo": "scikit-learn/scikit-learn",
+  "issue_number": 33558,
+  "classification": "feature request",
+  "justification": "The issue title and body clearly indicate a request for adding `partial_fit` functionality to `DecisionTreeClassifier` and `DecisionTreeRegressor`. The label 'New Feature' further supports this classification.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open with a 'Needs Decision - Include Feature' label, indicating it requires further discussion before being closed or moved forward.",
+  "related_issues": [
+    {
+      "number": 23462,
+      "title": "Make all estimators use `_validate_params`",
+      "state": "closed",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/23462"
+    },
+    {
+      "number": 1363,
+      "title": "Single sample test time performance",
+      "state": "closed",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/1363"
+    },
+    {
+      "number": 30732,
+      "title": "Add Weighted Euclidean Distance Metric",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/30732"
+    }
+  ],
+  "probable_code_areas": [
+    "sklearn/tree/_classes.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9"
+  ]
+}

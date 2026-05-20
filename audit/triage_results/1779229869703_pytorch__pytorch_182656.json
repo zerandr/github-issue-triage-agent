@@ -1,0 +1,31 @@
+{
+  "repo": "pytorch/pytorch",
+  "issue_number": 182656,
+  "classification": "bug",
+  "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [27278].",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 33. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 27278,
+      "title": "CI builds sometimes hang in or just after running test_dataloader",
+      "state": "closed",
+      "html_url": "https://github.com/pytorch/pytorch/issues/27278"
+    }
+  ],
+  "probable_code_areas": [
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

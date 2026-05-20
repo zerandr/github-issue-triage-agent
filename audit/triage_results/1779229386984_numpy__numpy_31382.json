@@ -1,0 +1,44 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31382,
+  "classification": "bug",
+  "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [29442, 27870, 28844].",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 34. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    },
+    {
+      "number": 27870,
+      "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27870"
+    },
+    {
+      "number": 28844,
+      "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/28844"
+    }
+  ],
+  "probable_code_areas": [
+    "unknown (insufficient evidence)"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

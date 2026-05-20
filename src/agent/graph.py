@@ -7,6 +7,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, StateGraph
 from langgraph.types import interrupt
 
+from src.agent.filesystem_mcp_client import write_audit_record
 from src.agent.llm import OllamaLLM
 from src.agent.mcp_client import (
     call_tool,
@@ -459,7 +460,7 @@ class Graph:
         return state
 
     @staticmethod
-    def summarize_old_issue(state: TriageState) -> TriageState:
+    def summarize_issue_state(state: TriageState) -> TriageState:
         state.step_count += 1
 
         cache_key = f"github_get_issue_timeline:{state.repo}:{state.issue_number}"
@@ -621,12 +622,35 @@ class Graph:
 
     @staticmethod
     def human_gate(state: TriageState) -> TriageState:
+        labels = [
+            label.get("name")
+            for label in state.issue_snapshot.get("labels", [])
+            if isinstance(label, dict) and label.get("name")
+        ]
+
         decision = interrupt(
             {
                 "reason": "Ambiguous classification or low evidence",
                 "repo": state.repo,
                 "issue_number": state.issue_number,
+                "issue": {
+                    "title": state.issue_snapshot.get("title"),
+                    "body": (state.issue_snapshot.get("body") or "")[:1200],
+                    "state": state.issue_snapshot.get("state"),
+                    "labels": labels,
+                    "url": state.issue_snapshot.get("html_url"),
+                },
+                "related_issues": [
+                    {
+                        "number": issue.get("number"),
+                        "title": issue.get("title"),
+                        "state": issue.get("state"),
+                        "url": issue.get("html_url"),
+                    }
+                    for issue in state.related_issues[:3]
+                ],
                 "current_classification": state.classification,
+                "current_justification": state.justification,
                 "question": (
                     "Approve this classification or override it. "
                     "Return {'classification': 'bug'} or similar if overriding."
@@ -675,6 +699,27 @@ class Graph:
         if not state.justification:
             state.justification = "No grounded justification generated."
 
+        audit_result = write_audit_record(
+            {
+                "repo": state.repo,
+                "issue_number": state.issue_number,
+                "classification": state.classification,
+                "justification": state.justification,
+                "stop_reason": state.stop_reason,
+                "current_state_summary": state.current_state_summary,
+                "related_issues": state.related_issues,
+                "probable_code_areas": state.probable_code_areas,
+                "evidence_ids": state.evidence_ids,
+            }
+        )
+        Graph._record_trajectory_event(
+            state,
+            "filesystem_mcp_audit_write",
+            "write_file",
+            input_payload={"audit_dir": "audit/triage_results"},
+            output_payload=audit_result,
+        )
+
         return state
 
     @staticmethod
@@ -720,7 +765,7 @@ class Graph:
         graph.add_node("classify_issue", Graph.classify_issue)
         graph.add_node("human_gate", Graph.human_gate)
         graph.add_node("infer_code_areas", Graph.infer_code_areas)
-        graph.add_node("summarize_old_issue", Graph.summarize_old_issue)
+        graph.add_node("summarize_issue_state", Graph.summarize_issue_state)
         graph.add_node("llm_triage", self.llm_triage)
         graph.add_node("finalize", Graph.finalize)
 
@@ -750,8 +795,8 @@ class Graph:
         )
 
         graph.add_edge("human_gate", "infer_code_areas")
-        graph.add_edge("infer_code_areas", "summarize_old_issue")
-        graph.add_edge("summarize_old_issue", "llm_triage")
+        graph.add_edge("infer_code_areas", "summarize_issue_state")
+        graph.add_edge("summarize_issue_state", "llm_triage")
         graph.add_edge("llm_triage", "finalize")
         graph.add_edge("finalize", END)
 

@@ -7,7 +7,7 @@ graph TD
   D -->|unknown/ambiguous| E[human_gate interrupt]
   D -->|confident| F[infer_code_areas]
   E --> F
-  F --> G[summarize_old_issue]
+  F --> G[summarize_issue_state]
   G --> H[llm_triage (Qwen via Ollama)]
   H --> I[finalize]
 ```

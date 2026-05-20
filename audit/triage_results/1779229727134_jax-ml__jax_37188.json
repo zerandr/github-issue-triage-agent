@@ -1,0 +1,44 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37188,
+  "classification": "feature request",
+  "justification": "The issue title and body suggest a desire for improved functionality to facilitate development with JAX, specifically regarding input variables and their types. Related issues 3723, 34124, and 31158 also support this classification.",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 8. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 3723,
+      "title": "document custom_vjps returning jax-generated vjp callables",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/3723"
+    },
+    {
+      "number": 34124,
+      "title": "Improve __repr__ for jax.nn functions and initializers",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/34124"
+    },
+    {
+      "number": 31158,
+      "title": "Add a JAX native version of jaxtyping",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/31158"
+    }
+  ],
+  "probable_code_areas": [
+    "frontend/*",
+    "docs/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

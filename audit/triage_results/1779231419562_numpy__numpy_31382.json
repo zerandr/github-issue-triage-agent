@@ -1,0 +1,44 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31382,
+  "classification": "bug",
+  "justification": "The issue title and body indicate a problem with the type of input to a scalar function when using `np.vectorize` to convert an array of `np.datetime64` to an array of `datetime.datetime`. This is consistent with a bug in NumPy's handling of datetime types.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and labeled as a bug. Related issues are also marked as bugs but in different areas of NumPy functionality. The current state summary indicates that the latest state should be validated by a maintainer.",
+  "related_issues": [
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    },
+    {
+      "number": 27870,
+      "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27870"
+    },
+    {
+      "number": 28844,
+      "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/28844"
+    }
+  ],
+  "probable_code_areas": [
+    "numpy/core/src/multiarray/vectorize.c"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

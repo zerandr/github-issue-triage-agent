@@ -1,0 +1,27 @@
+{
+  "repo": "pytorch/pytorch",
+  "issue_number": 182826,
+  "classification": "documentation",
+  "justification": "Classification inferred from issue title/body and available GitHub evidence.",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 30. Latest state should be validated by maintainer.",
+  "related_issues": [],
+  "probable_code_areas": [
+    "api/*",
+    "frontend/*",
+    "docs/*",
+    "installation/setup"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

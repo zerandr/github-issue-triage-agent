@@ -2,11 +2,11 @@
   "source": "runs/main/trajectories",
   "selected": [
     {
-      "task_id": "t25",
-      "file": "runs/main/trajectories/t25.json",
-      "repo": "scikit-learn/scikit-learn",
-      "issue_number": 33558,
-      "task_type": "code_area",
+      "task_id": "t18",
+      "file": "runs/main/trajectories/t18.json",
+      "repo": "numpy/numpy",
+      "issue_number": 30962,
+      "task_type": "duplicates",
       "failure_mode": "Human review interrupt pending",
       "explanation": "The automated eval correctly reached the human-in-the-loop gate, but the interrupt was not resumed by a reviewer, so the trace ends with a pending human decision.",
       "expected_tools": [
@@ -16,15 +16,14 @@
       "used_tools": [
         "classification_heuristic",
         "github_get_issue",
-        "github_search_related_issues",
-        "triage_cache_get"
+        "github_search_related_issues"
       ],
       "metrics": {
         "score_3pt": 3,
         "tool_selection_accuracy": 1.0,
         "steps": 4,
-        "tool_calls": 0,
-        "latency_seconds": 1.768,
+        "tool_calls": 3,
+        "latency_seconds": 5.967,
         "token_count": 0,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
@@ -38,28 +37,18 @@
       "evidence": [
         {
           "evidence_id": "E1",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_get_issue:scikit-learn/scikit-learn:33558"
+          "source_tool": "github_get_issue",
+          "summary": "Loaded issue #30962: CI: AI slop detection"
         },
         {
           "evidence_id": "E2",
-          "source_tool": "github_get_issue",
-          "summary": "Loaded issue #33558: Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
+          "source_tool": "github_search_related_issues",
+          "summary": "Found 3 likely related issues"
         },
         {
           "evidence_id": "E3",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:Add  partial_fit to DecisionTreeClassifier and DecisionTreeRegressor"
-        },
-        {
-          "evidence_id": "E4",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_search_related_issues:scikit-learn/scikit-learn:New Feature Needs Decision - Include Feature"
-        },
-        {
-          "evidence_id": "E5",
-          "source_tool": "github_search_related_issues",
-          "summary": "Found 3 likely related issues"
+          "source_tool": "classification_heuristic",
+          "summary": "Initial classification: unknown"
         }
       ],
       "related_issues_count": 3
@@ -83,7 +72,7 @@
         "tool_selection_accuracy": 1.0,
         "steps": 2,
         "tool_calls": 1,
-        "latency_seconds": 1.73,
+        "latency_seconds": 2.887,
         "token_count": 0,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
@@ -104,15 +93,16 @@
       "related_issues_count": 0
     },
     {
-      "task_id": "t29",
-      "file": "runs/main/trajectories/t29.json",
-      "repo": "jax-ml/jax",
-      "issue_number": 37251,
-      "task_type": "classify",
+      "task_id": "t24",
+      "file": "runs/main/trajectories/t24.json",
+      "repo": "scikit-learn/scikit-learn",
+      "issue_number": 33470,
+      "task_type": "code_area",
       "failure_mode": "Unnecessary extra tool calls",
-      "explanation": "The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get'].",
+      "explanation": "The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue', 'github_search_related_issues']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage'].",
       "expected_tools": [
-        "github_get_issue"
+        "github_get_issue",
+        "github_search_related_issues"
       ],
       "used_tools": [
         "classification_heuristic",
@@ -120,20 +110,19 @@
         "github_get_issue_timeline",
         "github_search_related_issues",
         "heuristic_area_inference",
-        "ollama_qwen_triage",
-        "triage_cache_get"
+        "ollama_qwen_triage"
       ],
       "metrics": {
         "score_3pt": 3,
         "tool_selection_accuracy": 1.0,
         "steps": 7,
-        "tool_calls": 1,
-        "latency_seconds": 36.739,
-        "token_count": 143,
+        "tool_calls": 6,
+        "latency_seconds": 45.36,
+        "token_count": 130,
         "estimated_usd_cost": 0.0,
         "ungrounded_claims": 0,
         "hallucinated_tool_args": 0,
-        "unnecessary_tool_calls": 2,
+        "unnecessary_tool_calls": 1,
         "stop_reason": "completed"
       },
       "classification": "bug",
@@ -142,28 +131,28 @@
       "evidence": [
         {
           "evidence_id": "E1",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_get_issue:jax-ml/jax:37251"
+          "source_tool": "github_get_issue",
+          "summary": "Loaded issue #33470: ⚠️ CI failed on Unit tests Linux x86-64 pylatest_free_threaded (last failure: May 17, 2026) ⚠️"
         },
         {
           "evidence_id": "E2",
-          "source_tool": "github_get_issue",
-          "summary": "Loaded issue #37251: pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
+          "source_tool": "github_search_related_issues",
+          "summary": "Found 3 likely related issues"
         },
         {
           "evidence_id": "E3",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_search_related_issues:jax-ml/jax:pl.kernel returns mutable Ref out of JIT under jax.lax.scan + jax.grad"
+          "source_tool": "classification_heuristic",
+          "summary": "Initial classification: bug"
         },
         {
           "evidence_id": "E4",
-          "source_tool": "triage_cache_get",
-          "summary": "Cache hit for github_search_related_issues:jax-ml/jax:error exception traceback crash"
+          "source_tool": "heuristic_area_inference",
+          "summary": "Probable areas: ['tests/*']"
         },
         {
           "evidence_id": "E5",
-          "source_tool": "github_search_related_issues",
-          "summary": "Found 3 likely related issues"
+          "source_tool": "github_get_issue_timeline",
+          "summary": "Fetched 27 timeline events"
         }
       ],
       "related_issues_count": 3

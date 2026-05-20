@@ -1,0 +1,41 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37511,
+  "classification": "bug",
+  "justification": "The issue describes a performance bottleneck in JAX's segmented softmax implementation due to XLA limitations, which affects the overall speed of operations. The title and body clearly indicate this is a bug related to fusion boundaries created by `stablehlo.scatter`.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open with no assigned labels indicating active work. The community member has provided a reproducible example and benchmark data, suggesting that this is a known limitation in XLA.",
+  "related_issues": [
+    {
+      "number": 34001,
+      "title": "[mosaic] broadcast bug",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/34001"
+    },
+    {
+      "number": 37751,
+      "title": "`jax.scipy.special.xlogy` and `xlog1py` return `0.0` instead of `nan` when `x=0` and `y=nan`",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/37751"
+    },
+    {
+      "number": 29924,
+      "title": "Foreign function interface (FFI) tutorial bugs",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/29924"
+    }
+  ],
+  "probable_code_areas": [
+    "jax.ops.segment_max",
+    "jax.ops.segment_sum"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7"
+  ]
+}

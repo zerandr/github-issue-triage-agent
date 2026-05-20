@@ -1,0 +1,44 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 65518,
+  "classification": "bug",
+  "justification": "The title and body of the issue describe a bug in pandas' conversion from NumPy masked arrays to pandas arrays, which ignores missing values. This is inconsistent with user expectations and how pandas Series handles masked arrays.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed, but the bug still exists in the latest version of pandas. The maintainer should validate the timeline events reviewed.",
+  "related_issues": [
+    {
+      "number": 65588,
+      "title": "BUG: `DataFrame.eval` inconsistently handles duplicated columns",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65588"
+    },
+    {
+      "number": 65654,
+      "title": "BUG: DataFrame.melt silently corrupts data on var_name output-name collisions",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65654"
+    },
+    {
+      "number": 64198,
+      "title": "BUG:  `read_excel` with `usecols` still mangles column names when duplicates exist elsewhere in spreadsheet",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/64198"
+    }
+  ],
+  "probable_code_areas": [
+    "pandas/core/series.py",
+    "pandas/core/frame.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

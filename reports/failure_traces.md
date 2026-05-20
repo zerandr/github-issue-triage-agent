@@ -2,23 +2,23 @@
 
 These traces were selected from machine-readable trajectory JSON files.
 
-## 1. t25 - Human review interrupt pending
+## 1. t18 - Human review interrupt pending
 
-- Source: `runs/main/trajectories/t25.json`
-- Task: `code_area` for `scikit-learn/scikit-learn#33558`
+- Source: `runs/main/trajectories/t18.json`
+- Task: `duplicates` for `numpy/numpy#30962`
 - Score: `3`
 - Tool-selection accuracy: `1.0`
 - Unnecessary tool calls: `0`
 - Stop reason: `human_interrupt_pending`
 - Expected tools: `['github_get_issue', 'github_search_related_issues']`
-- Used tools: `['classification_heuristic', 'github_get_issue', 'github_search_related_issues', 'triage_cache_get']`
+- Used tools: `['classification_heuristic', 'github_get_issue', 'github_search_related_issues']`
 
 ### What happened
 The automated eval correctly reached the human-in-the-loop gate, but the interrupt was not resumed by a reviewer, so the trace ends with a pending human decision.
 
 ### Evidence and symptoms
 - Final classification: `unknown`
-- Evidence count shown: `5`
+- Evidence count shown: `3`
 - Related issues found: `3`
 
 ### Suggested fix
@@ -47,19 +47,19 @@ The agent correctly avoided fabrication, but the trajectory ends as a non-comple
 ### Suggested fix
 Map issue-level 404s into a completed not-found triage report instead of using the same terminal state as unexpected tool failures.
 
-## 3. t29 - Unnecessary extra tool calls
+## 3. t24 - Unnecessary extra tool calls
 
-- Source: `runs/main/trajectories/t29.json`
-- Task: `classify` for `jax-ml/jax#37251`
+- Source: `runs/main/trajectories/t24.json`
+- Task: `code_area` for `scikit-learn/scikit-learn#33470`
 - Score: `3`
 - Tool-selection accuracy: `1.0`
-- Unnecessary tool calls: `2`
+- Unnecessary tool calls: `1`
 - Stop reason: `completed`
-- Expected tools: `['github_get_issue']`
-- Used tools: `['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get']`
+- Expected tools: `['github_get_issue', 'github_search_related_issues']`
+- Used tools: `['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage']`
 
 ### What happened
-The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage', 'triage_cache_get'].
+The trajectory used additional GitHub tool classes beyond the rubric's expected set ['github_get_issue', 'github_search_related_issues']. Recorded tool classes: ['classification_heuristic', 'github_get_issue', 'github_get_issue_timeline', 'github_search_related_issues', 'heuristic_area_inference', 'ollama_qwen_triage'].
 
 ### Evidence and symptoms
 - Final classification: `bug`

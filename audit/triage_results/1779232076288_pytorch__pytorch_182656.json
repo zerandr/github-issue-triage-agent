@@ -1,0 +1,31 @@
+{
+  "repo": "pytorch/pytorch",
+  "issue_number": 182656,
+  "classification": "bug",
+  "justification": "The test is disabled due to failures on specific platforms (rocm), indicating potential bugs.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed, but the test remains disabled. The latest state should be validated by a maintainer.",
+  "related_issues": [
+    {
+      "number": 27278,
+      "title": "CI builds sometimes hang in or just after running test_dataloader",
+      "state": "closed",
+      "html_url": "https://github.com/pytorch/pytorch/issues/27278"
+    }
+  ],
+  "probable_code_areas": [
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 30962,
+  "classification": "unknown",
+  "justification": "The issue title and body discuss the need for a tool to detect AI-generated content in PRs, which is related to CI processes. However, without clear instructions on what action needs to be taken or specific code areas affected, the classification remains uncertain.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue discusses the need for an AI detection tool in CI processes but lacks clear action items. Related issues are open and not directly addressing the same topic.",
+  "related_issues": [
+    {
+      "number": 25288,
+      "title": "Discuss the issue of Numpy CI testing for LSX instructions",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/25288"
+    },
+    {
+      "number": 27698,
+      "title": "Add Android Support",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27698"
+    },
+    {
+      "number": 25859,
+      "title": "ENH: WASI Build",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/25859"
+    }
+  ],
+  "probable_code_areas": [
+    "ci/*",
+    "tools/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9"
+  ]
+}

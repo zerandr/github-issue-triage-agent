@@ -1,0 +1,44 @@
+{
+  "repo": "scikit-learn/scikit-learn",
+  "issue_number": 33470,
+  "classification": "bug",
+  "justification": "The issue title and body indicate that unit tests are failing on a specific CI run, which is a clear indication of a bug.",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 27. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 9698,
+      "title": "Use a safe and short repr in error messages and warning",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/9698"
+    },
+    {
+      "number": 33040,
+      "title": "confusion_matrix crashes when sample_weight is an empty array",
+      "state": "closed",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33040"
+    },
+    {
+      "number": 32393,
+      "title": "⚠️ CI failed on Wheel builder (last failure: May 11, 2026) ⚠️",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/32393"
+    }
+  ],
+  "probable_code_areas": [
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

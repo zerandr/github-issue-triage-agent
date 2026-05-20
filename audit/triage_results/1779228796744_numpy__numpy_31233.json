@@ -1,0 +1,45 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31233,
+  "classification": "bug",
+  "justification": "The issue describes a discrepancy between the type stubs and the actual implementation of the `sliding_window_view` function. This inconsistency could lead to errors during static type checking, which is a bug.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed but the discrepancy between the type stubs and implementation remains unaddressed. The classification is based on the reported inconsistency, which could lead to errors during static typing checks.",
+  "related_issues": [
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    },
+    {
+      "number": 27870,
+      "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27870"
+    },
+    {
+      "number": 28844,
+      "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/28844"
+    }
+  ],
+  "probable_code_areas": [
+    "numpy/lib/_stride_tricks_impl.py",
+    "numpy/lib/_stride_tricks_impl.pyi"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "repo": "pytorch/pytorch",
+  "issue_number": 123,
+  "classification": "question",
+  "justification": "The issue title and body suggest a query about tensor randomization behavior, which aligns with seeking clarification rather than reporting a bug or requesting a feature.",
+  "stop_reason": "completed",
+  "current_state_summary": "Timeline events reviewed: 31. Latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 184062,
+      "title": "DataLoader segfault during GC after several epochs on RTX 5080 (Blackwell sm_120)",
+      "state": "open",
+      "html_url": "https://github.com/pytorch/pytorch/issues/184062"
+    },
+    {
+      "number": 20248,
+      "title": "Sparse tensors can't be used in DataLoader running many workers",
+      "state": "open",
+      "html_url": "https://github.com/pytorch/pytorch/issues/20248"
+    },
+    {
+      "number": 176166,
+      "title": "DataLoader: collate_fn leads to high RAM  usage",
+      "state": "open",
+      "html_url": "https://github.com/pytorch/pytorch/issues/176166"
+    }
+  ],
+  "probable_code_areas": [
+    "unknown (insufficient evidence)"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

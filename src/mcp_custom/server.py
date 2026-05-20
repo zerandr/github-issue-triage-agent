@@ -179,6 +179,8 @@ class Server:
         repo: str,
         query: str,
         limit: int = 10,
+        sort: str | None = None,
+        order: str = "desc",
     ) -> dict[str, Any]:
         if limit < 1 or limit > 30:
             return {
@@ -188,15 +190,37 @@ class Server:
                 "error": "limit must be in [1, 30]",
             }
 
+        if sort is not None and sort not in {"comments", "created", "updated"}:
+            return {
+                "ok": False,
+                "status": 400,
+                "retriable": False,
+                "error": "sort must be one of comments, created, updated",
+            }
+
+        if order not in {"asc", "desc"}:
+            return {
+                "ok": False,
+                "status": 400,
+                "retriable": False,
+                "error": "order must be one of asc, desc",
+            }
+
         q = f"repo:{repo} is:issue {query}"
         url = f"{Server.GITHUB_API}/search/issues"
 
+        params: dict[str, Any] = {
+            "q": q,
+            "per_page": limit,
+        }
+
+        if sort is not None:
+            params["sort"] = sort
+            params["order"] = order
+
         result = Server.http_get(
             url,
-            params={
-                "q": q,
-                "per_page": limit,
-            },
+            params=params,
             timeout_sec=25,
         )
 
@@ -268,9 +292,11 @@ def github_search_related_issues(
     repo: str,
     query: str,
     limit: int = 10,
+    sort: str | None = None,
+    order: str = "desc",
 ) -> dict[str, Any]:
     """Search issues in the same repo to find likely duplicates or related issues."""
-    return Server.github_search_related_issues(repo, query, limit)
+    return Server.github_search_related_issues(repo, query, limit, sort, order)
 
 
 @mcp.tool()

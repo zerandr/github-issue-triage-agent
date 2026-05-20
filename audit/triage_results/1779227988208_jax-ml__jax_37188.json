@@ -1,0 +1,40 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37188,
+  "classification": "feature request",
+  "justification": "The user requests a feature to improve the visibility and usability of input variables in jitted or vmapped functions.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and labeled as an enhancement. Related issues exist but do not directly address the request.",
+  "related_issues": [
+    {
+      "number": 3723,
+      "title": "document custom_vjps returning jax-generated vjp callables",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/3723"
+    },
+    {
+      "number": 34124,
+      "title": "Improve __repr__ for jax.nn functions and initializers",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/34124"
+    },
+    {
+      "number": 31158,
+      "title": "Add a JAX native version of jaxtyping",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/31158"
+    }
+  ],
+  "probable_code_areas": [
+    "frontend/*",
+    "docs/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ]
+}

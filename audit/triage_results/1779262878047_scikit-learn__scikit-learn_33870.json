@@ -1,0 +1,44 @@
+{
+  "repo": "scikit-learn/scikit-learn",
+  "issue_number": 33870,
+  "classification": "bug",
+  "justification": "The issue describes a problem where array API utilities return incorrect namespaces and devices when used with DPNP GPU arrays, which directly impacts user experience.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is classified as a bug based on the provided description. It references related issues but does not require immediate action beyond documentation or further investigation.",
+  "related_issues": [
+    {
+      "number": 32661,
+      "title": "DOC Create triage guide in maintainer documentation",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/32661"
+    },
+    {
+      "number": 34032,
+      "title": "BUG: Silent float32 upcasting to float64 in Pipeline/StandardScaler causes 2x memory bloat",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/34032"
+    },
+    {
+      "number": 34046,
+      "title": "`move_to` not always working with torch namespace",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/34046"
+    }
+  ],
+  "probable_code_areas": [
+    "api/*",
+    "frontend/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

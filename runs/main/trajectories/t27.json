@@ -102,6 +102,7 @@
           "closed_at": "2026-05-06T17:42:17Z",
           "assignee": null,
           "author_association": "COLLABORATOR",
+          "issue_field_values": [],
           "type": null,
           "active_lock_reason": null,
           "sub_issues_summary": {
@@ -240,6 +241,7 @@
             "closed_at": "2026-05-06T17:42:17Z",
             "assignee": null,
             "author_association": "COLLABORATOR",
+            "issue_field_values": [],
             "type": null,
             "active_lock_reason": null,
             "sub_issues_summary": {
@@ -386,6 +388,7 @@
             "closed_at": "2020-11-08T08:46:47Z",
             "assignee": null,
             "author_association": "COLLABORATOR",
+            "issue_field_values": [],
             "type": null,
             "active_lock_reason": null,
             "sub_issues_summary": {
@@ -1612,6 +1615,7 @@
                 "closed_at": "2026-05-06T02:15:04Z",
                 "assignee": null,
                 "author_association": "CONTRIBUTOR",
+                "issue_field_values": [],
                 "type": null,
                 "active_lock_reason": null,
                 "draft": false,
@@ -1683,16 +1687,16 @@
                   "releases_url": "https://api.github.com/repos/pytorch/pytorch/releases{/id}",
                   "deployments_url": "https://api.github.com/repos/pytorch/pytorch/deployments",
                   "created_at": "2016-08-13T05:26:41Z",
-                  "updated_at": "2026-05-18T20:01:52Z",
-                  "pushed_at": "2026-05-18T20:03:31Z",
+                  "updated_at": "2026-05-19T21:59:50Z",
+                  "pushed_at": "2026-05-19T22:01:26Z",
                   "git_url": "git://github.com/pytorch/pytorch.git",
                   "ssh_url": "org-21003710@github.com:pytorch/pytorch.git",
                   "clone_url": "https://github.com/pytorch/pytorch.git",
                   "svn_url": "https://github.com/pytorch/pytorch",
                   "homepage": "https://pytorch.org",
-                  "size": 1345970,
-                  "stargazers_count": 99995,
-                  "watchers_count": 99995,
+                  "size": 1346013,
+                  "stargazers_count": 100020,
+                  "watchers_count": 100020,
                   "language": "Python",
                   "has_issues": true,
                   "has_projects": true,
@@ -1700,11 +1704,11 @@
                   "has_wiki": true,
                   "has_pages": false,
                   "has_discussions": false,
-                  "forks_count": 27809,
+                  "forks_count": 27819,
                   "mirror_url": null,
                   "archived": false,
                   "disabled": false,
-                  "open_issues_count": 18552,
+                  "open_issues_count": 18463,
                   "license": {
                     "key": "other",
                     "name": "Other",
@@ -1728,9 +1732,9 @@
                     "tensor"
                   ],
                   "visibility": "public",
-                  "forks": 27809,
-                  "open_issues": 18552,
-                  "watchers": 99995,
+                  "forks": 27819,
+                  "open_issues": 18463,
+                  "watchers": 100020,
                   "default_branch": "main",
                   "permissions": {
                     "admin": false,
@@ -1959,6 +1963,7 @@
                 "closed_at": "2026-05-06T17:42:18Z",
                 "assignee": null,
                 "author_association": "CONTRIBUTOR",
+                "issue_field_values": [],
                 "type": null,
                 "active_lock_reason": null,
                 "draft": false,
@@ -2030,16 +2035,16 @@
                   "releases_url": "https://api.github.com/repos/pytorch/pytorch/releases{/id}",
                   "deployments_url": "https://api.github.com/repos/pytorch/pytorch/deployments",
                   "created_at": "2016-08-13T05:26:41Z",
-                  "updated_at": "2026-05-18T20:01:52Z",
-                  "pushed_at": "2026-05-18T20:03:31Z",
+                  "updated_at": "2026-05-19T21:59:50Z",
+                  "pushed_at": "2026-05-19T22:01:26Z",
                   "git_url": "git://github.com/pytorch/pytorch.git",
                   "ssh_url": "org-21003710@github.com:pytorch/pytorch.git",
                   "clone_url": "https://github.com/pytorch/pytorch.git",
                   "svn_url": "https://github.com/pytorch/pytorch",
                   "homepage": "https://pytorch.org",
-                  "size": 1345970,
-                  "stargazers_count": 99995,
-                  "watchers_count": 99995,
+                  "size": 1346013,
+                  "stargazers_count": 100020,
+                  "watchers_count": 100020,
                   "language": "Python",
                   "has_issues": true,
                   "has_projects": true,
@@ -2047,11 +2052,11 @@
                   "has_wiki": true,
                   "has_pages": false,
                   "has_discussions": false,
-                  "forks_count": 27809,
+                  "forks_count": 27819,
                   "mirror_url": null,
                   "archived": false,
                   "disabled": false,
-                  "open_issues_count": 18552,
+                  "open_issues_count": 18463,
                   "license": {
                     "key": "other",
                     "name": "Other",
@@ -2075,9 +2080,9 @@
                     "tensor"
                   ],
                   "visibility": "public",
-                  "forks": 27809,
-                  "open_issues": 18552,
-                  "watchers": 99995,
+                  "forks": 27819,
+                  "open_issues": 18463,
+                  "watchers": 100020,
                   "default_branch": "main",
                   "permissions": {
                     "admin": false,
@@ -2257,7 +2262,7 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
+          "justification": "The test is disabled due to failures on main branch and related issues indicate ongoing problems.",
           "probable_code_areas": [
             "tests/*"
           ],
@@ -2269,7 +2274,21 @@
           "eval_count": 90
         }
       },
-      "latency_ms": 11360
+      "latency_ms": 17433
+    },
+    {
+      "step": 7,
+      "event_type": "filesystem_mcp_audit_write",
+      "name": "write_file",
+      "input": {
+        "audit_dir": "audit/triage_results"
+      },
+      "output": {
+        "ok": true,
+        "path": "audit/triage_results/1779262682920_pytorch__pytorch_182656.json",
+        "via": "filesystem_mcp"
+      },
+      "latency_ms": 0
     }
   ],
   "final_state": {
@@ -2307,7 +2326,7 @@
       "tests/*"
     ],
     "classification": "bug",
-    "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
+    "justification": "The test is disabled due to failures on main branch and related issues indicate ongoing problems.",
     "open_questions": [],
     "decision_needed": "",
     "current_state_summary": "The issue has been closed, but the problem persists as evidenced by recent failures. The latest state should be validated by a maintainer.",
@@ -2382,7 +2401,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 11360,
+        "latency_ms": 17433,
         "error": ""
       }
     ],
@@ -2468,6 +2487,7 @@
             "closed_at": "2026-05-06T17:42:17Z",
             "assignee": null,
             "author_association": "COLLABORATOR",
+            "issue_field_values": [],
             "type": null,
             "active_lock_reason": null,
             "sub_issues_summary": {
@@ -2606,6 +2626,7 @@
               "closed_at": "2026-05-06T17:42:17Z",
               "assignee": null,
               "author_association": "COLLABORATOR",
+              "issue_field_values": [],
               "type": null,
               "active_lock_reason": null,
               "sub_issues_summary": {
@@ -2752,6 +2773,7 @@
               "closed_at": "2020-11-08T08:46:47Z",
               "assignee": null,
               "author_association": "COLLABORATOR",
+              "issue_field_values": [],
               "type": null,
               "active_lock_reason": null,
               "sub_issues_summary": {
@@ -3978,6 +4000,7 @@
                   "closed_at": "2026-05-06T02:15:04Z",
                   "assignee": null,
                   "author_association": "CONTRIBUTOR",
+                  "issue_field_values": [],
                   "type": null,
                   "active_lock_reason": null,
                   "draft": false,
@@ -4049,16 +4072,16 @@
                     "releases_url": "https://api.github.com/repos/pytorch/pytorch/releases{/id}",
                     "deployments_url": "https://api.github.com/repos/pytorch/pytorch/deployments",
                     "created_at": "2016-08-13T05:26:41Z",
-                    "updated_at": "2026-05-18T20:01:52Z",
-                    "pushed_at": "2026-05-18T20:03:31Z",
+                    "updated_at": "2026-05-19T21:59:50Z",
+                    "pushed_at": "2026-05-19T22:01:26Z",
                     "git_url": "git://github.com/pytorch/pytorch.git",
                     "ssh_url": "org-21003710@github.com:pytorch/pytorch.git",
                     "clone_url": "https://github.com/pytorch/pytorch.git",
                     "svn_url": "https://github.com/pytorch/pytorch",
                     "homepage": "https://pytorch.org",
-                    "size": 1345970,
-                    "stargazers_count": 99995,
-                    "watchers_count": 99995,
+                    "size": 1346013,
+                    "stargazers_count": 100020,
+                    "watchers_count": 100020,
                     "language": "Python",
                     "has_issues": true,
                     "has_projects": true,
@@ -4066,11 +4089,11 @@
                     "has_wiki": true,
                     "has_pages": false,
                     "has_discussions": false,
-                    "forks_count": 27809,
+                    "forks_count": 27819,
                     "mirror_url": null,
                     "archived": false,
                     "disabled": false,
-                    "open_issues_count": 18552,
+                    "open_issues_count": 18463,
                     "license": {
                       "key": "other",
                       "name": "Other",
@@ -4094,9 +4117,9 @@
                       "tensor"
                     ],
                     "visibility": "public",
-                    "forks": 27809,
-                    "open_issues": 18552,
-                    "watchers": 99995,
+                    "forks": 27819,
+                    "open_issues": 18463,
+                    "watchers": 100020,
                     "default_branch": "main",
                     "permissions": {
                       "admin": false,
@@ -4325,6 +4348,7 @@
                   "closed_at": "2026-05-06T17:42:18Z",
                   "assignee": null,
                   "author_association": "CONTRIBUTOR",
+                  "issue_field_values": [],
                   "type": null,
                   "active_lock_reason": null,
                   "draft": false,
@@ -4396,16 +4420,16 @@
                     "releases_url": "https://api.github.com/repos/pytorch/pytorch/releases{/id}",
                     "deployments_url": "https://api.github.com/repos/pytorch/pytorch/deployments",
                     "created_at": "2016-08-13T05:26:41Z",
-                    "updated_at": "2026-05-18T20:01:52Z",
-                    "pushed_at": "2026-05-18T20:03:31Z",
+                    "updated_at": "2026-05-19T21:59:50Z",
+                    "pushed_at": "2026-05-19T22:01:26Z",
                     "git_url": "git://github.com/pytorch/pytorch.git",
                     "ssh_url": "org-21003710@github.com:pytorch/pytorch.git",
                     "clone_url": "https://github.com/pytorch/pytorch.git",
                     "svn_url": "https://github.com/pytorch/pytorch",
                     "homepage": "https://pytorch.org",
-                    "size": 1345970,
-                    "stargazers_count": 99995,
-                    "watchers_count": 99995,
+                    "size": 1346013,
+                    "stargazers_count": 100020,
+                    "watchers_count": 100020,
                     "language": "Python",
                     "has_issues": true,
                     "has_projects": true,
@@ -4413,11 +4437,11 @@
                     "has_wiki": true,
                     "has_pages": false,
                     "has_discussions": false,
-                    "forks_count": 27809,
+                    "forks_count": 27819,
                     "mirror_url": null,
                     "archived": false,
                     "disabled": false,
-                    "open_issues_count": 18552,
+                    "open_issues_count": 18463,
                     "license": {
                       "key": "other",
                       "name": "Other",
@@ -4441,9 +4465,9 @@
                       "tensor"
                     ],
                     "visibility": "public",
-                    "forks": 27809,
-                    "open_issues": 18552,
-                    "watchers": 99995,
+                    "forks": 27819,
+                    "open_issues": 18463,
+                    "watchers": 100020,
                     "default_branch": "main",
                     "permissions": {
                       "admin": false,
@@ -4623,7 +4647,7 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The test is disabled due to failures on main branch and related issues indicating ongoing problems.",
+            "justification": "The test is disabled due to failures on main branch and related issues indicate ongoing problems.",
             "probable_code_areas": [
               "tests/*"
             ],
@@ -4635,13 +4659,27 @@
             "eval_count": 90
           }
         },
-        "latency_ms": 11360
+        "latency_ms": 17433
+      },
+      {
+        "step": 7,
+        "event_type": "filesystem_mcp_audit_write",
+        "name": "write_file",
+        "input": {
+          "audit_dir": "audit/triage_results"
+        },
+        "output": {
+          "ok": true,
+          "path": "audit/triage_results/1779262682920_pytorch__pytorch_182656.json",
+          "via": "filesystem_mcp"
+        },
+        "latency_ms": 0
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
     "token_count": 90,
-    "started_at_unix": 1779213781.1452968,
+    "started_at_unix": 1779262662.943126,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -4656,12 +4694,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 13.584,
+    "latency_seconds": 21.748,
     "token_count": 90,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 2,
-    "stop_reason": "completed"
+    "stop_reason": "completed",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 3,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 88
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 3,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent's output is grounded in the evidence provided, correctly identifies the issue as a bug based on related issues and test failures, and uses appropriate tools. The probable code areas are relevant to the issue.",
+    "usage": {
+      "eval_count": 88
+    }
   }
 }

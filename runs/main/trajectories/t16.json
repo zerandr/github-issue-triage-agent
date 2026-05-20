@@ -1370,7 +1370,21 @@
           "eval_count": 116
         }
       },
-      "latency_ms": 22323
+      "latency_ms": 21366
+    },
+    {
+      "step": 7,
+      "event_type": "filesystem_mcp_audit_write",
+      "name": "write_file",
+      "input": {
+        "audit_dir": "audit/triage_results"
+      },
+      "output": {
+        "ok": true,
+        "path": "audit/triage_results/1779262141914_scikit-learn__scikit-learn_33743.json",
+        "via": "filesystem_mcp"
+      },
+      "latency_ms": 0
     }
   ],
   "final_state": {
@@ -1492,7 +1506,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 22323,
+        "latency_ms": 21366,
         "error": ""
       }
     ],
@@ -2845,13 +2859,27 @@
             "eval_count": 116
           }
         },
-        "latency_ms": 22323
+        "latency_ms": 21366
+      },
+      {
+        "step": 7,
+        "event_type": "filesystem_mcp_audit_write",
+        "name": "write_file",
+        "input": {
+          "audit_dir": "audit/triage_results"
+        },
+        "output": {
+          "ok": true,
+          "path": "audit/triage_results/1779262141914_scikit-learn__scikit-learn_33743.json",
+          "via": "filesystem_mcp"
+        },
+        "latency_ms": 0
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
     "token_count": 116,
-    "started_at_unix": 1779213564.2789,
+    "started_at_unix": 1779262118.1342862,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -2866,12 +2894,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 25.349,
+    "latency_seconds": 25.397,
     "token_count": 116,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 1,
-    "stop_reason": "completed"
+    "stop_reason": "completed",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 2,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 86
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 2,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The classification and justification are grounded in the evidence, but the task is about duplicates, not documentation. The related issues found are relevant, but they do not address the duplicate nature of the issue.",
+    "usage": {
+      "eval_count": 86
+    }
   }
 }

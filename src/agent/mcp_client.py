@@ -99,6 +99,9 @@ def call_tool(tool_name: str, arguments: Optional[Dict[str, Any]] = None) -> Any
 
     if USE_MCP:
         try:
+            if tool_name.startswith("github_"):
+                print(f"[mcp] GitHub tool via MCP: {tool_name}", file=sys.stderr)
+
             return _call_mcp_tool(tool_name, arguments)
         except Exception as exc:
             warnings.warn(
@@ -130,14 +133,26 @@ def github_get_issue_timeline(repo: str, issue_number: int) -> Any:
     )
 
 
-def github_search_related_issues(repo: str, query: str, limit: int = 5) -> Any:
+def github_search_related_issues(
+    repo: str,
+    query: str,
+    limit: int = 5,
+    sort: str | None = None,
+    order: str = "desc",
+) -> Any:
+    arguments: dict[str, Any] = {
+        "repo": repo,
+        "query": query,
+        "limit": limit,
+    }
+
+    if sort is not None:
+        arguments["sort"] = sort
+        arguments["order"] = order
+
     return call_tool(
         "github_search_related_issues",
-        {
-            "repo": repo,
-            "query": query,
-            "limit": limit,
-        },
+        arguments,
     )
 
 

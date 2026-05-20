@@ -7,8 +7,8 @@
   "tool_selection_accuracy": 1.0,
   "mean_steps": 6.424,
   "mean_tool_calls": 0.909,
-  "mean_latency_seconds": 17.347,
-  "total_tokens": 3631,
+  "mean_latency_seconds": 28.301,
+  "total_tokens": 3816,
   "total_estimated_usd_cost": 0.0,
   "total_ungrounded_claims": 0,
   "total_hallucinated_tool_args": 0,
@@ -17,5 +17,16 @@
     "completed": 28,
     "human_interrupt_pending": 3,
     "tool_error_non_retriable": 2
+  },
+  "llm_judge": {
+    "n_judged": 33,
+    "mean_score_3pt": 2.788,
+    "score_counts": {
+      "3": 26,
+      "2": 7
+    },
+    "mean_groundedness": 3.0,
+    "mean_tool_use": 3.0,
+    "total_tokens": 2840
   }
 }

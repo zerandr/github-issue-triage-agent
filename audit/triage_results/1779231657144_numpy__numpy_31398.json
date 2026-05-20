@@ -1,0 +1,43 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31398,
+  "classification": "feature request",
+  "justification": "The issue title and body clearly propose a new feature for `numpy.argmax` and `numpy.argmin` functions.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open for discussion, no concrete decision has been made yet. Related issues are also open.",
+  "related_issues": [
+    {
+      "number": 7265,
+      "title": "Enhancement: groupby function",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/7265"
+    },
+    {
+      "number": 1812,
+      "title": "np.hist: needs to be enabled for masked arrays (Trac #1214)",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/1812"
+    },
+    {
+      "number": 30777,
+      "title": "ENH: add out parameter to numpy.fromfile for memory-stable I/O",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/30777"
+    }
+  ],
+  "probable_code_areas": [
+    "numpy/core/fromnumeric.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

@@ -1939,7 +1939,7 @@
     "step_count": 4,
     "tool_calls": 0,
     "token_count": 0,
-    "started_at_unix": 1779213375.789718,
+    "started_at_unix": 1779261545.686652,
     "stop_reason": null,
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -1949,7 +1949,7 @@
     "needs_human_review": true,
     "fatal_error": "",
     "__interrupt__": [
-      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'current_classification': 'unknown', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='73f61e902939499bc61208fac586527a')"
+      "Interrupt(value={'reason': 'Ambiguous classification or low evidence', 'repo': 'scikit-learn/scikit-learn', 'issue_number': 33586, 'issue': {'title': '[Callbacks] Add a developer test suite with common tests for callbacks', 'body': 'Similar to common tests:\\n- checks for callbacks\\n- possibly stronger checks for sklearn callbacks\\n- common tests that run these checks ', 'state': 'open', 'labels': ['Callbacks'], 'url': 'https://github.com/scikit-learn/scikit-learn/issues/33586'}, 'related_issues': [{'number': 33327, 'title': '[Callbacks] ENH Add an option for callbacks to not create any thread', 'state': 'open', 'url': 'https://github.com/scikit-learn/scikit-learn/issues/33327'}, {'number': 33646, 'title': '[Callbacks] Should/Can we avoid creating the context tree when no callbacks ?', 'state': 'open', 'url': 'https://github.com/scikit-learn/scikit-learn/issues/33646'}, {'number': 33326, 'title': '[Callbacks] FEA A repr for CallbackContext', 'state': 'open', 'url': 'https://github.com/scikit-learn/scikit-learn/issues/33326'}], 'current_classification': 'unknown', 'current_justification': 'Classification inferred from issue title/body and available GitHub evidence. Related candidates: [33327, 33646, 33326].', 'question': \"Approve this classification or override it. Return {'classification': 'bug'} or similar if overriding.\"}, id='55d712f4fbf336db07b9b69eda808a8e')"
     ]
   },
   "metrics": {
@@ -1957,12 +1957,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 4,
     "tool_calls": 0,
-    "latency_seconds": 1.512,
+    "latency_seconds": 1.983,
     "token_count": 0,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 1,
-    "stop_reason": "human_interrupt_pending"
+    "stop_reason": "human_interrupt_pending",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 2,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 84
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 2,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent correctly identifies related issues and uses appropriate tools. However, the classification is inferred as 'unknown', which does not meet the success criteria of grounded and policy-compliant triage.",
+    "usage": {
+      "eval_count": 84
+    }
   }
 }

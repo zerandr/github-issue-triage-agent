@@ -1,0 +1,39 @@
+{
+  "repo": "scikit-learn/scikit-learn",
+  "issue_number": 33858,
+  "classification": "bug",
+  "justification": "The issue title and body indicate a failure in unit tests for a specific CI environment, which aligns with a bug classification.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show similar patterns of failures. The latest state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 33402,
+      "title": "⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Feb 25, 2026) ⚠️",
+      "state": "closed",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33402"
+    },
+    {
+      "number": 33365,
+      "title": "⚠️ CI failed on Unit tests Linux x86-64 pymin_conda_forge_openblas_ubuntu_2204 (last failure: Feb 23, 2026) ⚠️",
+      "state": "closed",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33365"
+    },
+    {
+      "number": 33887,
+      "title": "BUG: HTML representation fails with nested meta-estimator",
+      "state": "open",
+      "html_url": "https://github.com/scikit-learn/scikit-learn/issues/33887"
+    }
+  ],
+  "probable_code_areas": [
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ]
+}

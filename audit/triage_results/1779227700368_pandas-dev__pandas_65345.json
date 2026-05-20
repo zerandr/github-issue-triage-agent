@@ -1,0 +1,40 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 65345,
+  "classification": "bug",
+  "justification": "The issue describes a specific behavior inconsistency related to interpolation with missing values in a Series backed by pyarrow dtype, which is expected to be handled differently compared to numpy backend.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and has not been addressed. Related issues exist but do not directly address the current problem.",
+  "related_issues": [
+    {
+      "number": 28220,
+      "title": "pd.merge regression when doing a left-join with missing data on the right. Result has a Float64Index",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/28220"
+    },
+    {
+      "number": 47554,
+      "title": "BUG: Series with same index values, but in different orders, cannot be compared, but can be added",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/47554"
+    },
+    {
+      "number": 16367,
+      "title": "pd.crosstab, categorical data and missing instances",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/16367"
+    }
+  ],
+  "probable_code_areas": [
+    "pandas/core/interpolate.py",
+    "pandas/core/internals/managers.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ]
+}

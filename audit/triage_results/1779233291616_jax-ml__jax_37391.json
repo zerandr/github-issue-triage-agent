@@ -1,0 +1,43 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37391,
+  "classification": "bug",
+  "justification": "The issue describes a potential conflict between `jax.config.update` and existing XLA flags, which could be a bug.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and labeled as a bug. Related issues are marked as open. The classification is based on the description provided.",
+  "related_issues": [
+    {
+      "number": 34001,
+      "title": "[mosaic] broadcast bug",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/34001"
+    },
+    {
+      "number": 37751,
+      "title": "`jax.scipy.special.xlogy` and `xlog1py` return `0.0` instead of `nan` when `x=0` and `y=nan`",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/37751"
+    },
+    {
+      "number": 29924,
+      "title": "Foreign function interface (FFI) tutorial bugs",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/29924"
+    }
+  ],
+  "probable_code_areas": [
+    "_src/compiler.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

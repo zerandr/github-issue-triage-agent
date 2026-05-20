@@ -1502,7 +1502,21 @@
           "eval_count": 114
         }
       },
-      "latency_ms": 16491
+      "latency_ms": 21946
+    },
+    {
+      "step": 7,
+      "event_type": "filesystem_mcp_audit_write",
+      "name": "write_file",
+      "input": {
+        "audit_dir": "audit/triage_results"
+      },
+      "output": {
+        "ok": true,
+        "path": "audit/triage_results/1779262429337_jax-ml__jax_37188.json",
+        "via": "filesystem_mcp"
+      },
+      "latency_ms": 0
     }
   ],
   "final_state": {
@@ -1624,7 +1638,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 16491,
+        "latency_ms": 21946,
         "error": ""
       }
     ],
@@ -3110,13 +3124,27 @@
             "eval_count": 114
           }
         },
-        "latency_ms": 16491
+        "latency_ms": 21946
+      },
+      {
+        "step": 7,
+        "event_type": "filesystem_mcp_audit_write",
+        "name": "write_file",
+        "input": {
+          "audit_dir": "audit/triage_results"
+        },
+        "output": {
+          "ok": true,
+          "path": "audit/triage_results/1779262429337_jax-ml__jax_37188.json",
+          "via": "filesystem_mcp"
+        },
+        "latency_ms": 0
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
     "token_count": 114,
-    "started_at_unix": 1779213678.903163,
+    "started_at_unix": 1779262404.950975,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -3131,12 +3159,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 19.372,
+    "latency_seconds": 26.085,
     "token_count": 114,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 2,
-    "stop_reason": "completed"
+    "stop_reason": "completed",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 3,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 89
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 3,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent's output is grounded in the provided evidence, correctly classifies the issue as a feature request and provides relevant related issues. The probable code areas are also appropriately suggested based on the content of the issue.",
+    "usage": {
+      "eval_count": 89
+    }
   }
 }

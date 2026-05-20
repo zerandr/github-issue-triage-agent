@@ -4,8 +4,8 @@
 Maintainer triaging issues in one of the fixed evaluation repositories (Track C list).
 
 ## Inputs
-- `repo` (`owner/name`)
-- `issue_number` (int)
+- default structured mode: `repo` (`owner/name`) and `issue_number` (int)
+- free-form mode (`src/agent/free_run.py`): arbitrary user text, such as a GitHub issue URL, `owner/repo#123`, or a broader request like "find me 5 latest issues about implementation loss functions in pytorch repo". The LLM sees the available tools and chooses which one to call; deterministic parsing is retained as a fallback.
 - optional reviewer action at human-in-the-loop gate
 
 ## Outputs
@@ -31,12 +31,12 @@ Reason for choice: simple, debuggable trajectories with explicit conditional rou
 ## Tool contract
 ### Third-party MCP servers
 1. Filesystem MCP (`@modelcontextprotocol/server-filesystem`)
-- Purpose: local file access for evaluation artifacts and reports.
+- Purpose: local file access for evaluation artifacts, reports, and finalize-time audit records.
 - Tools: `read_file`, `write_file`, `list_directory`.
 - Arguments: project-relative paths bounded by the configured filesystem root.
 - Returns: file text, directory entries, or write confirmation depending on tool.
 - Errors: missing paths, permission errors, paths outside the configured root.
-- Side effects: bounded local filesystem reads/writes inside the project directory.
+- Side effects: bounded local filesystem reads/writes inside the project directory, including audit JSON files under `audit/triage_results/`.
 
 2. Git MCP (`@cyanheads/git-mcp-server`)
 - Purpose: version generated JSON evaluation artifacts after an eval run.
@@ -56,11 +56,11 @@ Reason for choice: simple, debuggable trajectories with explicit conditional rou
   `408/5xx` for retriable network/server failures.
 - Side effects: external network call.
 
-2. `github_search_related_issues(repo: str, query: str, limit: int=10)`
-- Purpose: find duplicates/related issues.
-- Arguments: same-repo search query and `limit` in `[1, 30]`.
+2. `github_search_related_issues(repo: str, query: str, limit: int=10, sort: str|None=None, order: str="desc")`
+- Purpose: find duplicates/related issues and support free-form repository issue search.
+- Arguments: same-repo search query, `limit` in `[1, 30]`, optional GitHub search `sort` (`comments|created|updated`), and `order` (`asc|desc`).
 - Returns: `{ok, total_count, items}` or error envelope.
-- Errors: `400` for invalid limit, GitHub REST/search errors otherwise.
+- Errors: `400` for invalid limit/sort/order, GitHub REST/search errors otherwise.
 - Side effects: external network call.
 
 3. `github_get_issue_timeline(repo: str, issue_number: int, per_page: int=50)`
@@ -96,3 +96,11 @@ Reason for choice: simple, debuggable trajectories with explicit conditional rou
 
 ## Successful trajectory
 Correct tool class usage, grounded output, explicit uncertainty, and HITL escalation on ambiguity.
+
+## LLM-as-a-judge evaluation
+Optional LAAJ scoring is implemented in `src/eval/llm_judge.py` and enabled
+through `python -m src.eval.run_eval --llm-judge` or `make eval-llm-judge`.
+The judge receives the task rubric, compact final state, evidence snippets, tool
+events, and deterministic metrics. It returns JSON fields for `score_3pt`,
+`groundedness`, `tool_use`, `hallucination_risk`, and `rationale`, which are
+stored in trajectory artifacts and summarized in the aggregate eval summary.

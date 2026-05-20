@@ -1,0 +1,45 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31284,
+  "classification": "bug",
+  "justification": "The issue describes a deadlock condition when `numpy` is imported from within a `dlopen()` context on glibc < 2.34 with MKL BLAS, which is explicitly labeled as a bug in the GitHub issue.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed but related issues remain open. The classification and probable code areas are inferred from the issue title, body, and related issues.",
+  "related_issues": [
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    },
+    {
+      "number": 27870,
+      "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27870"
+    },
+    {
+      "number": 28844,
+      "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/28844"
+    }
+  ],
+  "probable_code_areas": [
+    "numpy/__init__.py",
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

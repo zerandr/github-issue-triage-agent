@@ -1,0 +1,44 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 65518,
+  "classification": "bug",
+  "justification": "The issue describes a problem with the conversion of NumPy masked arrays to pandas arrays, which is inconsistent with user expectations and how `pd.Series` handles similar conversions.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed but marked as a duplicate. Related issues are still open and may provide additional context.",
+  "related_issues": [
+    {
+      "number": 65588,
+      "title": "BUG: `DataFrame.eval` inconsistently handles duplicated columns",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65588"
+    },
+    {
+      "number": 65654,
+      "title": "BUG: DataFrame.melt silently corrupts data on var_name output-name collisions",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/65654"
+    },
+    {
+      "number": 64198,
+      "title": "BUG:  `read_excel` with `usecols` still mangles column names when duplicates exist elsewhere in spreadsheet",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/64198"
+    }
+  ],
+  "probable_code_areas": [
+    "pandas/core/arraylike.py",
+    "pandas/core/internals/construction.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

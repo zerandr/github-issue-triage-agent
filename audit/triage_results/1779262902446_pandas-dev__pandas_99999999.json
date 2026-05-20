@@ -1,0 +1,13 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 99999999,
+  "classification": "unknown",
+  "justification": "The issue could not be verified from GitHub evidence, so the agent does not classify it or invent related details.",
+  "stop_reason": "tool_error_non_retriable",
+  "current_state_summary": "github_get_issue failed: status=404; error={\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/issues/issues#get-an-issue\",\"status\":\"404\"}",
+  "related_issues": [],
+  "probable_code_areas": [],
+  "evidence_ids": [
+    "E1"
+  ]
+}

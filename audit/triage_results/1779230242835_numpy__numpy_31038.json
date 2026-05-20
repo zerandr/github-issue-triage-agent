@@ -1,0 +1,45 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31038,
+  "classification": "bug",
+  "justification": "The issue describes a problem with `np.linspace` producing unevenly spaced arrays when using `np.float32`, which is unexpected behavior.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed but was marked as a question. It references previous issues that are still open, suggesting ongoing investigation.",
+  "related_issues": [
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    },
+    {
+      "number": 27870,
+      "title": "BUG: calling np.sqrt on an array containing only floats, but of dtype object, will crash",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/27870"
+    },
+    {
+      "number": 28844,
+      "title": "BUG: Confusing error message when `numpy` importing `numpy.__config__` raises `ImportError` for legit reasons",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/28844"
+    }
+  ],
+  "probable_code_areas": [
+    "api/linspace",
+    "tests/test_linspace"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 30906,
+  "classification": "bug",
+  "justification": "The issue title and body explicitly state a pytest-run-parallel CI failure with an AttributeError, which aligns with bug reports.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is open and related to CI failures. The current state should be validated by maintainer.",
+  "related_issues": [
+    {
+      "number": 30085,
+      "title": "BUG: Running test suite in parallel causes ThreadSanitizer data races",
+      "state": "closed",
+      "html_url": "https://github.com/numpy/numpy/issues/30085"
+    },
+    {
+      "number": 29552,
+      "title": "TST: Make test suite more thread-safe",
+      "state": "closed",
+      "html_url": "https://github.com/numpy/numpy/issues/29552"
+    },
+    {
+      "number": 29442,
+      "title": "BUG: `linalg.inv` crashing on windows arm64",
+      "state": "open",
+      "html_url": "https://github.com/numpy/numpy/issues/29442"
+    }
+  ],
+  "probable_code_areas": [
+    "tests/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7"
+  ]
+}

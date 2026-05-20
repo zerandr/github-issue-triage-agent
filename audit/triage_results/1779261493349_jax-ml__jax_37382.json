@@ -1,0 +1,44 @@
+{
+  "repo": "jax-ml/jax",
+  "issue_number": 37382,
+  "classification": "bug",
+  "justification": "The issue title and body indicate a discrepancy in the `jnp.nonzero` function result with JAX optimization level O1. The user suspects an error based on expected output vs actual output, which aligns with a bug classification.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue is closed but was marked as a bug. The current state summary reflects the need for validation by maintainers, given that the issue has been resolved or closed.",
+  "related_issues": [
+    {
+      "number": 34001,
+      "title": "[mosaic] broadcast bug",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/34001"
+    },
+    {
+      "number": 37751,
+      "title": "`jax.scipy.special.xlogy` and `xlog1py` return `0.0` instead of `nan` when `x=0` and `y=nan`",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/37751"
+    },
+    {
+      "number": 29924,
+      "title": "Foreign function interface (FFI) tutorial bugs",
+      "state": "open",
+      "html_url": "https://github.com/jax-ml/jax/issues/29924"
+    }
+  ],
+  "probable_code_areas": [
+    "jax/core/*",
+    "jax/numpy/*"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10"
+  ]
+}

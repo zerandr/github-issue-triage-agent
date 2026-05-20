@@ -1,0 +1,45 @@
+{
+  "repo": "pandas-dev/pandas",
+  "issue_number": 65357,
+  "classification": "bug",
+  "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue has been closed without resolution. Related issues are marked as open, suggesting ongoing discussion or investigation.",
+  "related_issues": [
+    {
+      "number": 17998,
+      "title": "Working with arrays inside cells - mean() works, median() crashes",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/17998"
+    },
+    {
+      "number": 38534,
+      "title": "BUG: Series mode crashes when there is more than one mode",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/38534"
+    },
+    {
+      "number": 53366,
+      "title": "BUG: inconsistent behavior and crash in `DataFrame.__setitem__` when >=3d ndarray is used",
+      "state": "open",
+      "html_url": "https://github.com/pandas-dev/pandas/issues/53366"
+    }
+  ],
+  "probable_code_areas": [
+    "pandas/core/frame.py",
+    "pandas/query_compiler/expressions.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+  ]
+}

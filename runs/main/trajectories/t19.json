@@ -519,100 +519,6 @@
             "score": 1.0
           },
           {
-            "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728",
-            "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
-            "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/labels{/name}",
-            "comments_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/comments",
-            "events_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/events",
-            "html_url": "https://github.com/pandas-dev/pandas/issues/2728",
-            "id": 10215730,
-            "node_id": "MDU6SXNzdWUxMDIxNTczMA==",
-            "number": 2728,
-            "title": "DataFrame.copy(), at least, should be threadsafe",
-            "user": {
-              "login": "bshanks",
-              "id": 586225,
-              "node_id": "MDQ6VXNlcjU4NjIyNQ==",
-              "avatar_url": "https://avatars.githubusercontent.com/u/586225?v=4",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/bshanks",
-              "html_url": "https://github.com/bshanks",
-              "followers_url": "https://api.github.com/users/bshanks/followers",
-              "following_url": "https://api.github.com/users/bshanks/following{/other_user}",
-              "gists_url": "https://api.github.com/users/bshanks/gists{/gist_id}",
-              "starred_url": "https://api.github.com/users/bshanks/starred{/owner}{/repo}",
-              "subscriptions_url": "https://api.github.com/users/bshanks/subscriptions",
-              "organizations_url": "https://api.github.com/users/bshanks/orgs",
-              "repos_url": "https://api.github.com/users/bshanks/repos",
-              "events_url": "https://api.github.com/users/bshanks/events{/privacy}",
-              "received_events_url": "https://api.github.com/users/bshanks/received_events",
-              "type": "User",
-              "user_view_type": "public",
-              "site_admin": false
-            },
-            "labels": [
-              {
-                "id": 76811,
-                "node_id": "MDU6TGFiZWw3NjgxMQ==",
-                "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Bug",
-                "name": "Bug",
-                "color": "e10c02",
-                "default": false,
-                "description": null
-              },
-              {
-                "id": 34423912,
-                "node_id": "MDU6TGFiZWwzNDQyMzkxMg==",
-                "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Multithreading",
-                "name": "Multithreading",
-                "color": "ededed",
-                "default": false,
-                "description": "Parallelism in pandas"
-              }
-            ],
-            "state": "open",
-            "locked": false,
-            "assignees": [],
-            "milestone": null,
-            "comments": 24,
-            "created_at": "2013-01-23T00:06:26Z",
-            "updated_at": "2025-10-11T20:57:13Z",
-            "closed_at": null,
-            "assignee": null,
-            "author_association": "NONE",
-            "type": null,
-            "active_lock_reason": null,
-            "sub_issues_summary": {
-              "total": 0,
-              "completed": 0,
-              "percent_completed": 0
-            },
-            "issue_dependencies_summary": {
-              "blocked_by": 0,
-              "total_blocked_by": 0,
-              "blocking": 0,
-              "total_blocking": 0
-            },
-            "body": "dataframe.copy() should happen atomically/be threadsafe, meaning that it should produce a consistent dataframe even if the call to .copy() is made while another thread is deleting entries from the dataframe, or if another thread calls a deletion method while the call to .copy() is working (in other words, i guess .copy() should acquire a lock that prevents mutation during the copy). That is, the following code, which crashes in 0.7.3, should succeed:\n\n``` python\n\nimport pandas\nimport threading\n\ndf = pandas.DataFrame()\n\ndef mutateDf(df):\n    while True:\n        df[0] = pandas.Series([1,2,3])\n        del df[0]\n\ndef readDf(df):\n    while True:\n        dfCopy = df.copy()\n        if 0 in dfCopy and 1 in dfCopy[0]:\n            a = dfCopy[0][1]\n\nt1 = threading.Thread(target=mutateDf, args=(df,))\nt2 = threading.Thread(target=readDf, args=(df,))\n\nt1.start()\nt2.start()\n```\n\n```\nException in thread Thread-3:\nTraceback (most recent call last):\n  File \"/usr/lib/python2.7/threading.py\", line 551, in __bootstrap_inner\n    self.run()\n  File \"/usr/lib/python2.7/threading.py\", line 504, in run\n    self.__target(*self.__args, **self.__kwargs)\n  File \"<ipython-input-5-8aef72c7f1b4>\", line 4, in readDf\n    if 0 in dfCopy and 1 in dfCopy[0]:\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/frame.py\", line 1458, in __getitem__\n    return self._get_item_cache(key)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/generic.py\", line 294, in _get_item_cache\n    values = self._data.get(item)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/internals.py\", line 625, in get\n    _, block = self._find_block(item)\nTypeError: 'NoneType' object is not iterable\n```\n",
-            "reactions": {
-              "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/reactions",
-              "total_count": 1,
-              "+1": 1,
-              "-1": 0,
-              "laugh": 0,
-              "hooray": 0,
-              "confused": 0,
-              "heart": 0,
-              "rocket": 0,
-              "eyes": 0
-            },
-            "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/timeline",
-            "performed_via_github_app": null,
-            "state_reason": "reopened",
-            "pinned_comment": null,
-            "score": 1.0
-          },
-          {
             "url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366",
             "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
             "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366/labels{/name}",
@@ -721,6 +627,100 @@
             "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366/timeline",
             "performed_via_github_app": null,
             "state_reason": null,
+            "pinned_comment": null,
+            "score": 1.0
+          },
+          {
+            "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728",
+            "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
+            "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/labels{/name}",
+            "comments_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/comments",
+            "events_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/events",
+            "html_url": "https://github.com/pandas-dev/pandas/issues/2728",
+            "id": 10215730,
+            "node_id": "MDU6SXNzdWUxMDIxNTczMA==",
+            "number": 2728,
+            "title": "DataFrame.copy(), at least, should be threadsafe",
+            "user": {
+              "login": "bshanks",
+              "id": 586225,
+              "node_id": "MDQ6VXNlcjU4NjIyNQ==",
+              "avatar_url": "https://avatars.githubusercontent.com/u/586225?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/bshanks",
+              "html_url": "https://github.com/bshanks",
+              "followers_url": "https://api.github.com/users/bshanks/followers",
+              "following_url": "https://api.github.com/users/bshanks/following{/other_user}",
+              "gists_url": "https://api.github.com/users/bshanks/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/bshanks/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/bshanks/subscriptions",
+              "organizations_url": "https://api.github.com/users/bshanks/orgs",
+              "repos_url": "https://api.github.com/users/bshanks/repos",
+              "events_url": "https://api.github.com/users/bshanks/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/bshanks/received_events",
+              "type": "User",
+              "user_view_type": "public",
+              "site_admin": false
+            },
+            "labels": [
+              {
+                "id": 76811,
+                "node_id": "MDU6TGFiZWw3NjgxMQ==",
+                "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Bug",
+                "name": "Bug",
+                "color": "e10c02",
+                "default": false,
+                "description": null
+              },
+              {
+                "id": 34423912,
+                "node_id": "MDU6TGFiZWwzNDQyMzkxMg==",
+                "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Multithreading",
+                "name": "Multithreading",
+                "color": "ededed",
+                "default": false,
+                "description": "Parallelism in pandas"
+              }
+            ],
+            "state": "open",
+            "locked": false,
+            "assignees": [],
+            "milestone": null,
+            "comments": 24,
+            "created_at": "2013-01-23T00:06:26Z",
+            "updated_at": "2025-10-11T20:57:13Z",
+            "closed_at": null,
+            "assignee": null,
+            "author_association": "NONE",
+            "type": null,
+            "active_lock_reason": null,
+            "sub_issues_summary": {
+              "total": 0,
+              "completed": 0,
+              "percent_completed": 0
+            },
+            "issue_dependencies_summary": {
+              "blocked_by": 0,
+              "total_blocked_by": 0,
+              "blocking": 0,
+              "total_blocking": 0
+            },
+            "body": "dataframe.copy() should happen atomically/be threadsafe, meaning that it should produce a consistent dataframe even if the call to .copy() is made while another thread is deleting entries from the dataframe, or if another thread calls a deletion method while the call to .copy() is working (in other words, i guess .copy() should acquire a lock that prevents mutation during the copy). That is, the following code, which crashes in 0.7.3, should succeed:\n\n``` python\n\nimport pandas\nimport threading\n\ndf = pandas.DataFrame()\n\ndef mutateDf(df):\n    while True:\n        df[0] = pandas.Series([1,2,3])\n        del df[0]\n\ndef readDf(df):\n    while True:\n        dfCopy = df.copy()\n        if 0 in dfCopy and 1 in dfCopy[0]:\n            a = dfCopy[0][1]\n\nt1 = threading.Thread(target=mutateDf, args=(df,))\nt2 = threading.Thread(target=readDf, args=(df,))\n\nt1.start()\nt2.start()\n```\n\n```\nException in thread Thread-3:\nTraceback (most recent call last):\n  File \"/usr/lib/python2.7/threading.py\", line 551, in __bootstrap_inner\n    self.run()\n  File \"/usr/lib/python2.7/threading.py\", line 504, in run\n    self.__target(*self.__args, **self.__kwargs)\n  File \"<ipython-input-5-8aef72c7f1b4>\", line 4, in readDf\n    if 0 in dfCopy and 1 in dfCopy[0]:\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/frame.py\", line 1458, in __getitem__\n    return self._get_item_cache(key)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/generic.py\", line 294, in _get_item_cache\n    values = self._data.get(item)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/internals.py\", line 625, in get\n    _, block = self._find_block(item)\nTypeError: 'NoneType' object is not iterable\n```\n",
+            "reactions": {
+              "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/reactions",
+              "total_count": 1,
+              "+1": 1,
+              "-1": 0,
+              "laugh": 0,
+              "hooray": 0,
+              "confused": 0,
+              "heart": 0,
+              "rocket": 0,
+              "eyes": 0
+            },
+            "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/timeline",
+            "performed_via_github_app": null,
+            "state_reason": "reopened",
             "pinned_comment": null,
             "score": 1.0
           },
@@ -2295,16 +2295,16 @@
                   "releases_url": "https://api.github.com/repos/pandas-dev/pandas/releases{/id}",
                   "deployments_url": "https://api.github.com/repos/pandas-dev/pandas/deployments",
                   "created_at": "2010-08-24T01:37:33Z",
-                  "updated_at": "2026-05-18T16:35:31Z",
-                  "pushed_at": "2026-05-18T16:23:58Z",
+                  "updated_at": "2026-05-19T20:30:52Z",
+                  "pushed_at": "2026-05-19T20:30:12Z",
                   "git_url": "git://github.com/pandas-dev/pandas.git",
                   "ssh_url": "git@github.com:pandas-dev/pandas.git",
                   "clone_url": "https://github.com/pandas-dev/pandas.git",
                   "svn_url": "https://github.com/pandas-dev/pandas",
                   "homepage": "https://pandas.pydata.org",
-                  "size": 394286,
-                  "stargazers_count": 48792,
-                  "watchers_count": 48792,
+                  "size": 394314,
+                  "stargazers_count": 48801,
+                  "watchers_count": 48801,
                   "language": "Python",
                   "has_issues": true,
                   "has_projects": true,
@@ -2312,11 +2312,11 @@
                   "has_wiki": false,
                   "has_pages": false,
                   "has_discussions": false,
-                  "forks_count": 19966,
+                  "forks_count": 19967,
                   "mirror_url": null,
                   "archived": false,
                   "disabled": false,
-                  "open_issues_count": 3260,
+                  "open_issues_count": 3256,
                   "license": {
                     "key": "bsd-3-clause",
                     "name": "BSD 3-Clause \"New\" or \"Revised\" License",
@@ -2338,9 +2338,9 @@
                     "python"
                   ],
                   "visibility": "public",
-                  "forks": 19966,
-                  "open_issues": 3260,
-                  "watchers": 48792,
+                  "forks": 19967,
+                  "open_issues": 3256,
+                  "watchers": 48801,
                   "default_branch": "main",
                   "permissions": {
                     "admin": false,
@@ -2515,15 +2515,15 @@
                 "url": "https://github.com/pandas-dev/pandas/issues/38534"
               },
               {
-                "number": 2728,
-                "title": "DataFrame.copy(), at least, should be threadsafe",
+                "number": 53366,
+                "title": "BUG: inconsistent behavior and crash in `DataFrame.__setitem__` when >=3d ndarray is used",
                 "state": "open",
-                "url": "https://github.com/pandas-dev/pandas/issues/2728"
+                "url": "https://github.com/pandas-dev/pandas/issues/53366"
               }
             ],
             "current_fields": {
               "classification": "documentation",
-              "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [17998, 38534, 2728].",
+              "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [17998, 38534, 53366].",
               "probable_code_areas": [
                 "auth/*",
                 "docs/*",
@@ -2542,20 +2542,34 @@
         "ok": true,
         "result": {
           "classification": "bug",
-          "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+          "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug given the user's expectations for consistent behavior.",
           "probable_code_areas": [
-            "pandas/core/expressions.py",
-            "pandas/query_compiler/expression.py"
+            "pandas/core/frame.py",
+            "pandas/query_compiler/expressions.py"
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "The issue has been closed without resolution. Further validation by maintainers is needed to confirm if the behavior is intended or a bug."
+          "current_state_summary": "The issue has been closed, but the behavior described is still present. The classification as a bug is based on the user's expectations and the inconsistent results observed."
         },
         "usage": {
-          "eval_count": 117
+          "eval_count": 127
         }
       },
-      "latency_ms": 15157
+      "latency_ms": 26258
+    },
+    {
+      "step": 7,
+      "event_type": "filesystem_mcp_audit_write",
+      "name": "write_file",
+      "input": {
+        "audit_dir": "audit/triage_results"
+      },
+      "output": {
+        "ok": true,
+        "path": "audit/triage_results/1779262263344_pandas-dev__pandas_65357.json",
+        "via": "filesystem_mcp"
+      },
+      "latency_ms": 0
     }
   ],
   "final_state": {
@@ -2592,21 +2606,21 @@
         "html_url": "https://github.com/pandas-dev/pandas/issues/38534"
       },
       {
-        "number": 2728,
-        "title": "DataFrame.copy(), at least, should be threadsafe",
+        "number": 53366,
+        "title": "BUG: inconsistent behavior and crash in `DataFrame.__setitem__` when >=3d ndarray is used",
         "state": "open",
-        "html_url": "https://github.com/pandas-dev/pandas/issues/2728"
+        "html_url": "https://github.com/pandas-dev/pandas/issues/53366"
       }
     ],
     "probable_code_areas": [
-      "pandas/core/expressions.py",
-      "pandas/query_compiler/expression.py"
+      "pandas/core/frame.py",
+      "pandas/query_compiler/expressions.py"
     ],
     "classification": "bug",
-    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+    "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug given the user's expectations for consistent behavior.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "The issue has been closed without resolution. Further validation by maintainers is needed to confirm if the behavior is intended or a bug.",
+    "current_state_summary": "The issue has been closed, but the behavior described is still present. The classification as a bug is based on the user's expectations and the inconsistent results observed.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -2684,7 +2698,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 15157,
+        "latency_ms": 26258,
         "error": ""
       }
     ],
@@ -3187,100 +3201,6 @@
               "score": 1.0
             },
             {
-              "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728",
-              "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
-              "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/labels{/name}",
-              "comments_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/comments",
-              "events_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/events",
-              "html_url": "https://github.com/pandas-dev/pandas/issues/2728",
-              "id": 10215730,
-              "node_id": "MDU6SXNzdWUxMDIxNTczMA==",
-              "number": 2728,
-              "title": "DataFrame.copy(), at least, should be threadsafe",
-              "user": {
-                "login": "bshanks",
-                "id": 586225,
-                "node_id": "MDQ6VXNlcjU4NjIyNQ==",
-                "avatar_url": "https://avatars.githubusercontent.com/u/586225?v=4",
-                "gravatar_id": "",
-                "url": "https://api.github.com/users/bshanks",
-                "html_url": "https://github.com/bshanks",
-                "followers_url": "https://api.github.com/users/bshanks/followers",
-                "following_url": "https://api.github.com/users/bshanks/following{/other_user}",
-                "gists_url": "https://api.github.com/users/bshanks/gists{/gist_id}",
-                "starred_url": "https://api.github.com/users/bshanks/starred{/owner}{/repo}",
-                "subscriptions_url": "https://api.github.com/users/bshanks/subscriptions",
-                "organizations_url": "https://api.github.com/users/bshanks/orgs",
-                "repos_url": "https://api.github.com/users/bshanks/repos",
-                "events_url": "https://api.github.com/users/bshanks/events{/privacy}",
-                "received_events_url": "https://api.github.com/users/bshanks/received_events",
-                "type": "User",
-                "user_view_type": "public",
-                "site_admin": false
-              },
-              "labels": [
-                {
-                  "id": 76811,
-                  "node_id": "MDU6TGFiZWw3NjgxMQ==",
-                  "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Bug",
-                  "name": "Bug",
-                  "color": "e10c02",
-                  "default": false,
-                  "description": null
-                },
-                {
-                  "id": 34423912,
-                  "node_id": "MDU6TGFiZWwzNDQyMzkxMg==",
-                  "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Multithreading",
-                  "name": "Multithreading",
-                  "color": "ededed",
-                  "default": false,
-                  "description": "Parallelism in pandas"
-                }
-              ],
-              "state": "open",
-              "locked": false,
-              "assignees": [],
-              "milestone": null,
-              "comments": 24,
-              "created_at": "2013-01-23T00:06:26Z",
-              "updated_at": "2025-10-11T20:57:13Z",
-              "closed_at": null,
-              "assignee": null,
-              "author_association": "NONE",
-              "type": null,
-              "active_lock_reason": null,
-              "sub_issues_summary": {
-                "total": 0,
-                "completed": 0,
-                "percent_completed": 0
-              },
-              "issue_dependencies_summary": {
-                "blocked_by": 0,
-                "total_blocked_by": 0,
-                "blocking": 0,
-                "total_blocking": 0
-              },
-              "body": "dataframe.copy() should happen atomically/be threadsafe, meaning that it should produce a consistent dataframe even if the call to .copy() is made while another thread is deleting entries from the dataframe, or if another thread calls a deletion method while the call to .copy() is working (in other words, i guess .copy() should acquire a lock that prevents mutation during the copy). That is, the following code, which crashes in 0.7.3, should succeed:\n\n``` python\n\nimport pandas\nimport threading\n\ndf = pandas.DataFrame()\n\ndef mutateDf(df):\n    while True:\n        df[0] = pandas.Series([1,2,3])\n        del df[0]\n\ndef readDf(df):\n    while True:\n        dfCopy = df.copy()\n        if 0 in dfCopy and 1 in dfCopy[0]:\n            a = dfCopy[0][1]\n\nt1 = threading.Thread(target=mutateDf, args=(df,))\nt2 = threading.Thread(target=readDf, args=(df,))\n\nt1.start()\nt2.start()\n```\n\n```\nException in thread Thread-3:\nTraceback (most recent call last):\n  File \"/usr/lib/python2.7/threading.py\", line 551, in __bootstrap_inner\n    self.run()\n  File \"/usr/lib/python2.7/threading.py\", line 504, in run\n    self.__target(*self.__args, **self.__kwargs)\n  File \"<ipython-input-5-8aef72c7f1b4>\", line 4, in readDf\n    if 0 in dfCopy and 1 in dfCopy[0]:\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/frame.py\", line 1458, in __getitem__\n    return self._get_item_cache(key)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/generic.py\", line 294, in _get_item_cache\n    values = self._data.get(item)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/internals.py\", line 625, in get\n    _, block = self._find_block(item)\nTypeError: 'NoneType' object is not iterable\n```\n",
-              "reactions": {
-                "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/reactions",
-                "total_count": 1,
-                "+1": 1,
-                "-1": 0,
-                "laugh": 0,
-                "hooray": 0,
-                "confused": 0,
-                "heart": 0,
-                "rocket": 0,
-                "eyes": 0
-              },
-              "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/timeline",
-              "performed_via_github_app": null,
-              "state_reason": "reopened",
-              "pinned_comment": null,
-              "score": 1.0
-            },
-            {
               "url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366",
               "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
               "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366/labels{/name}",
@@ -3389,6 +3309,100 @@
               "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/53366/timeline",
               "performed_via_github_app": null,
               "state_reason": null,
+              "pinned_comment": null,
+              "score": 1.0
+            },
+            {
+              "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728",
+              "repository_url": "https://api.github.com/repos/pandas-dev/pandas",
+              "labels_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/labels{/name}",
+              "comments_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/comments",
+              "events_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/events",
+              "html_url": "https://github.com/pandas-dev/pandas/issues/2728",
+              "id": 10215730,
+              "node_id": "MDU6SXNzdWUxMDIxNTczMA==",
+              "number": 2728,
+              "title": "DataFrame.copy(), at least, should be threadsafe",
+              "user": {
+                "login": "bshanks",
+                "id": 586225,
+                "node_id": "MDQ6VXNlcjU4NjIyNQ==",
+                "avatar_url": "https://avatars.githubusercontent.com/u/586225?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/bshanks",
+                "html_url": "https://github.com/bshanks",
+                "followers_url": "https://api.github.com/users/bshanks/followers",
+                "following_url": "https://api.github.com/users/bshanks/following{/other_user}",
+                "gists_url": "https://api.github.com/users/bshanks/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/bshanks/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/bshanks/subscriptions",
+                "organizations_url": "https://api.github.com/users/bshanks/orgs",
+                "repos_url": "https://api.github.com/users/bshanks/repos",
+                "events_url": "https://api.github.com/users/bshanks/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/bshanks/received_events",
+                "type": "User",
+                "user_view_type": "public",
+                "site_admin": false
+              },
+              "labels": [
+                {
+                  "id": 76811,
+                  "node_id": "MDU6TGFiZWw3NjgxMQ==",
+                  "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Bug",
+                  "name": "Bug",
+                  "color": "e10c02",
+                  "default": false,
+                  "description": null
+                },
+                {
+                  "id": 34423912,
+                  "node_id": "MDU6TGFiZWwzNDQyMzkxMg==",
+                  "url": "https://api.github.com/repos/pandas-dev/pandas/labels/Multithreading",
+                  "name": "Multithreading",
+                  "color": "ededed",
+                  "default": false,
+                  "description": "Parallelism in pandas"
+                }
+              ],
+              "state": "open",
+              "locked": false,
+              "assignees": [],
+              "milestone": null,
+              "comments": 24,
+              "created_at": "2013-01-23T00:06:26Z",
+              "updated_at": "2025-10-11T20:57:13Z",
+              "closed_at": null,
+              "assignee": null,
+              "author_association": "NONE",
+              "type": null,
+              "active_lock_reason": null,
+              "sub_issues_summary": {
+                "total": 0,
+                "completed": 0,
+                "percent_completed": 0
+              },
+              "issue_dependencies_summary": {
+                "blocked_by": 0,
+                "total_blocked_by": 0,
+                "blocking": 0,
+                "total_blocking": 0
+              },
+              "body": "dataframe.copy() should happen atomically/be threadsafe, meaning that it should produce a consistent dataframe even if the call to .copy() is made while another thread is deleting entries from the dataframe, or if another thread calls a deletion method while the call to .copy() is working (in other words, i guess .copy() should acquire a lock that prevents mutation during the copy). That is, the following code, which crashes in 0.7.3, should succeed:\n\n``` python\n\nimport pandas\nimport threading\n\ndf = pandas.DataFrame()\n\ndef mutateDf(df):\n    while True:\n        df[0] = pandas.Series([1,2,3])\n        del df[0]\n\ndef readDf(df):\n    while True:\n        dfCopy = df.copy()\n        if 0 in dfCopy and 1 in dfCopy[0]:\n            a = dfCopy[0][1]\n\nt1 = threading.Thread(target=mutateDf, args=(df,))\nt2 = threading.Thread(target=readDf, args=(df,))\n\nt1.start()\nt2.start()\n```\n\n```\nException in thread Thread-3:\nTraceback (most recent call last):\n  File \"/usr/lib/python2.7/threading.py\", line 551, in __bootstrap_inner\n    self.run()\n  File \"/usr/lib/python2.7/threading.py\", line 504, in run\n    self.__target(*self.__args, **self.__kwargs)\n  File \"<ipython-input-5-8aef72c7f1b4>\", line 4, in readDf\n    if 0 in dfCopy and 1 in dfCopy[0]:\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/frame.py\", line 1458, in __getitem__\n    return self._get_item_cache(key)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/generic.py\", line 294, in _get_item_cache\n    values = self._data.get(item)\n  File \"/usr/local/lib/python2.7/dist-packages/pandas-0.7.3-py2.7-linux-x86_64.egg/pandas/core/internals.py\", line 625, in get\n    _, block = self._find_block(item)\nTypeError: 'NoneType' object is not iterable\n```\n",
+              "reactions": {
+                "url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/reactions",
+                "total_count": 1,
+                "+1": 1,
+                "-1": 0,
+                "laugh": 0,
+                "hooray": 0,
+                "confused": 0,
+                "heart": 0,
+                "rocket": 0,
+                "eyes": 0
+              },
+              "timeline_url": "https://api.github.com/repos/pandas-dev/pandas/issues/2728/timeline",
+              "performed_via_github_app": null,
+              "state_reason": "reopened",
               "pinned_comment": null,
               "score": 1.0
             },
@@ -4963,16 +4977,16 @@
                     "releases_url": "https://api.github.com/repos/pandas-dev/pandas/releases{/id}",
                     "deployments_url": "https://api.github.com/repos/pandas-dev/pandas/deployments",
                     "created_at": "2010-08-24T01:37:33Z",
-                    "updated_at": "2026-05-18T16:35:31Z",
-                    "pushed_at": "2026-05-18T16:23:58Z",
+                    "updated_at": "2026-05-19T20:30:52Z",
+                    "pushed_at": "2026-05-19T20:30:12Z",
                     "git_url": "git://github.com/pandas-dev/pandas.git",
                     "ssh_url": "git@github.com:pandas-dev/pandas.git",
                     "clone_url": "https://github.com/pandas-dev/pandas.git",
                     "svn_url": "https://github.com/pandas-dev/pandas",
                     "homepage": "https://pandas.pydata.org",
-                    "size": 394286,
-                    "stargazers_count": 48792,
-                    "watchers_count": 48792,
+                    "size": 394314,
+                    "stargazers_count": 48801,
+                    "watchers_count": 48801,
                     "language": "Python",
                     "has_issues": true,
                     "has_projects": true,
@@ -4980,11 +4994,11 @@
                     "has_wiki": false,
                     "has_pages": false,
                     "has_discussions": false,
-                    "forks_count": 19966,
+                    "forks_count": 19967,
                     "mirror_url": null,
                     "archived": false,
                     "disabled": false,
-                    "open_issues_count": 3260,
+                    "open_issues_count": 3256,
                     "license": {
                       "key": "bsd-3-clause",
                       "name": "BSD 3-Clause \"New\" or \"Revised\" License",
@@ -5006,9 +5020,9 @@
                       "python"
                     ],
                     "visibility": "public",
-                    "forks": 19966,
-                    "open_issues": 3260,
-                    "watchers": 48792,
+                    "forks": 19967,
+                    "open_issues": 3256,
+                    "watchers": 48801,
                     "default_branch": "main",
                     "permissions": {
                       "admin": false,
@@ -5183,15 +5197,15 @@
                   "url": "https://github.com/pandas-dev/pandas/issues/38534"
                 },
                 {
-                  "number": 2728,
-                  "title": "DataFrame.copy(), at least, should be threadsafe",
+                  "number": 53366,
+                  "title": "BUG: inconsistent behavior and crash in `DataFrame.__setitem__` when >=3d ndarray is used",
                   "state": "open",
-                  "url": "https://github.com/pandas-dev/pandas/issues/2728"
+                  "url": "https://github.com/pandas-dev/pandas/issues/53366"
                 }
               ],
               "current_fields": {
                 "classification": "documentation",
-                "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [17998, 38534, 2728].",
+                "justification": "Classification inferred from issue title/body and available GitHub evidence. Related candidates: [17998, 38534, 53366].",
                 "probable_code_areas": [
                   "auth/*",
                   "docs/*",
@@ -5210,26 +5224,40 @@
           "ok": true,
           "result": {
             "classification": "bug",
-            "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug in the library.",
+            "justification": "The issue describes a scenario where `df.query()` behaves inconsistently based on column types and structure, which is expected to be a bug given the user's expectations for consistent behavior.",
             "probable_code_areas": [
-              "pandas/core/expressions.py",
-              "pandas/query_compiler/expression.py"
+              "pandas/core/frame.py",
+              "pandas/query_compiler/expressions.py"
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "The issue has been closed without resolution. Further validation by maintainers is needed to confirm if the behavior is intended or a bug."
+            "current_state_summary": "The issue has been closed, but the behavior described is still present. The classification as a bug is based on the user's expectations and the inconsistent results observed."
           },
           "usage": {
-            "eval_count": 117
+            "eval_count": 127
           }
         },
-        "latency_ms": 15157
+        "latency_ms": 26258
+      },
+      {
+        "step": 7,
+        "event_type": "filesystem_mcp_audit_write",
+        "name": "write_file",
+        "input": {
+          "audit_dir": "audit/triage_results"
+        },
+        "output": {
+          "ok": true,
+          "path": "audit/triage_results/1779262263344_pandas-dev__pandas_65357.json",
+          "via": "filesystem_mcp"
+        },
+        "latency_ms": 0
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 117,
-    "started_at_unix": 1779213613.875786,
+    "token_count": 127,
+    "started_at_unix": 1779262234.335432,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -5244,12 +5272,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 17.679,
-    "token_count": 117,
+    "latency_seconds": 30.879,
+    "token_count": 127,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 2,
-    "stop_reason": "completed"
+    "stop_reason": "completed",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 3,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 88
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 3,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent's output is grounded in the evidence provided, correctly classifies the issue as a bug, and uses appropriate tools. The classification rationale aligns with the evidence of inconsistent behavior described by the user.",
+    "usage": {
+      "eval_count": 88
+    }
   }
 }

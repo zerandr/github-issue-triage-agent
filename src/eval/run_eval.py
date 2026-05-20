@@ -9,6 +9,7 @@ from typing import Any
 from src.agent.graph import Graph
 from src.agent.state import TriageState
 from src.eval.git_mcp_autocommit import commit_json_artifacts
+from src.eval.llm_judge import judge_trajectory
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -241,6 +242,8 @@ def run_one_task(
     compiled_graph: Any,
     task: dict[str, Any],
     trajectory_dir: Path,
+    llm_judge: bool = False,
+    judge_timeout_sec: int = 60,
 ) -> dict[str, Any]:
     task_id = str(task.get("task_id", f"task_{int(time.time())}"))
 
@@ -291,6 +294,30 @@ def run_one_task(
         "stop_reason": terminal_state(final_state),
     }
 
+    judge_result: dict[str, Any] | None = None
+
+    if llm_judge:
+        judge_result = judge_trajectory(
+            task,
+            final_state,
+            metrics,
+            timeout_sec=judge_timeout_sec,
+        )
+
+        metrics["llm_judge_ok"] = bool(judge_result.get("ok"))
+        metrics["llm_judge_score_3pt"] = int(judge_result.get("score_3pt", 0) or 0)
+        metrics["llm_judge_groundedness"] = int(
+            judge_result.get("groundedness", 0) or 0
+        )
+        metrics["llm_judge_tool_use"] = int(judge_result.get("tool_use", 0) or 0)
+
+        usage = judge_result.get("usage", {})
+
+        if isinstance(usage, dict):
+            metrics["llm_judge_tokens"] = int(usage.get("eval_count", 0) or 0)
+        else:
+            metrics["llm_judge_tokens"] = 0
+
     trajectory = {
         "task_id": task_id,
         "task": task,
@@ -298,6 +325,9 @@ def run_one_task(
         "final_state": final_state,
         "metrics": metrics,
     }
+
+    if judge_result is not None:
+        trajectory["llm_judge"] = judge_result
 
     write_json(trajectory_dir / f"{task_id}.json", trajectory)
 
@@ -320,6 +350,7 @@ def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
 
     score_counts: dict[str, int] = {}
     stop_reasons: dict[str, int] = {}
+    judge_score_counts: dict[str, int] = {}
 
     for item in metrics:
         score = str(item.get("score_3pt", 0))
@@ -328,7 +359,15 @@ def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
         reason = str(item.get("stop_reason", "unknown"))
         stop_reasons[reason] = stop_reasons.get(reason, 0) + 1
 
-    return {
+        judge_score = int(item.get("llm_judge_score_3pt", 0) or 0)
+
+        if judge_score:
+            key = str(judge_score)
+            judge_score_counts[key] = judge_score_counts.get(key, 0) + 1
+
+    judged = [item for item in metrics if int(item.get("llm_judge_score_3pt", 0) or 0)]
+
+    summary = {
         "n_tasks": n,
         "mean_score_3pt": mean("score_3pt"),
         "score_counts": score_counts,
@@ -354,6 +393,28 @@ def aggregate_results(trajectories: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "stop_reasons": stop_reasons,
     }
+
+    if judged:
+        n_judged = len(judged)
+
+        def judge_mean(key: str) -> float:
+            return round(
+                sum(float(item.get(key, 0) or 0) for item in judged) / n_judged,
+                3,
+            )
+
+        summary["llm_judge"] = {
+            "n_judged": n_judged,
+            "mean_score_3pt": judge_mean("llm_judge_score_3pt"),
+            "score_counts": judge_score_counts,
+            "mean_groundedness": judge_mean("llm_judge_groundedness"),
+            "mean_tool_use": judge_mean("llm_judge_tool_use"),
+            "total_tokens": int(
+                sum(int(item.get("llm_judge_tokens", 0) or 0) for item in metrics)
+            ),
+        }
+
+    return summary
 
 
 def parse_args() -> argparse.Namespace:
@@ -382,6 +443,19 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Optional task limit for quick checks.",
+    )
+
+    parser.add_argument(
+        "--llm-judge",
+        action="store_true",
+        help="Add LLM-as-a-judge scoring to each trajectory.",
+    )
+
+    parser.add_argument(
+        "--judge-timeout-sec",
+        type=int,
+        default=60,
+        help="Timeout for each LLM judge call.",
     )
 
     parser.add_argument(
@@ -451,14 +525,21 @@ def main() -> None:
             compiled_graph=compiled_graph,
             task=task,
             trajectory_dir=trajectory_dir,
+            llm_judge=bool(args.llm_judge),
+            judge_timeout_sec=int(args.judge_timeout_sec),
         )
 
         trajectories.append(trajectory)
 
-        print(
+        line = (
             f"  score={trajectory['metrics']['score_3pt']} "
             f"latency={trajectory['metrics']['latency_seconds']}s"
         )
+
+        if args.llm_judge:
+            line += f" judge={trajectory['metrics'].get('llm_judge_score_3pt', 0)}"
+
+        print(line)
 
     summary = aggregate_results(trajectories)
 

@@ -1,0 +1,20 @@
+{
+  "repo": "numpy/numpy",
+  "issue_number": 31340,
+  "classification": "feature request",
+  "justification": "The proposed change is to optimize an existing function in numpy, which aligns with feature enhancement.",
+  "stop_reason": "completed",
+  "current_state_summary": "The issue proposes a code change to optimize `np.polynomial.chebder` using JAX. The current state summary is based on the latest information provided and requires validation by a maintainer.",
+  "related_issues": [],
+  "probable_code_areas": [
+    "numpy/polynomial/chebyshev.py"
+  ],
+  "evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ]
+}

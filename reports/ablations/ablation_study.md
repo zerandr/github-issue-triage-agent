@@ -4,10 +4,10 @@ All variants use the same evaluation set. Each row is generated from the JSON su
 
 | variant | status | n_tasks | mean_score_3pt | tool_selection_accuracy | mean_steps | mean_tool_calls | mean_latency_seconds | total_tokens | total_estimated_usd_cost | total_ungrounded_claims | total_hallucinated_tool_args | total_unnecessary_tool_calls |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| baseline | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 21.286 | 3713 | 0.0 | 0 | 0 | 44 |
-| model_secondary | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 18.857 | 2997 | 0.0 | 0 | 0 | 44 |
-| prompt_permissive | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 20.858 | 3212 | 0.0 | 0 | 0 | 44 |
-| graph_no_human_gate | ok | 33 | 3.0 | 1.0 | 6.697 | 1.0 | 27.534 | 4137 | 0.0 | 0 | 0 | 47 |
+| baseline | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 26.761 | 3771 | 0.0 | 0 | 0 | 44 |
+| model_secondary | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 26.328 | 3042 | 0.0 | 0 | 0 | 44 |
+| prompt_permissive | ok | 33 | 3.0 | 1.0 | 6.424 | 0.909 | 31.677 | 3232 | 0.0 | 0 | 0 | 44 |
+| graph_no_human_gate | ok | 33 | 3.0 | 1.0 | 6.697 | 1.061 | 34.472 | 4222 | 0.0 | 0 | 0 | 47 |
 
 ## Variants
 

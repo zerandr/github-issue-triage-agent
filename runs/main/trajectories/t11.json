@@ -414,7 +414,7 @@
       },
       "output": {
         "ok": true,
-        "total_count": 3733,
+        "total_count": 3734,
         "items": [
           {
             "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/33887",
@@ -1118,33 +1118,33 @@
             "score": 1.0
           },
           {
-            "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573",
+            "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056",
             "repository_url": "https://api.github.com/repos/scikit-learn/scikit-learn",
-            "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/labels{/name}",
-            "comments_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/comments",
-            "events_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/events",
-            "html_url": "https://github.com/scikit-learn/scikit-learn/issues/8573",
-            "id": 213504173,
-            "node_id": "MDU6SXNzdWUyMTM1MDQxNzM=",
-            "number": 8573,
-            "title": "BUG: Inconsistent behavior when passing a Pipeline to BaggingClassifier",
+            "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/labels{/name}",
+            "comments_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/comments",
+            "events_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/events",
+            "html_url": "https://github.com/scikit-learn/scikit-learn/issues/34056",
+            "id": 4479262871,
+            "node_id": "I_kwDOAAzd1s8AAAABCvwglw",
+            "number": 34056,
+            "title": "Deprecation warning of `probA_`/`probB_` raised in `_repr_mimebundle_`",
             "user": {
-              "login": "JohnNapier",
-              "id": 10504477,
-              "node_id": "MDQ6VXNlcjEwNTA0NDc3",
-              "avatar_url": "https://avatars.githubusercontent.com/u/10504477?v=4",
+              "login": "jcrist",
+              "id": 2783717,
+              "node_id": "MDQ6VXNlcjI3ODM3MTc=",
+              "avatar_url": "https://avatars.githubusercontent.com/u/2783717?v=4",
               "gravatar_id": "",
-              "url": "https://api.github.com/users/JohnNapier",
-              "html_url": "https://github.com/JohnNapier",
-              "followers_url": "https://api.github.com/users/JohnNapier/followers",
-              "following_url": "https://api.github.com/users/JohnNapier/following{/other_user}",
-              "gists_url": "https://api.github.com/users/JohnNapier/gists{/gist_id}",
-              "starred_url": "https://api.github.com/users/JohnNapier/starred{/owner}{/repo}",
-              "subscriptions_url": "https://api.github.com/users/JohnNapier/subscriptions",
-              "organizations_url": "https://api.github.com/users/JohnNapier/orgs",
-              "repos_url": "https://api.github.com/users/JohnNapier/repos",
-              "events_url": "https://api.github.com/users/JohnNapier/events{/privacy}",
-              "received_events_url": "https://api.github.com/users/JohnNapier/received_events",
+              "url": "https://api.github.com/users/jcrist",
+              "html_url": "https://github.com/jcrist",
+              "followers_url": "https://api.github.com/users/jcrist/followers",
+              "following_url": "https://api.github.com/users/jcrist/following{/other_user}",
+              "gists_url": "https://api.github.com/users/jcrist/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/jcrist/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/jcrist/subscriptions",
+              "organizations_url": "https://api.github.com/users/jcrist/orgs",
+              "repos_url": "https://api.github.com/users/jcrist/repos",
+              "events_url": "https://api.github.com/users/jcrist/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/jcrist/received_events",
               "type": "User",
               "user_view_type": "public",
               "site_admin": false
@@ -1158,33 +1158,52 @@
                 "color": "e10c02",
                 "default": false,
                 "description": null
-              },
-              {
-                "id": 1815440243,
-                "node_id": "MDU6TGFiZWwxODE1NDQwMjQz",
-                "url": "https://api.github.com/repos/scikit-learn/scikit-learn/labels/module:ensemble",
-                "name": "module:ensemble",
-                "color": "151e91",
-                "default": false,
-                "description": ""
-              },
-              {
-                "id": 1815450942,
-                "node_id": "MDU6TGFiZWwxODE1NDUwOTQy",
-                "url": "https://api.github.com/repos/scikit-learn/scikit-learn/labels/module:pipeline",
-                "name": "module:pipeline",
-                "color": "151e91",
-                "default": false,
-                "description": ""
               }
             ],
             "state": "open",
             "locked": false,
             "assignees": [],
-            "milestone": null,
-            "comments": 2,
-            "created_at": "2017-03-11T04:19:37Z",
-            "updated_at": "2026-04-07T13:42:00Z",
+            "milestone": {
+              "url": "https://api.github.com/repos/scikit-learn/scikit-learn/milestones/69",
+              "html_url": "https://github.com/scikit-learn/scikit-learn/milestone/69",
+              "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/milestones/69/labels",
+              "id": 14107987,
+              "node_id": "MI_kwDOAAzd1s4A10VT",
+              "number": 69,
+              "title": "1.9",
+              "description": "Planning for the release of 1.9.0: - April 31, 2026: Release candidate 1.9.0.dev0 - May, 18 2026: Release 1.9.0",
+              "creator": {
+                "login": "lesteve",
+                "id": 1680079,
+                "node_id": "MDQ6VXNlcjE2ODAwNzk=",
+                "avatar_url": "https://avatars.githubusercontent.com/u/1680079?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/lesteve",
+                "html_url": "https://github.com/lesteve",
+                "followers_url": "https://api.github.com/users/lesteve/followers",
+                "following_url": "https://api.github.com/users/lesteve/following{/other_user}",
+                "gists_url": "https://api.github.com/users/lesteve/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/lesteve/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/lesteve/subscriptions",
+                "organizations_url": "https://api.github.com/users/lesteve/orgs",
+                "repos_url": "https://api.github.com/users/lesteve/repos",
+                "events_url": "https://api.github.com/users/lesteve/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/lesteve/received_events",
+                "type": "User",
+                "user_view_type": "public",
+                "site_admin": false
+              },
+              "open_issues": 7,
+              "closed_issues": 36,
+              "state": "open",
+              "created_at": "2025-11-12T10:28:02Z",
+              "updated_at": "2026-05-19T19:27:12Z",
+              "due_on": "2026-05-18T00:00:00Z",
+              "closed_at": null
+            },
+            "comments": 1,
+            "created_at": "2026-05-19T16:43:15Z",
+            "updated_at": "2026-05-19T19:27:12Z",
             "closed_at": null,
             "assignee": null,
             "author_association": "NONE",
@@ -1202,9 +1221,9 @@
               "blocking": 0,
               "total_blocking": 0
             },
-            "body": "Let's run BaggingClassifier on a base estimator that accepts sample_weight. \r\n\r\n```python\r\nimport numpy as np\r\nfrom sklearn.pipeline import Pipeline\r\nfrom sklearn.svm import SVC\r\nfrom sklearn.ensemble import BaggingClassifier\r\n#------------------------------------------------------------------------------\r\ndef main():\r\n    #1) prepare data\r\n    np.random.seed(0)\r\n    feat=np.random.normal(size=(1000,2))\r\n    lbl=np.random.choice(a=2,p=[.5,.5],size=1000,replace=True)\r\n    wghts=np.ones(shape=(1000,))\r\n    \r\n    #2) fit using standard SVC\r\n    bg0=BaggingClassifier(base_estimator=SVC(probability=True,random_state=0),n_estimators=100,max_samples=1.,n_jobs=-1,random_state=0)\r\n    bg0=bg0.fit(feat,lbl)\r\n    prob0=bg0.predict_proba(feat)\r\n    #6.1) fit using standard pipe\r\n\r\n    #3) fit using a Pipeline that contains only a SVC\r\n    bg1=BaggingClassifier(base_estimator=Pipeline([('clf',SVC(probability=True,random_state=0))]),n_estimators=100,max_samples=1.,n_jobs=-1,random_state=0)\r\n    bg1=bg1.fit(feat,lbl)\r\n    prob1=bg1.predict_proba(feat)\r\n    print 'match?',np.allclose(prob0,prob1)\r\n#------------------------------------------------------------------------------\r\nif __name__=='__main__':main()\r\n```\r\n\r\nprob0 and prob1 are very different, even though both BaggingClassifier are intrinsically the same. The reason is, the SVC accepts sample_weight, and the Pipeline does not accept sample_weight.\r\n\r\nFinally, this breaks for no good reason.\r\n\r\n```python\r\nbg0=bg0.fit(feat,lbl,wghts) # works!\r\nbg1=bg1.fit(feat,lbl,wghts) # breaks...\r\nValueError: The base estimator doesn't support sample weight\r\n```\r\n\r\nnumpy version 1.11.3\r\nsklearn version 0.18.1",
+            "body": "### Describe the bug and give evidence about its user-facing impact\n\nWith the upcoming deprecation of `probability` in `SVC` (and `probA_`/`probB_`), a deprecation warning is now raised in the repr within IPython/Jupyter notebooks, not just when accessed by the user.\n\n### Steps/Code to Reproduce\n\n```python\nIn [1]: from sklearn.svm import SVC\nf\nIn [2]: from sklearn.datasets import make_classification\n\nIn [3]: X, y = make_classification()\n\nIn [4]: model = SVC(probability=True).fit(X, y)  # Warning here makes sense!\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/svm/_base.py:239: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`\n  warnings.warn(\n\nIn [5]: model  # but warning here is probably a bug\nOut[5]: /home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probA_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probB_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\nSVC(probability=True)\n\nIn [6]: model.probA_  # warning here also makes sense!\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probA_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\nOut[6]: array([-2.55286725])\n```\n\n### Expected Results\n\nNo warning in fancy repr, just in actual usage.\n\n### Actual Results\n\nN/A\n\n### Versions\n\n```shell\nSystem:\n    python: 3.14.4 | packaged by conda-forge | (main, Apr  8 2026, 01:59:35) [GCC 14.3.0]\nexecutable: /home/jcristharif/miniforge3/envs/cuml-dev/bin/python3.14\n   machine: Linux-6.17.0-22-generic-x86_64-with-glibc2.39\n\nPython dependencies:\n      sklearn: 1.9.dev0\n          pip: 26.1.1\n   setuptools: 82.0.1\n        numpy: 2.4.4\n        scipy: 1.16.3\n       Cython: 3.2.4\n       pandas: 2.3.3\n   matplotlib: 3.10.9\n       joblib: 1.5.3\nthreadpoolctl: 3.6.0\n\nBuilt with OpenMP: True\n\nthreadpoolctl info:\n       user_api: blas\n   internal_api: openblas\n    num_threads: 64\n         prefix: libopenblas\n       filepath: /home/jcristharif/miniforge3/envs/cuml-dev/lib/libopenblasp-r0.3.33.so\n        version: 0.3.33\nthreading_layer: pthreads\n   architecture: Cooperlake\n\n       user_api: openmp\n   internal_api: openmp\n    num_threads: 64\n         prefix: libgomp\n       filepath: /home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0\n        version: None\n```\n\n### Interest in fixing the bug\n\nI'm happy to push up a fix if this is a confirmed bug and not intentional.",
             "reactions": {
-              "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/reactions",
+              "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/reactions",
               "total_count": 0,
               "+1": 0,
               "-1": 0,
@@ -1215,7 +1234,7 @@
               "rocket": 0,
               "eyes": 0
             },
-            "timeline_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/timeline",
+            "timeline_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/timeline",
             "performed_via_github_app": null,
             "state_reason": null,
             "pinned_comment": null,
@@ -1710,13 +1729,27 @@
           ],
           "open_questions": [],
           "decision_needed": "",
-          "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer."
+          "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show recurring failures in the same CI environment. The latest state should be validated by maintainer."
         },
         "usage": {
-          "eval_count": 87
+          "eval_count": 102
         }
       },
-      "latency_ms": 9635
+      "latency_ms": 18439
+    },
+    {
+      "step": 7,
+      "event_type": "filesystem_mcp_audit_write",
+      "name": "write_file",
+      "input": {
+        "audit_dir": "audit/triage_results"
+      },
+      "output": {
+        "ok": true,
+        "path": "audit/triage_results/1779261861081_scikit-learn__scikit-learn_33858.json",
+        "via": "filesystem_mcp"
+      },
+      "latency_ms": 0
     }
   ],
   "final_state": {
@@ -1763,7 +1796,7 @@
     "justification": "The issue title and body indicate a failure in unit tests for a specific CI environment, which aligns with a bug classification.",
     "open_questions": [],
     "decision_needed": "",
-    "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer.",
+    "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show recurring failures in the same CI environment. The latest state should be validated by maintainer.",
     "evidence": [
       {
         "evidence_id": "E1",
@@ -1835,7 +1868,7 @@
         "status": 0,
         "ok": true,
         "retriable": false,
-        "latency_ms": 9635,
+        "latency_ms": 18439,
         "error": ""
       }
     ],
@@ -2233,7 +2266,7 @@
         },
         "output": {
           "ok": true,
-          "total_count": 3733,
+          "total_count": 3734,
           "items": [
             {
               "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/33887",
@@ -2937,33 +2970,33 @@
               "score": 1.0
             },
             {
-              "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573",
+              "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056",
               "repository_url": "https://api.github.com/repos/scikit-learn/scikit-learn",
-              "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/labels{/name}",
-              "comments_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/comments",
-              "events_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/events",
-              "html_url": "https://github.com/scikit-learn/scikit-learn/issues/8573",
-              "id": 213504173,
-              "node_id": "MDU6SXNzdWUyMTM1MDQxNzM=",
-              "number": 8573,
-              "title": "BUG: Inconsistent behavior when passing a Pipeline to BaggingClassifier",
+              "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/labels{/name}",
+              "comments_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/comments",
+              "events_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/events",
+              "html_url": "https://github.com/scikit-learn/scikit-learn/issues/34056",
+              "id": 4479262871,
+              "node_id": "I_kwDOAAzd1s8AAAABCvwglw",
+              "number": 34056,
+              "title": "Deprecation warning of `probA_`/`probB_` raised in `_repr_mimebundle_`",
               "user": {
-                "login": "JohnNapier",
-                "id": 10504477,
-                "node_id": "MDQ6VXNlcjEwNTA0NDc3",
-                "avatar_url": "https://avatars.githubusercontent.com/u/10504477?v=4",
+                "login": "jcrist",
+                "id": 2783717,
+                "node_id": "MDQ6VXNlcjI3ODM3MTc=",
+                "avatar_url": "https://avatars.githubusercontent.com/u/2783717?v=4",
                 "gravatar_id": "",
-                "url": "https://api.github.com/users/JohnNapier",
-                "html_url": "https://github.com/JohnNapier",
-                "followers_url": "https://api.github.com/users/JohnNapier/followers",
-                "following_url": "https://api.github.com/users/JohnNapier/following{/other_user}",
-                "gists_url": "https://api.github.com/users/JohnNapier/gists{/gist_id}",
-                "starred_url": "https://api.github.com/users/JohnNapier/starred{/owner}{/repo}",
-                "subscriptions_url": "https://api.github.com/users/JohnNapier/subscriptions",
-                "organizations_url": "https://api.github.com/users/JohnNapier/orgs",
-                "repos_url": "https://api.github.com/users/JohnNapier/repos",
-                "events_url": "https://api.github.com/users/JohnNapier/events{/privacy}",
-                "received_events_url": "https://api.github.com/users/JohnNapier/received_events",
+                "url": "https://api.github.com/users/jcrist",
+                "html_url": "https://github.com/jcrist",
+                "followers_url": "https://api.github.com/users/jcrist/followers",
+                "following_url": "https://api.github.com/users/jcrist/following{/other_user}",
+                "gists_url": "https://api.github.com/users/jcrist/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/jcrist/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/jcrist/subscriptions",
+                "organizations_url": "https://api.github.com/users/jcrist/orgs",
+                "repos_url": "https://api.github.com/users/jcrist/repos",
+                "events_url": "https://api.github.com/users/jcrist/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/jcrist/received_events",
                 "type": "User",
                 "user_view_type": "public",
                 "site_admin": false
@@ -2977,33 +3010,52 @@
                   "color": "e10c02",
                   "default": false,
                   "description": null
-                },
-                {
-                  "id": 1815440243,
-                  "node_id": "MDU6TGFiZWwxODE1NDQwMjQz",
-                  "url": "https://api.github.com/repos/scikit-learn/scikit-learn/labels/module:ensemble",
-                  "name": "module:ensemble",
-                  "color": "151e91",
-                  "default": false,
-                  "description": ""
-                },
-                {
-                  "id": 1815450942,
-                  "node_id": "MDU6TGFiZWwxODE1NDUwOTQy",
-                  "url": "https://api.github.com/repos/scikit-learn/scikit-learn/labels/module:pipeline",
-                  "name": "module:pipeline",
-                  "color": "151e91",
-                  "default": false,
-                  "description": ""
                 }
               ],
               "state": "open",
               "locked": false,
               "assignees": [],
-              "milestone": null,
-              "comments": 2,
-              "created_at": "2017-03-11T04:19:37Z",
-              "updated_at": "2026-04-07T13:42:00Z",
+              "milestone": {
+                "url": "https://api.github.com/repos/scikit-learn/scikit-learn/milestones/69",
+                "html_url": "https://github.com/scikit-learn/scikit-learn/milestone/69",
+                "labels_url": "https://api.github.com/repos/scikit-learn/scikit-learn/milestones/69/labels",
+                "id": 14107987,
+                "node_id": "MI_kwDOAAzd1s4A10VT",
+                "number": 69,
+                "title": "1.9",
+                "description": "Planning for the release of 1.9.0: - April 31, 2026: Release candidate 1.9.0.dev0 - May, 18 2026: Release 1.9.0",
+                "creator": {
+                  "login": "lesteve",
+                  "id": 1680079,
+                  "node_id": "MDQ6VXNlcjE2ODAwNzk=",
+                  "avatar_url": "https://avatars.githubusercontent.com/u/1680079?v=4",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/lesteve",
+                  "html_url": "https://github.com/lesteve",
+                  "followers_url": "https://api.github.com/users/lesteve/followers",
+                  "following_url": "https://api.github.com/users/lesteve/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/lesteve/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/lesteve/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/lesteve/subscriptions",
+                  "organizations_url": "https://api.github.com/users/lesteve/orgs",
+                  "repos_url": "https://api.github.com/users/lesteve/repos",
+                  "events_url": "https://api.github.com/users/lesteve/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/lesteve/received_events",
+                  "type": "User",
+                  "user_view_type": "public",
+                  "site_admin": false
+                },
+                "open_issues": 7,
+                "closed_issues": 36,
+                "state": "open",
+                "created_at": "2025-11-12T10:28:02Z",
+                "updated_at": "2026-05-19T19:27:12Z",
+                "due_on": "2026-05-18T00:00:00Z",
+                "closed_at": null
+              },
+              "comments": 1,
+              "created_at": "2026-05-19T16:43:15Z",
+              "updated_at": "2026-05-19T19:27:12Z",
               "closed_at": null,
               "assignee": null,
               "author_association": "NONE",
@@ -3021,9 +3073,9 @@
                 "blocking": 0,
                 "total_blocking": 0
               },
-              "body": "Let's run BaggingClassifier on a base estimator that accepts sample_weight. \r\n\r\n```python\r\nimport numpy as np\r\nfrom sklearn.pipeline import Pipeline\r\nfrom sklearn.svm import SVC\r\nfrom sklearn.ensemble import BaggingClassifier\r\n#------------------------------------------------------------------------------\r\ndef main():\r\n    #1) prepare data\r\n    np.random.seed(0)\r\n    feat=np.random.normal(size=(1000,2))\r\n    lbl=np.random.choice(a=2,p=[.5,.5],size=1000,replace=True)\r\n    wghts=np.ones(shape=(1000,))\r\n    \r\n    #2) fit using standard SVC\r\n    bg0=BaggingClassifier(base_estimator=SVC(probability=True,random_state=0),n_estimators=100,max_samples=1.,n_jobs=-1,random_state=0)\r\n    bg0=bg0.fit(feat,lbl)\r\n    prob0=bg0.predict_proba(feat)\r\n    #6.1) fit using standard pipe\r\n\r\n    #3) fit using a Pipeline that contains only a SVC\r\n    bg1=BaggingClassifier(base_estimator=Pipeline([('clf',SVC(probability=True,random_state=0))]),n_estimators=100,max_samples=1.,n_jobs=-1,random_state=0)\r\n    bg1=bg1.fit(feat,lbl)\r\n    prob1=bg1.predict_proba(feat)\r\n    print 'match?',np.allclose(prob0,prob1)\r\n#------------------------------------------------------------------------------\r\nif __name__=='__main__':main()\r\n```\r\n\r\nprob0 and prob1 are very different, even though both BaggingClassifier are intrinsically the same. The reason is, the SVC accepts sample_weight, and the Pipeline does not accept sample_weight.\r\n\r\nFinally, this breaks for no good reason.\r\n\r\n```python\r\nbg0=bg0.fit(feat,lbl,wghts) # works!\r\nbg1=bg1.fit(feat,lbl,wghts) # breaks...\r\nValueError: The base estimator doesn't support sample weight\r\n```\r\n\r\nnumpy version 1.11.3\r\nsklearn version 0.18.1",
+              "body": "### Describe the bug and give evidence about its user-facing impact\n\nWith the upcoming deprecation of `probability` in `SVC` (and `probA_`/`probB_`), a deprecation warning is now raised in the repr within IPython/Jupyter notebooks, not just when accessed by the user.\n\n### Steps/Code to Reproduce\n\n```python\nIn [1]: from sklearn.svm import SVC\nf\nIn [2]: from sklearn.datasets import make_classification\n\nIn [3]: X, y = make_classification()\n\nIn [4]: model = SVC(probability=True).fit(X, y)  # Warning here makes sense!\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/svm/_base.py:239: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`\n  warnings.warn(\n\nIn [5]: model  # but warning here is probably a bug\nOut[5]: /home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probA_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probB_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\nSVC(probability=True)\n\nIn [6]: model.probA_  # warning here also makes sense!\n/home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/sklearn/utils/deprecation.py:109: FutureWarning: Attribute `probA_` was deprecated in version 1.9 and will be removed in 1.11 as the `probability=True` option for SVC and NuSVC was deprecated and will be removed in 1.11.\n  warnings.warn(msg, category=FutureWarning)\nOut[6]: array([-2.55286725])\n```\n\n### Expected Results\n\nNo warning in fancy repr, just in actual usage.\n\n### Actual Results\n\nN/A\n\n### Versions\n\n```shell\nSystem:\n    python: 3.14.4 | packaged by conda-forge | (main, Apr  8 2026, 01:59:35) [GCC 14.3.0]\nexecutable: /home/jcristharif/miniforge3/envs/cuml-dev/bin/python3.14\n   machine: Linux-6.17.0-22-generic-x86_64-with-glibc2.39\n\nPython dependencies:\n      sklearn: 1.9.dev0\n          pip: 26.1.1\n   setuptools: 82.0.1\n        numpy: 2.4.4\n        scipy: 1.16.3\n       Cython: 3.2.4\n       pandas: 2.3.3\n   matplotlib: 3.10.9\n       joblib: 1.5.3\nthreadpoolctl: 3.6.0\n\nBuilt with OpenMP: True\n\nthreadpoolctl info:\n       user_api: blas\n   internal_api: openblas\n    num_threads: 64\n         prefix: libopenblas\n       filepath: /home/jcristharif/miniforge3/envs/cuml-dev/lib/libopenblasp-r0.3.33.so\n        version: 0.3.33\nthreading_layer: pthreads\n   architecture: Cooperlake\n\n       user_api: openmp\n   internal_api: openmp\n    num_threads: 64\n         prefix: libgomp\n       filepath: /home/jcristharif/miniforge3/envs/cuml-dev/lib/python3.14/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0\n        version: None\n```\n\n### Interest in fixing the bug\n\nI'm happy to push up a fix if this is a confirmed bug and not intentional.",
               "reactions": {
-                "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/reactions",
+                "url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/reactions",
                 "total_count": 0,
                 "+1": 0,
                 "-1": 0,
@@ -3034,7 +3086,7 @@
                 "rocket": 0,
                 "eyes": 0
               },
-              "timeline_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/8573/timeline",
+              "timeline_url": "https://api.github.com/repos/scikit-learn/scikit-learn/issues/34056/timeline",
               "performed_via_github_app": null,
               "state_reason": null,
               "pinned_comment": null,
@@ -3529,19 +3581,33 @@
             ],
             "open_questions": [],
             "decision_needed": "",
-            "current_state_summary": "Timeline events reviewed: 3. Latest state should be validated by maintainer."
+            "current_state_summary": "The issue is closed with the label 'Bug'. Related issues show recurring failures in the same CI environment. The latest state should be validated by maintainer."
           },
           "usage": {
-            "eval_count": 87
+            "eval_count": 102
           }
         },
-        "latency_ms": 9635
+        "latency_ms": 18439
+      },
+      {
+        "step": 7,
+        "event_type": "filesystem_mcp_audit_write",
+        "name": "write_file",
+        "input": {
+          "audit_dir": "audit/triage_results"
+        },
+        "output": {
+          "ok": true,
+          "path": "audit/triage_results/1779261861081_scikit-learn__scikit-learn_33858.json",
+          "via": "filesystem_mcp"
+        },
+        "latency_ms": 0
       }
     ],
     "step_count": 7,
     "tool_calls": 1,
-    "token_count": 87,
-    "started_at_unix": 1779213465.544929,
+    "token_count": 102,
+    "started_at_unix": 1779261840.149469,
     "stop_reason": "completed",
     "max_steps": 16,
     "max_tool_calls": 12,
@@ -3556,12 +3622,28 @@
     "tool_selection_accuracy": 1.0,
     "steps": 7,
     "tool_calls": 1,
-    "latency_seconds": 11.894,
-    "token_count": 87,
+    "latency_seconds": 22.542,
+    "token_count": 102,
     "estimated_usd_cost": 0.0,
     "ungrounded_claims": 0,
     "hallucinated_tool_args": 0,
     "unnecessary_tool_calls": 2,
-    "stop_reason": "completed"
+    "stop_reason": "completed",
+    "llm_judge_ok": true,
+    "llm_judge_score_3pt": 3,
+    "llm_judge_groundedness": 3,
+    "llm_judge_tool_use": 3,
+    "llm_judge_tokens": 96
+  },
+  "llm_judge": {
+    "ok": true,
+    "score_3pt": 3,
+    "groundedness": 3,
+    "tool_use": 3,
+    "hallucination_risk": "low",
+    "rationale": "The agent's output is grounded in the evidence provided, correctly classifies the issue as a bug based on the title and related issues. The tool selection and use are appropriate, and there are no signs of hallucination or ungrounded claims.",
+    "usage": {
+      "eval_count": 96
+    }
   }
 }
