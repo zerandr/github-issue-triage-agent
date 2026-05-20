@@ -11,15 +11,6 @@ from src.agent.llm import OllamaLLM
 from src.agent.mcp_client import github_search_related_issues
 
 
-ISSUE_URL_RE = re.compile(
-    r"https?://github\.com/([\w.-]+/[\w.-]+)/issues/(\d+)",
-    re.IGNORECASE,
-)
-ISSUE_REF_RE = re.compile(r"\b([\w.-]+/[\w.-]+)\s*#\s*(\d+)\b")
-ISSUE_WORD_RE = re.compile(
-    r"\b([\w.-]+/[\w.-]+)\b.*?\b(?:issue|issues|номер|#)\s*#?(\d+)\b",
-    re.IGNORECASE,
-)
 REPO_RE = re.compile(r"\b([\w.-]+/[\w.-]+)\b")
 
 
@@ -91,34 +82,6 @@ def _normalize_tool_payload(payload: Any) -> dict[str, Any]:
     }
 
 
-def _parse_limit(text: str) -> int:
-    match = re.search(r"\b([1-9]\d?)\b", text)
-
-    if not match:
-        return 5
-
-    return max(1, min(int(match.group(1)), 30))
-
-
-def _parse_repo(text: str) -> str | None:
-    explicit = REPO_RE.search(text)
-
-    if explicit:
-        return explicit.group(1)
-
-    return None
-
-
-def _parse_issue_input(text: str) -> tuple[str, int] | None:
-    for pattern in [ISSUE_URL_RE, ISSUE_REF_RE, ISSUE_WORD_RE]:
-        match = pattern.search(text)
-
-        if match:
-            return match.group(1), int(match.group(2))
-
-    return None
-
-
 def _normalize_repo(repo: str | None) -> str | None:
     if not repo:
         return None
@@ -129,86 +92,6 @@ def _normalize_repo(repo: str | None) -> str | None:
         return stripped
 
     return None
-
-
-def _clean_query(text: str, repo: str, limit: int) -> str:
-    cleaned = ISSUE_URL_RE.sub(" ", text)
-    cleaned = cleaned.replace(repo, " ")
-
-    tokens = re.findall(r"[\w.+#-]+", cleaned, flags=re.UNICODE)
-    meaningful: list[str] = []
-
-    for token in tokens:
-        normalized = token.lower().strip("-_")
-
-        if not normalized or normalized == str(limit):
-            continue
-
-        meaningful.append(token)
-
-    return " ".join(meaningful).strip()
-
-
-def plan_free_input(text: str) -> FreeInputPlan:
-    raw_input = text.strip()
-
-    if not raw_input:
-        return FreeInputPlan(
-            mode="unable_to_parse",
-            raw_input=raw_input,
-            reason="Input is empty.",
-            router="rules",
-        )
-
-    issue = _parse_issue_input(raw_input)
-
-    if issue is not None:
-        repo, issue_number = issue
-        return FreeInputPlan(
-            mode="issue_triage",
-            raw_input=raw_input,
-            repo=repo,
-            issue_number=issue_number,
-            reason="Detected a concrete GitHub issue reference.",
-            router="rules",
-        )
-
-    repo = _parse_repo(raw_input)
-
-    if repo is None:
-        return FreeInputPlan(
-            mode="unable_to_parse",
-            raw_input=raw_input,
-            reason=(
-                "Could not detect an explicit GitHub repository. Use owner/repo, "
-                "a GitHub issue URL, or run with --router llm so the model can infer it."
-            ),
-            router="rules",
-        )
-
-    limit = _parse_limit(raw_input)
-    query = _clean_query(raw_input, repo, limit)
-    lowered = raw_input.lower()
-    wants_latest = any(
-        token in lowered
-        for token in ["latest", "last", "recent", "останні", "останніх", "свіжі"]
-    )
-
-    return FreeInputPlan(
-        mode="issue_search",
-        raw_input=raw_input,
-        repo=repo,
-        query=query or "is:issue",
-        limit=limit,
-        sort="created" if wants_latest else None,
-        order="desc",
-        reason=(
-            "Detected a free-form repository issue search."
-            if not wants_latest
-            else "Detected a request for latest matching repository issues."
-        ),
-        router="rules",
-    )
 
 
 def _build_router_prompt(text: str) -> str:
@@ -444,12 +327,6 @@ def main() -> None:
         help="Only parse the input and show the selected mode.",
     )
     parser.add_argument(
-        "--router",
-        choices=["llm", "rules"],
-        default="llm",
-        help="Use LLM tool selection or deterministic rule fallback.",
-    )
-    parser.add_argument(
         "--interactive-human",
         action="store_true",
         default=True,
@@ -475,11 +352,7 @@ def main() -> None:
 
     args = parser.parse_args()
     text = args.input if args.input is not None else sys.stdin.read()
-    plan = (
-        plan_free_input_with_llm(text)
-        if args.router == "llm"
-        else plan_free_input(text)
-    )
+    plan = plan_free_input_with_llm(text)
 
     output = {
         "parsed": asdict(plan),
