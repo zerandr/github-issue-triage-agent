@@ -27,7 +27,9 @@ def _safe_name(value: str) -> str:
     return "".join(ch if ch.isalnum() or ch in {"-", "_"} else "_" for ch in value)
 
 
-def audit_path(repo: str, issue_number: int, audit_dir: str = "audit/triage_results") -> str:
+def audit_path(
+    repo: str, issue_number: int, audit_dir: str = "audit/triage_results"
+) -> str:
     repo_name = _safe_name(repo.replace("/", "__"))
     timestamp_ms = int(time.time() * 1000)
     return f"{audit_dir}/{timestamp_ms}_{repo_name}_{issue_number}.json"
