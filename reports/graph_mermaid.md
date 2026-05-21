@@ -8,6 +8,6 @@ graph TD
   D -->|confident| F[infer_code_areas]
   E --> F
   F --> G[summarize_issue_state]
-  G --> H[llm_triage (Qwen via Ollama)]
+  G --> H[llm_triage Qwen via Ollama]
   H --> I[finalize]
 ```
